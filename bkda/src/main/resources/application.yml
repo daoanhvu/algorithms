@@ -1,0 +1,46 @@
+server:
+  port: 8090
+  context-path: /bkda
+---  
+# Profile can be: local, dev, prod
+# Need to set: -Dspring.profiles.active=local in program argument
+# Or use spring.profiles.active=<active_profiles>
+spring:
+  profiles: local
+datasource:
+  bkda: 
+    url: jdbc:hsqldb:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.hsqldb.jdbcDriver
+    defaultSchema: 
+    maxPoolSize: 10
+    hibernate:
+      hbm2ddl.method: create-drop
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.HSQLDialect
+---
+spring:
+  profiles: dev
+datasource:
+  bkda:
+    url: jdbc:mysql://localhost:3306/bkda
+    username: root
+    password: 123456
+    driverClassName: com.mysql.jdbc.Driver
+    defaultSchema:
+    maxPoolSize: 20
+    hibernate:
+      hbm2ddl.method: create-drop
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQL5Dialect
+#      org.hibernate.dialect.MySQLDialect
+---      
+logging:
+  level:
+    org.springframework.web: debug
+    org.hibernate: error
+  file: D:\data\bkda_log2.txt
+    
