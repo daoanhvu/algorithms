@@ -1,18 +1,7 @@
 server:
-  port: 9090
-  context-path: /bkdasvr
-
-#Database configuration
-spring: 
-  datasource: 
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/bkda
-    username: root
-    password: root
-  jpa: 
-    hibernate: 
-      dialect: org.hibernate.dialect.MySQL5Dialect 
-      
-logging:
-  file: /Volumes/Data/projects/bkda/log/log.txt
+  port: 9077
+  context-path: /bkdaauth
   
+security:
+  basic:
+    enabled: false

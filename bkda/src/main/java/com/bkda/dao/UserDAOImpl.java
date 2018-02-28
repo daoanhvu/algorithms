@@ -17,13 +17,13 @@ public class UserDAOImpl implements UserDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public User findUserById(int id) {
+	public User findUserById(long id) {
 		User user = entityManager.find(User.class, id);
 		return user;
 	}
 
 	@Override
-	public int addNewUser(User user) {
+	public long saveUser(User user) {
 //		if(user.getId() <= 0)
 //			user.setStartDate(new Date());
 		
@@ -56,7 +56,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean isUserExist(int id) {
+	public boolean isUserExist(long id) {
 //		System.out.println("isUserExist: " + id);
 		User u = entityManager.find(User.class, id);
 		return (u != null);

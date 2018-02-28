@@ -6,6 +6,10 @@ import org.springframework.context.annotation.Import;
 
 import com.bkda.config.JPAConfiguration;
 
+/**
+ * In the OAuth 2.0 Scenario, this is Client Application 
+ * @author davu
+ */
 
 @Import(JPAConfiguration.class)
 @SpringBootApplication(scanBasePackages={"com.bkda", "com.bkda.config"})

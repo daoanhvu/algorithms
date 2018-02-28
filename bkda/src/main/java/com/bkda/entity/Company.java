@@ -10,12 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="companies")
-public class Company {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="companyid")
-	private int id;
+public class Company extends GenericObject {
 	
 	@Column(name="name")
 	private String name;
@@ -34,13 +29,6 @@ public class Company {
 	
 	@Column(name="taxnumber")
 	private String taxNumber;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return name;

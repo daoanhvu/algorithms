@@ -6,9 +6,9 @@ import com.bkda.entity.User;
 
 public interface UserDAO {
 	boolean updateUser(User user);
-	User findUserById(int id);
-	int addNewUser(User user);
+	User findUserById(long id);
+	long saveUser(User user);
 	List<User> getUsersByName(String name);
 	List<User> allUsers();
-	boolean isUserExist(int id);
+	boolean isUserExist(long id);
 }

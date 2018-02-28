@@ -37,7 +37,19 @@ datasource:
       format_sql: true
       dialect: org.hibernate.dialect.MySQL5Dialect
 #      org.hibernate.dialect.MySQLDialect
----      
+---
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      client-id: BKDAApplicationID
+      client-secret: BKDASecret
+      access-token-uri: http://localhost:9077/bkdaauth/oauth/token
+      user-authorization-uri: http://localhost:9077/bkdaauth/oauth/authorize
+    resource: 
+      user-info-uri: http://localhost:9077/bkdaauth/user/me         
+---
 logging:
   level:
     org.springframework.web: debug

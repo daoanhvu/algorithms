@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Override
-	public User findUserById(int id) {
+	public User findUserById(long id) {
 		return userDAO.findUserById(id);
 	}
 
@@ -34,15 +34,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isUserExist(int id) {
+	public boolean isUserExist(long id) {
 		// TODO Auto-generated method stub
 		return userDAO.isUserExist(id);
 	}
 
 	@Override
 	@Transactional
-	public int saveUser(User user) {
-		userDAO.addNewUser(user);
+	public long saveUser(User user) {
+		userDAO.saveUser(user);
 		return user.getId();
 	}
 

@@ -21,12 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="users")
 @Inheritance( strategy = InheritanceType.JOINED )
-public class User {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="userid")
-	private int id;
+public class User extends GenericObject {
 	
 	@Column(name="firstname")
 	private String firstName;
@@ -95,12 +90,7 @@ public class User {
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getFirstName() {
 		return firstName;
 	}

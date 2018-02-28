@@ -5,9 +5,9 @@ import java.util.List;
 import com.bkda.entity.User;
 
 public interface UserService {
-	User findUserById(int id);
-	int saveUser(User user);
+	User findUserById(long id);
+	long saveUser(User user);
 	List<User> getUsersByName(String name);
 	List<User> allUsers();
-	boolean isUserExist(int id);
+	boolean isUserExist(long id);
 }
