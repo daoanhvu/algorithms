@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bkda.model.User;
-import com.bkda.service.UserService;
+import com.bkda.service.UserLoginService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
 	
 	@RequestMapping(value="/user/new", method = RequestMethod.POST)
 	public ResponseEntity<?> newUser(@RequestBody User user) {

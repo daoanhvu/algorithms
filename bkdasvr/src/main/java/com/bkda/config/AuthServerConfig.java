@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -14,17 +15,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
-import com.bkda.service.UserService;
-
 //https://gigsterous.github.io/engineering/2017/03/01/spring-boot-4.html
 
 @Configuration
 @EnableAuthorizationServer
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 	
-//	@Autowired
-//	@Qualifier("userService")
-//	private UserService userService;
+	@Autowired
+	@Qualifier("userDetailsService")
+	private UserDetailsService userDetailsService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -39,8 +38,10 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer authConfig) {
-		authConfig.tokenKeyAccess("permitAll()")
-			.checkTokenAccess("isAuthenticated()");
+//		authConfig.tokenKeyAccess("permitAll()")
+//			.checkTokenAccess("isAuthenticated()");
+		
+		authConfig.checkTokenAccess("isAuthenticated()");
 	}
 	
 	@Override
@@ -58,6 +59,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 		authEndpoints.authenticationManager(authenticationManager);
 		
 		//Set userService
-//		authEndpoints.userDetailsService(userService);
+		authEndpoints.userDetailsService(userDetailsService);
 	}
 }
