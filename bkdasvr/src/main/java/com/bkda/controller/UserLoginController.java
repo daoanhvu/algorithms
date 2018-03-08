@@ -1,4 +1,4 @@
-package com.bkda.auth.controller;
+package com.bkda.controller;
 
 import java.security.Principal;
 
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class UserLoginController {
 	
 	@RequestMapping("/user/me")
 	public Principal user(Principal principal) {

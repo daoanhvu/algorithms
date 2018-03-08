@@ -1,4 +1,4 @@
-package com.bkda;
+package com.bkda.config;
 
 import javax.sql.DataSource;
 
@@ -9,15 +9,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@Configuration
-//@EnableTransactionManagement
-//@EnableJpaRepositories(
-//		entityManagerFactoryRef="mySqlEntityManagerFactory",
-//		transactionManagerRef="mySqlTransactionManager"
-//		)
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+		entityManagerFactoryRef="mySqlEntityManagerFactory",
+		transactionManagerRef="mySqlTransactionManager"
+		)
 public class DBConfiguration {
 	@Bean
-	@ConfigurationProperties(prefix="spring.datasource")
+	@ConfigurationProperties(prefix="datasource.bkda")
 	public DataSource mySqlDatasource() {
 		return DataSourceBuilder.create().build();
 	}
