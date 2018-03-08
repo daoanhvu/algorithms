@@ -27,10 +27,10 @@ public class RabbitServerConfiguration {
 	@Value("${amqp.port:5672}")
 	private int port = 5672;
 	
-	@Value("${amqp.username:guest}")
+	@Value("${amqp.username:davu}")
 	private String username;
 	
-	@Value("${amqp.password:guest}")
+	@Value("${amqp.password:123456}")
 	private String password;
 	
 	@Value("${amqp.vhost:/}")
