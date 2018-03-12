@@ -38,11 +38,11 @@ public class User implements UserDetails {
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="email")
-	private String email;
+//	@Column(name="email")
+//	private String email;
 	
-	@Column(name="verified")
-	private boolean verified;
+//	@Column(name="verified")
+//	private boolean verified;
 	
 	@Column(name="status")
 	private int status;
@@ -78,7 +78,7 @@ public class User implements UserDetails {
 		this.username = username;
 	}
 	
-
+	/*
 	public String getEmail() {
 		return email;
 	}
@@ -94,7 +94,8 @@ public class User implements UserDetails {
 	public void setVerified(boolean verified) {
 		this.verified = verified;
 	}
-
+	*/
+	
 	public int getStatus() {
 		return status;
 	}
@@ -139,7 +140,7 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return verified && (status > 0);
+		return (status > 0);
 	}
 	
 }

@@ -10,7 +10,8 @@ import javax.persistence.Table;
 @Table(name="staffs")
 public class Staff extends User {
 	
-	@Column(name="startworkingdate")
+	//Format MM-DD-YYYY hh:mm:ss
+	@Column(name="startworkingdate", length = 19)
 	private String startWorkingDate;
 	
 	@ManyToOne

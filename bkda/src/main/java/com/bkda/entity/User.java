@@ -46,7 +46,7 @@ public class User extends GenericObject {
 	private char sex;
 	
 	@OneToOne
-	@JoinColumn(name="avatar")
+	@JoinColumn(name="avatar", nullable = true)
 	private Media avatar;
 	
 	@Column(name="status")
