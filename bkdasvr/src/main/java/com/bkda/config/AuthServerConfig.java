@@ -38,10 +38,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer authConfig) {
-//		authConfig.tokenKeyAccess("permitAll()")
-//			.checkTokenAccess("isAuthenticated()");
-		
-		authConfig.checkTokenAccess("isAuthenticated()");
+		authConfig.tokenKeyAccess("permitAll()")
+			.checkTokenAccess("isAuthenticated()");		
+//		authConfig.checkTokenAccess("isAuthenticated()");
 	}
 	
 	@Override
@@ -49,7 +48,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 		clients.inMemory()
 			.withClient("BKDAApplicationID")
 			.secret("BKDASecret")
-			.authorizedGrantTypes("authorization_code")
+			.authorizedGrantTypes("password","authorization_code")
 			.scopes("user_info")
 			.autoApprove(true);
 	}

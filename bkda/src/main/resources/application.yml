@@ -26,17 +26,31 @@ spring:
 datasource:
   bkda:
     url: jdbc:mysql://localhost:3306/bkda
-    username: root
-    password: 123456
+    username: bkdaadmin
+    password: vu123456789
     driverClassName: com.mysql.jdbc.Driver
     defaultSchema:
     maxPoolSize: 20
     hibernate:
-      hbm2ddl.method: create-drop
+      hbm2ddl.auto: update
+      hbm2ddl.method: update
       show_sql: true
       format_sql: true
       dialect: org.hibernate.dialect.MySQL5Dialect
 #      org.hibernate.dialect.MySQLDialect
+amqp:
+  port: 5672
+  username: davu
+  password: 123456
+  vhost: /
+  host: localhost
+---
+amqp:
+  port: 5672
+  username: davu
+  password: 123456
+  vhost: /
+  host: localhost
 ---
 security:
   basic:
@@ -54,5 +68,5 @@ logging:
   level:
     org.springframework.web: debug
     org.hibernate: error
-  file: D:\data\bkda_log2.txt
+  file: /Volumes/Data/data/bkda_log2.txt
     

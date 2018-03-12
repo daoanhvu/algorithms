@@ -12,11 +12,13 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
+@ConfigurationProperties(prefix="amqp")
 @Import(PropertyPlaceholderConfiguration.class)
 public class RabbitServerConfiguration {
 	
@@ -24,29 +26,69 @@ public class RabbitServerConfiguration {
 	public static final String QUEUE_NAME = "BKDA_FINANCE_QUEUE";
 	public static final String ROUTING_KEY = "BKDA_FINANCE_ROUTING_KEY";
 	
-	@Value("${amqp.port:5672}")
-	private int port = 5672;
+//	@Value("${amqp.port:5672}")
+	private int port;
 	
-	@Value("${amqp.username:davu}")
+//	@Value("${amqp.username:davu}")
 	private String username;
 	
-	@Value("${amqp.password:123456}")
+//	@Value("${amqp.password:123456}")
 	private String password;
 	
-	@Value("${amqp.vhost:/}")
-	private String virtualHost;
+//	@Value("${amqp.vhost:/}")
+	private String vhost;
 	
 	//@Value("${amqp.host:localhost}")
-	@Value("${amqp.host:192.168.1.106}")
-	private String host = "192.168.1.106";
+//	@Value("${amqp.host:192.168.1.106}")
+	private String host;
 	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getVhost() {
+		return vhost;
+	}
+
+	public void setVhost(String vhost) {
+		this.vhost = vhost;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
 	@Bean
 	public ConnectionFactory connectionFactory() {
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
 		connectionFactory.setUsername(username);
 		connectionFactory.setPassword(password);
 		connectionFactory.setPort(port);
-		connectionFactory.setVirtualHost(virtualHost);
+		connectionFactory.setVirtualHost(vhost);
 		connectionFactory.setHost(host);
 		return connectionFactory;
 	}

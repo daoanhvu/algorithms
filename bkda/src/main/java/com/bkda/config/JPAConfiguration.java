@@ -70,33 +70,7 @@ public class JPAConfiguration {
 		//Set timeout to 5 seconds
 //		dataSource.setLoginTimeout(5000);
 		return dataSource;
-	}
-	
-//	private static final boolean useEmbbeded = true;
-//	@Bean
-//	public DataSource dataSource() {
-//		DataSource dataSource;
-//		logger.info("JPA CONFIG GET CALLED");
-//		if(useEmbbeded) {
-//			EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-//			EmbeddedDatabase database = builder.setName("testdb").setType(EmbeddedDatabaseType.HSQL)
-//					.addScript("db/create-db.sql").addScript("db/insert-default.sql").build();
-//			
-//			dataSource = database;
-//		} else {
-//			DataSourceProperties dsProperties = dataSourceProperties();
-//			dataSource = DataSourceBuilder.create(dsProperties.getClassLoader())
-//					.driverClassName(dsProperties.getDriverClassName())
-//					.url(dsProperties.getUrl())
-//					.username(dsProperties.getUsername())
-//					.password(dsProperties.getPassword())
-//					.type(dsProperties.getType()).build();
-//		}
-//		//Set timeout to 5 seconds
-////		dataSource.setLoginTimeout(5000);
-//		return dataSource;
-//	}
-	
+	}	
 	
 	/**
 	 * Setup Entity Manager Factory
