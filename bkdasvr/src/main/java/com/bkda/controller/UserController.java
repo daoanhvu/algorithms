@@ -1,6 +1,5 @@
 package com.bkda.controller;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,31 +13,10 @@ import com.bkda.model.User;
 import com.bkda.service.UserLoginService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
-	
-	
-	@RequestMapping(value="/user/new", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> newUser(@RequestBody User user) {
-//		long id = userService.addUser(user);
-		long id = 100L;
-		String str = "Failed to add new user. Please check data";
-		HttpHeaders headers = new HttpHeaders();
-		HttpStatus status = HttpStatus.BAD_REQUEST;
-		
-		JSONObject json = new JSONObject();
-		
-		if(id > 0) {
-			str = "{\"status\":\"OK\"}";
-			headers.add("userid", String.valueOf(id));
-			status = HttpStatus.OK;
-		}
-		
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		ResponseEntity<JSONObject> re = new ResponseEntity(str, headers, status);
-		
-		System.out.println(re.toString());
-		
-		return re;
+		return null;
 	}
 }

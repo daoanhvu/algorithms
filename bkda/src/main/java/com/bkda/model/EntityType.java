@@ -1,4 +1,4 @@
-package com.bkda.entity;
+package com.bkda.model;
 
 import java.util.Set;
 
@@ -7,37 +7,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="genericobjects")
-@Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
-public class GenericObject {
+@Table(name="entitytypes")
+public class EntityType {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="objectid")
+	@Column(name="typeid")
 	protected long id;
 	
 	@Column(name="name")
 	private String name;
 	
 	@OneToMany
-	@JoinColumn(name = "objectid")
-	protected Set<Property> properties;
-	
-	@ManyToOne
-	@JoinColumn(name = "objecttypeid")
-	protected EntityType objectType;
-	
+	@JoinColumn(name = "propertytypes")
+	protected Set<PropertyType> properties;
+
 	public long getId() {
 		return id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -50,11 +43,11 @@ public class GenericObject {
 		this.name = name;
 	}
 
-	public Set<Property> getProperties() {
+	public Set<PropertyType> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Set<Property> properties) {
+	public void setProperties(Set<PropertyType> properties) {
 		this.properties = properties;
 	}
 	

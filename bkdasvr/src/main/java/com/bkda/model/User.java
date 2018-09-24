@@ -32,6 +32,7 @@ public class User implements UserDetails {
 	@Column(name="lastname")
 	private String lastName;
 	
+	//Username is user's email
 	@Column(name="username")
 	private String username;
 	

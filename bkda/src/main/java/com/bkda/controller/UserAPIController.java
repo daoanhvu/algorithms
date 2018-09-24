@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bkda.entity.CustomErrorType;
-import com.bkda.entity.User;
+import com.bkda.model.CustomErrorType;
+import com.bkda.model.User;
 import com.bkda.service.UserService;
 
 @RestController

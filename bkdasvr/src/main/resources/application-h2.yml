@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 9077
   context-path: /bkda
   
 
@@ -28,7 +28,7 @@ spring:
 bkda:
   datasource:
     type: H2
-    url: jdbc:h2:file:/home/vdao/data/bkda
+    url: jdbc:h2:file:/home/vdao/data/myplaces
     username: sa
     password: 
     driverClassName: org.h2.Driver
@@ -40,20 +40,6 @@ bkda:
        initialSize: 10
        test-on-borrow: true
         
-amqp:
-  port: 5672
-  username: davu
-  password: 123456
-  vhost: /
-  host: localhost
-
 security:
   basic:
     enabled: false
-    
-logging:
-  level:
-    org.springframework.web: debug
-    org.hibernate: error
-  file: /home/vdao/data/bkda/bkda_log2.txt
-    

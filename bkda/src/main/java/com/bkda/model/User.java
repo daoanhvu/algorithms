@@ -1,4 +1,4 @@
-package com.bkda.entity;
+package com.bkda.model;
 
 import java.util.HashSet;
 import java.util.Set;
