@@ -6,8 +6,8 @@ import com.bkda.model.User;
 
 public interface UserService {
 	User findUserById(long id);
-	long saveUser(User user);
+	User saveUser(User user);
 	List<User> getUsersByName(String name);
-	List<User> allUsers();
+	List<User> search(String username, String lastname, String firstname);
 	boolean isUserExist(long id);
 }

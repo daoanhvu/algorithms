@@ -1,5 +1,7 @@
 package com.bkda.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -11,8 +13,8 @@ import javax.persistence.Table;
 public class Staff extends User {
 	
 	//Format MM-DD-YYYY hh:mm:ss
-	@Column(name="startworkingdate", length = 19)
-	private String startWorkingDate;
+	@Column(name="startworkingdate")
+	private Date startWorkingDate;
 	
 	@ManyToOne
 	@JoinColumn(name="company")
@@ -33,10 +35,10 @@ public class Staff extends User {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	public String getStartWorkingDate() {
+	public Date getStartWorkingDate() {
 		return startWorkingDate;
 	}
-	public void setStartWorkingDate(String startDate) {
+	public void setStartWorkingDate(Date startDate) {
 		this.startWorkingDate = startDate;
 	}
 }
