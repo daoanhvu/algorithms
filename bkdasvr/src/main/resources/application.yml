@@ -1,22 +1,3 @@
 server:
   port: 9077
-  context-path: /bkdaauth
-
-datasource:
-  bkda:
-    url: jdbc:mysql://localhost:3306/authbkda
-    username: bkdaoauth
-    password: oauth123456789
-    driverClassName: com.mysql.jdbc.Driver
-    defaultSchema: authbkda
-    maxPoolSize: 10
-    hibernate:
-      hbm2ddl.method: update
-#      hbm2ddl.auto: update
-      show_sql: true
-      format_sql: true
-      dialect: org.hibernate.dialect.MySQL5Dialect
-        
-security:
-  basic:
-    enabled: false
+  context-path: /bkda

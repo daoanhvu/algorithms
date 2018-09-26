@@ -13,17 +13,17 @@ server:
 
 #Configure Spring JPA
 spring:
-  h2:
-    console:
-      enabled: true
-  jpa:
-    database-platform: org.hibernate.spatial.dialect.h2geodb.GeoDBDialect
-    hibernate:
-      dialect: org.hibernate.spatial.dialect.h2geodb.GeoDBDialect
-      hbm2ddl: create-drop
-      show_sql: true
-      format_sql: true
-      default_schema: bkda
+   h2:
+      console:
+         enabled: true
+   jpa:
+      database-platform: org.hibernate.spatial.dialect.h2geodb.GeoDBDialect
+      hibernate:
+         dialect: org.hibernate.spatial.dialect.h2geodb.GeoDBDialect
+         hbm2ddl: create-drop
+         show_sql: true
+         format_sql: true
+         default_schema: bkda
       
 bkda:
   datasource:

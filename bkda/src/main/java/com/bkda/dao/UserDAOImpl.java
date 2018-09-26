@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.bkda.entity.User;
+import com.bkda.model.User;
 @Repository(value="userDAO")
 public class UserDAOImpl implements UserDAO {
 	

@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -45,13 +43,6 @@ public class DBConfiguration {
 	
 	@Autowired
 	private Environment env;
-	
-	@Bean
-	@Primary
-	@ConfigurationProperties("datasource.bkda")
-	public DataSourceProperties dataSourceProperties() {
-		return new DataSourceProperties();
-	}
 	
 	@Bean
     public DataSource dataSource() {
@@ -102,6 +93,8 @@ public class DBConfiguration {
 		localEntityFactory.setPackagesToScan(new String[]{"com.bkda.model"});
 		localEntityFactory.setJpaVendorAdapter(jpaVendorAdapter());
 		localEntityFactory.setJpaProperties(jpaProperties());
+		localEntityFactory.setPersistenceUnitName("bkda");
+		localEntityFactory.afterPropertiesSet();
 		return localEntityFactory.getObject();
 	}
 	
@@ -110,7 +103,7 @@ public class DBConfiguration {
         properties.put("hibernate.dialect", env.getRequiredProperty("spring.jpa.hibernate.dialect"));
         properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("spring.jpa.hibernate.hbm2ddl"));
         properties.put("hibernate.show_sql", env.getRequiredProperty("spring.jpa.hibernate.show_sql"));
-//        properties.put("hibernate.format_sql", env.getRequiredProperty("spring.jpa.hibernate.format_sql"));
+        properties.put("hibernate.format_sql", env.getRequiredProperty("spring.jpa.hibernate.format_sql"));
         String defaultSchema = env.getProperty("bkda.datasource.defaultSchema");
         if( StringUtils.isNotEmpty(defaultSchema) ){
             properties.put("hibernate.default_schema", defaultSchema);

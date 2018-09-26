@@ -1,4 +1,4 @@
-package com.bkda.entity;
+package com.bkda.model;
 
 public class CustomErrorType {
 	

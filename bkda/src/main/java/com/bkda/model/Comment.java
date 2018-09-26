@@ -1,4 +1,4 @@
-package com.bkda.entity;
+package com.bkda.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,12 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="posts")
-public class Post {
+@Table(name="comments")
+public class Comment {
+	//yhyhyhy
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="postid")
+	@Column(name="commentid")
 	private long id;
 	
 	@ManyToOne
@@ -25,7 +26,7 @@ public class Post {
 	//YYYY-MM-DD HH:mm:ss
 	@Column(name="_datetime", length = 19)
 	private String dateTime;
-		
+	
 	@Column(name="content")
 	private String content;
 
@@ -62,5 +63,4 @@ public class Post {
 	}
 	
 	
-
 }

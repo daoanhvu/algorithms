@@ -2,7 +2,7 @@ package com.bkda.dao;
 
 import java.util.List;
 
-import com.bkda.entity.User;
+import com.bkda.model.User;
 
 public interface UserDAO {
 	boolean updateUser(User user);
