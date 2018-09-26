@@ -1,10 +1,14 @@
 package com.bkda.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +31,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserAPIController {
-	public static final Logger logger = LoggerFactory.getLogger(UserAPIController.class);
-	 
+ 
     @Autowired
     UserService userService; //Service which will do all data retrieval/manipulation work
  
@@ -41,11 +44,17 @@ public class UserAPIController {
     	@ApiImplicitParam(name = "api-key", dataType = "string", 
 			paramType = "header", value = "api key", required = true)
     })
-    @RequestMapping(value = "/search", method = RequestMethod.GET, 
+    @RequestMapping(value = "/search", method = RequestMethod.POST, 
     	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<User>> search() {
-        List<User> users = userService.search(null, null, null);
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    public ResponseEntity<ContentResponse<Page<UserDTO>>> search(@RequestBody UserDTO criteria, Pageable paging) {
+        Page<User> page = userService.search(criteria.getEmail(), 
+        		criteria.getFirstName(), criteria.getLastName(), criteria.getSex(), paging);
+        List<UserDTO> userDtos = page.getContent().stream().map(UserDTO::new).collect(Collectors.toList());
+        Page<UserDTO> p = new PageImpl<>(userDtos, paging, page.getTotalElements());
+        ContentResponse<Page<UserDTO>> result = new ContentResponse<>();
+        result.setContent(p);
+        
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
  
     // -------------------Retrieve Single User------------------------------------------
@@ -61,8 +70,15 @@ public class UserAPIController {
  
     // -------------------Create a User-------------------------------------------
  
+    @ApiOperation("Create a new user")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
+    			paramType = "header", value = "Authorization token", required = true),
+    	@ApiImplicitParam(name = "api-key", dataType = "string", 
+			paramType = "header", value = "api key", required = true)
+    })
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody User user) {
         User savedUser = userService.saveUser(user);
         UserDTO userDto = new UserDTO(savedUser);
         ContentResponse<UserDTO> response = new ContentResponse<>();

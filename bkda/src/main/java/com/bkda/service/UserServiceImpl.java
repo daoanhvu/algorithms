@@ -2,10 +2,10 @@ package com.bkda.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bkda.dao.UserDAO;
@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> search(String username, String lastname, String firstname) {
-		// TODO Auto-generated method stub
-		return userDAO.allUsers();
+	public Page<User> search(String username, String firstname, String lastname, 
+			Character sex, Pageable paging) {
+		return userDAO.search(username, firstname, lastname, sex, paging);
 	}
 
 	@Override
@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
 	public User saveUser(User user) {
 		userDAO.saveUser(user);
 		return user;

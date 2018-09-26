@@ -18,7 +18,7 @@ public class UserDTO implements Serializable {
 	private String email;
 	private Date startDate;
 	private String phoneNumber;
-	private char sex;
+	private Character sex;
 	
 	public UserDTO() {
 		
@@ -27,7 +27,7 @@ public class UserDTO implements Serializable {
 	public UserDTO( User user ) {
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.userName = user.getUserName();
+		this.userName = user.getUsername();
 		this.email = user.getEmail();
 		this.startDate = user.getStartDate();
 		this.phoneNumber = user.getPhoneNumber();
@@ -40,10 +40,10 @@ public class UserDTO implements Serializable {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public char getSex() {
+	public Character getSex() {
 		return sex;
 	}
-	public void setSex(char sex) {
+	public void setSex(Character sex) {
 		this.sex = sex;
 	}
 	public String getEmail() {

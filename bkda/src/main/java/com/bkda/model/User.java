@@ -19,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name="users")
 @Inheritance( strategy = InheritanceType.JOINED )
@@ -30,8 +32,9 @@ public class User extends GenericObject {
 	@Column(name="lastname")
 	private String lastName;
 	
+	@JsonProperty(required = true)
 	@Column(name="username")
-	private String userName;
+	private String username;
 	
 	@Column(name="email")
 	private String email;
@@ -104,10 +107,10 @@ public class User extends GenericObject {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 }

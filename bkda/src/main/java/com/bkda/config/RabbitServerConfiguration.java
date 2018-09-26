@@ -16,9 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Configuration
-@ConfigurationProperties(prefix="amqp")
-@Import(PropertyPlaceholderConfiguration.class)
+//@Configuration
+//@ConfigurationProperties(prefix="amqp")
+//@Import(PropertyPlaceholderConfiguration.class)
 public class RabbitServerConfiguration {
 	
 	public static final String EXCHANGE_NAME = "BKDA_FINANCE";
