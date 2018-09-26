@@ -1,5 +1,6 @@
 package com.bkda.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,8 +37,8 @@ public class User extends GenericObject {
 	private String email;
 	
 	//YYYY-MM-DD HH:mm:ss
-	@Column(name="startdate", length = 19)
-	private String startDate;
+	@Column(name="startdate")
+	private Date startDate;
 	
 	@Column(name="phonenumber")
 	private String phoneNumber;
@@ -84,10 +85,10 @@ public class User extends GenericObject {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	

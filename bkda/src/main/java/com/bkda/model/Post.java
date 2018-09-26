@@ -1,5 +1,7 @@
 package com.bkda.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,8 +25,8 @@ public class Post {
 	private User user;
 	
 	//YYYY-MM-DD HH:mm:ss
-	@Column(name="_datetime", length = 19)
-	private String dateTime;
+	@Column(name="_datetime")
+	private Date dateTime;
 		
 	@Column(name="content")
 	private String content;
@@ -45,11 +47,11 @@ public class Post {
 		this.user = user;
 	}
 
-	public String getDateTime() {
+	public Date getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(String dateTime) {
+	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
 
@@ -60,7 +62,5 @@ public class Post {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
 
 }

@@ -2,7 +2,6 @@ package com.bkda;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 
 /**
  * In the OAuth 2.0 Scenario, this is Client Application 

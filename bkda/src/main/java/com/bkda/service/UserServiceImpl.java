@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> allUsers() {
+	public List<User> search(String username, String lastname, String firstname) {
 		// TODO Auto-generated method stub
 		return userDAO.allUsers();
 	}
@@ -43,9 +43,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public long saveUser(User user) {
+	public User saveUser(User user) {
 		userDAO.saveUser(user);
-		return user.getId();
+		return user;
 	}
 
 }
