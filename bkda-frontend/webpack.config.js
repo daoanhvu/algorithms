@@ -1,18 +1,46 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
-	context: __dirname + 'app',
+  mode: 'development',
+	context: __dirname,
 	entry: {
-		app: './app.js',
-		vendor: ['angular']
+		app: './src/main.ts'
 	},
 	output: {
 		path: __dirname + '/js',
 		filename: 'app.bundle.js'
 	},
 	plugins: [
-		new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* fileName= */"app.bundle.js")
+		// new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor",  /*fileName=*/ "app.bundle.js"),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'index.html',
+      inject: 'body'
+    }),
+    new webpack.DefinePlugin({
+      // global app config object
+      config: JSON.stringify({
+        apiUrl: 'http://localhost:4000'
+      })
+    })
 	],
-	modules: {
-		
-	}
+	module: {
+		rules: [
+      { test: /\.ts$/, use: ['ts-loader', 'angular2-template-loader'], exclude: /(node_modules)/ },
+      { test: /\.(html|css)$/, loader: 'raw-loader' }
+    ]
+	},
+  resolve: {
+    extensions: ['.ts', '.js']
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+    runtimeChunk: true
+  },
+  devServer: {
+    historyApiFallback: true
+  }
 };

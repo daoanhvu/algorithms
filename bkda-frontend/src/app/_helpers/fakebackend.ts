@@ -13,7 +13,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
 		return of(null).pipe(mergeMap( () => {
 			// endpoint to authentication
-			if( request.url.endsWith('users/authenticate') && request.method === 'POST' ) {
+			if( request.url.endsWith('api/v1/users/authenticate') && request.method === 'POST' ) {
 				let filterUsers = users.filter(u => {
 					return u.username === request.body.username && u.password === request.body.password;
 				} );
@@ -22,9 +22,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 					let user = filterUsers[0];
 					let body = {
 						id: user.id,
-						username: user.useranme,
+						username: user.username,
 						lastname: user.lastname,
-						firtname: user.firstname,
+						firstname: user.firstname,
 						token: "fake-jwt-token"
 					};
 
@@ -39,29 +39,46 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 			// endpoint to get list users
 			else if( request.url.endsWith('/api/v1/users') && request.method === 'GET' ) {
 				
-				let users = [
-					{
-						id: '1',
-						firstname: 'Vo',
-						lastname: 'Tuan Anh',
-						username: 'anhvt@vinpt.com.vn',
-					},
-					{
-						id: '2',
-						firstname: 'Dao',
-						lastname: 'Vu',
-						username: 'vuda@vinpt.com.vn',
-					}
-				];
+				// let users = [
+				// 	{
+				// 		id: '1',
+				// 		firstname: 'Vo',
+				// 		lastname: 'Tuan Anh',
+				// 		username: 'anhvt@vinpt.com.vn',
+				// 	},
+				// 	{
+				// 		id: '2',
+				// 		firstname: 'Dao',
+				// 		lastname: 'Vu',
+				// 		username: 'vuda@vinpt.com.vn',
+				// 	}
+				// ];
 
 				let body = {
 					internalCode: 0,
-					message: null,
+					message: '',
 					content: users
 				};
 
 				return of( new HttpResponse( {status: 200, body: body} ) );
 			}
+
+      // endpoint for register
+      else if( request.url.endsWith("api/v1/users/register") && request.method === 'POST' ) {
+        // get new user object from post body
+        let newUser = request.body;
+        // validation
+        let duplicateUser = users.filter(user => { return user.username === newUser.username; }).length;
+        if (duplicateUser) {
+            return throwError({ error: { message: 'Username "' + newUser.username + '" is already taken' } });
+        }
+        // save new user
+        newUser.id = users.length + 1;
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        // respond 200 OK
+        return of(new HttpResponse({ status: 200 }));
+      }
 
 			return next.handle(request);	
 		} ))

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { User } from '../_models/user';
+import { ResponseDTO } from '../_models/responsedto';
 import { UserService } from '../service/user.service';
 
 @Component({templateUrl: 'home.component.html'})
@@ -24,8 +25,8 @@ export class HomeComponent implements OnInit {
     // }
 
     private loadAllUsers() {
-        this.userService.search().pipe(first()).subscribe(users => { 
-            this.users = users; 
+        this.userService.search().pipe(first()).subscribe(resp => { 
+            this.users = resp.content; 
         });
     }
 }
