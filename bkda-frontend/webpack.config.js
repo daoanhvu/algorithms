@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
@@ -9,21 +10,24 @@ module.exports = {
 	},
 	output: {
 		path: __dirname + '/js',
-		filename: 'app.bundle.js'
+		filename: 'bundle.js'
 	},
 	plugins: [
 		// new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor",  /*fileName=*/ "app.bundle.js"),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'head'
     }),
     new webpack.DefinePlugin({
       // global app config object
       config: JSON.stringify({
         apiUrl: 'http://localhost:4000'
       })
-    })
+    }),
+    new webpack.ContextReplacementPlugin(
+        /angular(\\|\/)core(\\|\/)/, path.resolve(__dirname, '../src')
+    )
 	],
 	module: {
 		rules: [

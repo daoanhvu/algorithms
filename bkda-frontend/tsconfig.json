@@ -17,5 +17,10 @@
     "typeRoots": [
       "node_modules/@types"
     ]
+    // ,
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@angular/*": ["./node_modules/@angular/*"]
+    // }
   }
 }
