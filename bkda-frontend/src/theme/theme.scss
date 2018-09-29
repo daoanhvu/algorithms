@@ -1,0 +1,182 @@
+/*
+ * Global application theme.
+ * Framework overrides and customization goes here.
+ */
+
+// stylelint-disable-next-line selector-max-universal
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  height: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body *:not(mat-icon) {
+  font-family: $primary-font !important;
+  -webkit-font-smoothing: antialiased;
+
+  .mat-cell,
+  .mat-cell a {
+    font-family: $secondary-font !important;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.mat-sidenav-container {
+  background-color: white;
+}
+
+.container {
+  padding: 0 20px;
+}
+
+.wrapper {
+  min-height: calc(100vh - #{$headerH} - #{$footerH});
+  padding: $wrapperPadding 0;
+}
+
+// Button
+/////////
+.mat-raised-button {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+// Table
+/////////
+.table-container {
+  margin-top: 15px;
+  width: 100%;
+  height: calc(100vh - #{$headerH} - #{$wrapperPadding} * 2 - 175px - #{$footerH});
+  overflow: auto;
+
+  table {
+    width: 100%;
+  }
+
+  td, th {
+    width: 10%;
+  }
+
+  th.mat-header-cell {
+    text-align: left;
+    background-color: mat-color($sm-primary);
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .mat-checkbox-inner-container {
+    height: 21px;
+  }
+
+  .mat-row:nth-child(even){
+    background-color: $light;
+  }
+
+  .mat-cell {
+    padding-right: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: $grey;
+
+    &.mat-column-status,
+    &.mat-column-action {
+      font-weight: 400;
+    }
+  }
+}
+
+// Paginator
+/////////
+.mat-paginator {
+  background: transparent;
+}
+
+// Form
+/////////
+.mat-form-field:not([floatlabel="never"]) label.mat-form-field-label {
+  font-weight: 700;
+}
+
+// Calendar
+/////////
+mat-datepicker-content.mat-datepicker-content .mat-calendar {
+  width: 296px;
+  height: 354px;
+}
+
+// SnackBar
+/////////
+.mat-simple-snackbar-action {
+  .mat-button {
+    min-width: 30px;
+    padding: 0 10px;
+  }
+}
+
+// Filter
+/////////
+.filter-wrapper {
+  > * {
+    display: inline-block;
+  }
+
+  .filter-label {
+    margin-right: 5px;
+    font-weight: 700;
+  }
+
+  .label {
+    margin-left: 5px;
+    margin-bottom: 0;
+    color: mat-color($sm-accent);
+  }
+
+  .mat-form-field {
+    width: 100px;
+    margin-left: 5px;
+  }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-form-field-label {
+    padding-left: 3px;
+    font-weight: 400;
+  }
+
+  .mat-form-field-infix {
+    padding:  5px 0;
+  }
+
+  .mat-form-field-underline {
+    display: none;
+  }
+}

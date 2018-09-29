@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bkda.dao.UserDAO;
+import com.bkda.dto.CredentialsDTO;
+import com.bkda.dto.SigninDTO;
 import com.bkda.model.User;
 
 @Service("userService")
@@ -45,6 +47,14 @@ public class UserServiceImpl implements UserService {
 	public User saveUser(User user) {
 		userDAO.saveUser(user);
 		return user;
+	}
+
+	@Override
+	public CredentialsDTO signin(SigninDTO signinDTO) {
+		
+		
+		
+		return null;
 	}
 
 }

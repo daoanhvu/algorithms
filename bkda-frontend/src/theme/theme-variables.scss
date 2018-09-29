@@ -1,0 +1,67 @@
+/*
+ * Application global variables.
+ */
+
+// Angular Material custom theme
+// See https://material.angular.io/guide/theming for more details.
+//
+// You can also read https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
+// for more insight about Angular Material theming.
+
+@import "~@angular/material/theming";
+
+// Colors
+/////////
+// Custom mat palette color http://mcg.mbitson.com/#!?mcgpalette0=%233f51b5
+$mat-cyan-sm: (
+  50 : #e0ecec,
+  100 : #ecf8e2,
+  200 : #e3f7d2,
+  300 : #dcf6c6,
+  400 : #d1f7b0,
+  500 : #bdea97,
+  600 : #aad784,
+  700 : #94c16f,
+  800 : #78a94f,
+  900 : #609732,
+  A100 : #6ef4ff,
+  A200 : #3bf0ff,
+  A400 : #08ecff,
+  A700 : #00dbed,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$light:          #F4F4F4;
+$grey:           #707071;
+// $green:         #2E725F;
+// $light-green:   #6DB086;
+// $light-green-2: #A8E0A2;
+
+
+$sm-primary: mat-palette($mat-cyan-sm);
+$sm-accent:  mat-palette($mat-orange);
+$sm-warn:    mat-palette($mat-deep-orange);
+$sm-theme:   mat-light-theme($sm-primary, $sm-accent, $sm-warn);
+
+// Fonts
+/////////
+$primary-font: "Yantramanav", sans-serif;
+$secondary-font: monaco, monospace;
+$headerH: 70px;
+$wrapperPadding: 30px;
+$footerH: 50px;

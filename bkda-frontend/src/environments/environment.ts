@@ -4,6 +4,9 @@
 
 export const environment = {
   production: false,
+  clientId: '123456789',
+  scope: 'bkda-web',
+  grantType: 'resource_owner',
   apiUrl: 'http://localhost:8090'
 };
 

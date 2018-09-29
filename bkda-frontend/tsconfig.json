@@ -1,26 +1,32 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "lib": ["es2017","dom" ],
-    // "baseUrl": "./",
-    // "outDir": "./dist/out-tsc",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
     "declaration": false,
     // "module": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "noImplicitAny": true,
-    "sourceMap": true,
-    "target": "es5",
     "suppressImplicitAnyIndexErrors": true,
+    "target": "es5",
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      // "@angular/*": ["./node_modules/@angular/*"]
+      "@app/*": ["app/*"],
+      "@env/*": ["environments/*"]
+    },
+    "plugins": [
+      {"name": "@angular/language-service"}
     ]
-    // ,
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@angular/*": ["./node_modules/@angular/*"]
-    // }
   }
 }

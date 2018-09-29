@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bkda.dto.ContentResponse;
+import com.bkda.dto.CredentialsDTO;
+import com.bkda.dto.SigninDTO;
 import com.bkda.dto.UserDTO;
 import com.bkda.model.User;
 import com.bkda.service.UserService;
@@ -83,8 +85,6 @@ public class UserAPIController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
  
-    // ------------------- Update a User ------------------------------------------------
- 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, @RequestBody User user) {
         User savedUser = userService.saveUser(user);
@@ -94,21 +94,13 @@ public class UserAPIController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
  
-    // ------------------- Delete a User-----------------------------------------
+    // ------------------- User Signin -----------------------------------------
  
-//    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-//    public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
-//        logger.info("Fetching & Deleting User with id {}", id);
-// 
-//        User user = userService.findById(id);
-//        if (user == null) {
-//            logger.error("Unable to delete. User with id {} not found.", id);
-//            return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
-//                    HttpStatus.NOT_FOUND);
-//        }
-//        userService.deleteUserById(id);
-//        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//    }
+    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    public ResponseEntity<CredentialsDTO> signin(@RequestBody SigninDTO signinDTO) {
+        CredentialsDTO result = userService.signin(signinDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
  
     // ------------------- Delete All Users-----------------------------
  
