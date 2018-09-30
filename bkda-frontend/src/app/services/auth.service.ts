@@ -6,7 +6,7 @@ import { HttpService } from '@app/core/http/http.service';
 import { environment } from '@env/environment';
 import { Credential } from '@app/models';
 import { JwtService } from './jwt.service';
-import { LoginInfo } from '@app/models/login.model';
+import { LoginInfo, User } from '@app/models';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,6 +17,7 @@ export class AuthenticationService {
   ) { }
 
   login(loginObj: LoginInfo): Observable<any> {
+    //TODO: implement here
     const params = {
 
     };
@@ -33,6 +34,20 @@ export class AuthenticationService {
           return res;
         }
       } ) );
+  }
+
+  register(newUser: User): Observable<any> {
+    const params = {
+
+    };
+
+    return this.http
+      .post('/api/v1/users/signup', params)
+      .pipe( map( (res: any) => {
+        if( res && res.statusCode === 201 ) {
+          return res.body;
+        }
+      }));
   }
   
   isAuthenticated(): boolean {

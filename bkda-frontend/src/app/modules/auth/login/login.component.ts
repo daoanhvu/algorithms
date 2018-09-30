@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
+import { finalize } from 'rxjs/operators';
 import { AuthenticationService } from "@app/services/auth.service";
 import { HttpService } from '@app/core/http/http.service';
 
@@ -11,8 +12,8 @@ import { HttpService } from '@app/core/http/http.service';
 })
 export class LoginComponent implements OnInit {
     formGroup: FormGroup;
-    iLoading = false;
-    error: boolean;
+    isLoading = false;
+    error: string;
     username: string;
     password: string;
 
@@ -24,17 +25,46 @@ export class LoginComponent implements OnInit {
         ) {
         this.formGroup = this.formBuilder.group({
             username: ['', Validators.required],
-            password: ['', Validators.required]
+            password: ['', Validators.required],
+            remember: true
         });
      }
 
     ngOnInit() {
         if( this.authenService.isAuthenticated() ) {
-            
+            this.router.navigate(['/'], { replaceUrl: true });
         }
+        this.onChanges();
+    }
+
+    onChanges() {
+        this.formGroup.valueChanges.subscribe( () => {
+            this.error = null;
+        });
     }
 
     login() {
+        if( this.formGroup.invalid ) {
+            return;
+        }
 
+        this.isLoading = true;
+        this.authenService.login(this.formGroup.value)
+            .pipe( finalize( () => {
+                this.formGroup.markAsPristine();
+                this.isLoading = false;
+            }))
+            .subscribe( response => {
+                var statusCode = response['statusCode'];
+                if( statusCode === 200 ) {
+                    this.router.navigate(['/'], { replaceUrl: true });
+                } else {
+                    this.onLoginFailed('signinFailed');
+                }
+            });
+    }
+
+    private onLoginFailed(type: string) {
+        this.error = type;
     }
 }

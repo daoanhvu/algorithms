@@ -1,29 +1,43 @@
-<div fxFill fxLayout="column" fxLayoutAlign="center center" >
+<div fxFill fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1.5rem" class="mat-typography">
     <div class="login-container" fxLayout="row" fxLayoutAlign="center" >
-        <mat-card>
-            <form (ngSubmit)="login()" [formGroup]="formGroup" >
+        <mat-card fxFlex.xs="90%" fxFlex="420px" class="login-box">
+            <form (ngSubmit)="login()" [formGroup]="formGroup" novalidate >
                 <div class="login-error" [hidden]="!error || isLoading">
                         <span *ngIf="error === 'signinFailed'" translate>Signin failed, please try again or contact support for assistance.</span>
-                        <span *ngIf="error === 'noPermission'" translate>You dont currently have permission to access this page.</span>
-                        <span *ngIf="error === 'somethingWrong'" translate>Sorry, something went wrong, try again in a minute.</span>
+                        <span *ngIf="error === 'blankField'" translate>You dont currently have permission to access this page.</span>
                 </div>
+                <br />
                 <div fxLayout="column">
                     <p>
-                        <mat-form-field>
-                            <input type="text" matInput [placeholder]="username" />
+                        <mat-form-field appearance="outline" floatLabel="always">
+                            <mat-label>{{'Username'}}</mat-label>
+                            <input type="text" matInput formControlName="username" autocomplete="username" [placeholder]="username" />
+                            <mat-error *ngIf="formGroup.controls['username'].invalid || formGroup.controls['username'].untouched">
+                                <span>Username is required</span>
+                            </mat-error>
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field>
-                            <input type="password" matInput [placeholder]="password" [type]="hide ? 'password' : 'text'" />
+                        <mat-form-field appearance="outline" floatLabel="always">
+                            <mat-label>{{'Password'}}</mat-label>
+                            <input type="password" matInput formControlName="password" [placeholder]="password" [type]="hide ? 'password' : 'text'" />
+                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                            <mat-error *ngIf="formGroup.controls['password'].invalid || formGroup.controls['password'].untouched">
+                                <span >Password is required</span>
+                            </mat-error>
                         </mat-form-field>
                     </p>
-                    <div class="login-toolbox">
+                    <div fxFlex class="login-toolbox">
 
                     </div>
                     <button mat-raised-button color="primary" type="submit" [disabled]="isLoading" >
                         <span>Login</span>
                     </button>
+                    <div fxFlex >
+                        <p>
+                            Not a member? <a [routerLink]="['/register']" class="btn btn-link">register now</a>
+                        </p>
+                    </div>
                 </div>
             </form>
         </mat-card>

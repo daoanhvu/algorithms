@@ -1,0 +1,39 @@
+<div fxFill fxLayoutAlign="center" class="register-container" >
+    <mat-toolbar>
+        <span>Registration</span>
+    </mat-toolbar>
+    <div fxFill fxLayoutAlign="center center" fxLayoutGap="1.5rem" class="mat-typography">
+        <div fxLayout="row" fxLayoutAlign="center center" >
+        <mat-card fxFlex.xs="90." fxFlex="50%" >
+            <mat-card-content>
+                <form (ngSubmit)="register()" [formGroup]="formGroup">
+                    <div fxLayout="column">
+                        <p>
+                            <mat-form-field>
+                                <mat-label>Firstname</mat-label>
+                                <input type="text" matInput formControlName="firstname" [placeholder]="Firstname" />
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field>
+                                <mat-label>Lastname</mat-label>
+                                <input type="text" matInput formControlName="lastname" [placeholder]="Lastname" />
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field>
+                                <mat-label>Username</mat-label>
+                                <input type="text" matInput formControlName="username" [placeholder]="username" />
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </form>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit" [disabled]="isLoading   " >
+                    <span>Register</span></button>
+            </mat-card-actions>
+        </mat-card>
+        </div>
+    </div>
+</div>
