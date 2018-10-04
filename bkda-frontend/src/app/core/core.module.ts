@@ -29,9 +29,9 @@ export class CoreModule {
         @Optional()
         @SkipSelf()
         parentModule: CoreModule
-    ) { 
-        //import guard
-        if( parentModule ) {
+    ) {
+        // import guard
+        if (parentModule) {
             throw new Error(`${parentModule} has already been loaded. Import Core module in the AppModule only.`);
         }
     }

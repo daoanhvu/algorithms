@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     error: string;
     username: string;
     password: string;
+    hide = true;
 
     constructor(
         private router: Router,

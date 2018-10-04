@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from "@app/services/auth.service";
+import { AuthenticationService } from '@app/services/auth.service';
 
 @Component({
     selector: 'page-register',
@@ -16,18 +16,19 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private authenService: AuthenticationService
-    ) { 
+    ) {
         this.formGroup = this.formBuilder.group(
-            { 
+            {
                 firstname: ['', Validators.required],
                 lastname: ['', Validators.required],
-                username: ['', Validators.required] 
+                username: ['', Validators.required],
+                password: ['', Validators.required]
             }
         );
     }
 
     ngOnInit() {
-        if( this.authenService.isAuthenticated() ) {
+        if (this.authenService.isAuthenticated()) {
             this.router.navigate(['/'], { replaceUrl: true  });
         }
         this.onChanges();
@@ -38,10 +39,20 @@ export class RegisterComponent implements OnInit {
     }
 
     register() {
-        if( this.formGroup.invalid ) {
+        if (this.formGroup.invalid) {
             return;
         }
 
-        // this.authenService.
+        const params = {
+            firstName: this.formGroup.value.firstname,
+            lastName: this.formGroup.value.lastname,
+            username: this.formGroup.value.username,
+            password: this.formGroup.value.password
+        };
+
+        this.authenService.register(params)
+        .subscribe( (res: any) => {
+            console.log(res);
+        });
     }
 }

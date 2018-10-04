@@ -10,7 +10,7 @@ import { SharedModule } from '@app/modules/shared';
 import { HeaderComponent } from '@app/modules/shell/header/header.component';
 
 @NgModule({
-    imports: [ 
+    imports: [
         CommonModule,
         ReactiveFormsModule,
         TranslateModule,

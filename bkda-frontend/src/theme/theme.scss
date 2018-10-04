@@ -23,7 +23,8 @@ body *:not(mat-icon) {
   -webkit-font-smoothing: antialiased;
 
   .mat-cell,
-  .mat-cell a {
+  .mat-cell a,
+  .font-2nd {
     font-family: $secondary-font !important;
   }
 }
@@ -83,7 +84,9 @@ a {
     width: 10%;
   }
 
-  th.mat-header-cell {
+  th,
+  .mat-header-cell {
+    padding-right: 4px !important;
     text-align: left;
     background-color: mat-color($sm-primary);
     font-size: 14px;
@@ -100,7 +103,7 @@ a {
   }
 
   .mat-cell {
-    padding-right: 4px;
+    padding-right: 4px !important;
     font-size: 12px;
     font-weight: 700;
     color: $grey;
@@ -109,6 +112,14 @@ a {
     &.mat-column-action {
       font-weight: 400;
     }
+  }
+
+  .copy-no-data {
+    padding: 25px 0;
+    text-align: center;
+    font-size: 12px;
+    color: $grey;
+    background-color: white;
   }
 }
 

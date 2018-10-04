@@ -17,14 +17,14 @@ export class AuthenticationService {
   ) { }
 
   login(loginObj: LoginInfo): Observable<any> {
-    //TODO: implement here
+    // TODO: implement here
     const params = {
 
     };
 
     return this.http.post('api/v1/users/signin', params).pipe(
       map( (res: any) => {
-        if( res && res.body ) {
+        if (res && res.body) {
           const accessToken: string = res.body.accessToken;
           const data = {
             username: loginObj.username.toLowerCase(),
@@ -36,20 +36,16 @@ export class AuthenticationService {
       } ) );
   }
 
-  register(newUser: User): Observable<any> {
-    const params = {
-
-    };
-
+  register(newUser: any): Observable<any> {
     return this.http
-      .post('/api/v1/users/signup', params)
+      .post('/api/v1/users/signup', newUser)
       .pipe( map( (res: any) => {
-        if( res && res.statusCode === 201 ) {
+        if ( res && res.statusCode === 201 ) {
           return res.body;
         }
       }));
   }
-  
+
   isAuthenticated(): boolean {
     return !!this.credential;
   }
