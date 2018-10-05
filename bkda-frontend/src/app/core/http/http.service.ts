@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { extend } from 'lodash';
 
 import { environment } from '@env/environment';
+import { ErrorHandlerInterceptor } from './error-handler.interceptor';
+import { CacheInterceptor } from './cache.interceptor';
+import { ApiPrefixInterceptor } from './api-prefix.interceptor';
 
 const credentialsKey = 'credentials';
 
@@ -11,59 +14,56 @@ const credentialsKey = 'credentials';
 // (see https://github.com/Microsoft/TypeScript/issues/13897)
 declare module '@angular/common/http/src/client' {
 
-    // Augment HttpClient with the added configuration methods from HttpService, to allow in-place replacement of
-    // HttpClient with HttpService using dependency injection
-    export interface HttpClient {
-         /**
-         * Enables caching for this request.
-         * @param {boolean} forceUpdate Forces request to be made and updates cache entry.
-         * @return {HttpClient} The new instance.
-         */
-        cache(forceUpdate?: boolean): HttpClient;
+  // Augment HttpClient with the added configuration methods from HttpService, to allow in-place replacement of
+  // HttpClient with HttpService using dependency injection
+  export interface HttpClient {
 
-        /**
-         * Skips default error handler for this request.
-         * @return {HttpClient} The new instance.
-         */
-        skipErrorHandler(): HttpClient;
+    /**
+     * Enables caching for this request.
+     * @param forceUpdate Forces request to be made and updates cache entry.
+     * @return The new instance.
+     */
+    cache(forceUpdate?: boolean): HttpClient;
 
-        /**
-         * Do not use API prefix for this request.
-         * @return {HttpClient} The new instance.
-         */
-        disableApiPrefix(): HttpClient;
-    }
+    /**
+     * Skips default error handler for this request.
+     * @return The new instance.
+     */
+    skipErrorHandler(): HttpClient;
+
+    /**
+     * Do not use API prefix for this request.
+     * @return The new instance.
+     */
+    disableApiPrefix(): HttpClient;
+
+  }
+
 }
-
 
 // From @angular/common/http/src/interceptor: allows to chain interceptors
 class HttpInterceptorHandler implements HttpHandler {
 
-    private token: string | '';
-  
-    constructor(private next: HttpHandler,
-                private interceptor: HttpInterceptor) {
-      const savedCredentials = JSON.parse(sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey));
-      if (savedCredentials && savedCredentials.token) {
-        this.token = savedCredentials.token;
-      }
+  constructor(private next: HttpHandler,
+              private interceptor: HttpInterceptor) {}
+
+  handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
+    const headersConfig = {
+      'Content-Type': 'application/json',
+      'ApiKey': environment.clientId,
+      'scope': environment.scope
+    };
+    const savedCredentials = JSON.parse(sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey));
+    if (savedCredentials && savedCredentials.token) {
+      headersConfig['Authorization'] = `Bearer ${savedCredentials.token}`;
     }
-  
-    handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-      const headersConfig = {
-        'Content-Type': 'application/json',
-        'ApiKey': environment.clientId,
-        'scope': environment.scope
-      };
-      if (this.token) {
-        headersConfig['Authorization'] = `Bearer ${this.token}`;
-      }
-  
-      const request = req.clone({ setHeaders: headersConfig });
-      return this.interceptor.intercept(request, this.next);
-    }
-  
+
+    const request = req.clone({ setHeaders: headersConfig });
+    return this.interceptor.intercept(request, this.next);
+  }
+
 }
+
 /**
  * Allows to override default dynamic interceptors that can be disabled with the HttpService extension.
  * Except for very specific needs, you should better configure these interceptors directly in the constructor below
@@ -85,27 +85,27 @@ export class HttpService extends HttpClient {
               @Optional() @Inject(HTTP_DYNAMIC_INTERCEPTORS) private interceptors: HttpInterceptor[] = []) {
     super(httpHandler);
 
-    // if (!this.interceptors) {
-    //   // Configure default interceptors that can be disabled here
-    //   this.interceptors = [
-    //     this.injector.get(ApiPrefixInterceptor),
-    //     this.injector.get(ErrorHandlerInterceptor)
-    //   ];
-    // }
+    if (!this.interceptors) {
+      // Configure default interceptors that can be disabled here
+      this.interceptors = [
+        this.injector.get(ApiPrefixInterceptor),
+        this.injector.get(ErrorHandlerInterceptor)
+      ];
+    }
   }
 
-//   cache(forceUpdate?: boolean): HttpClient {
-//     const cacheInterceptor = this.injector.get(CacheInterceptor).configure({ update: forceUpdate });
-//     return this.addInterceptor(cacheInterceptor);
-//   }
+  cache(forceUpdate?: boolean): HttpClient {
+    const cacheInterceptor = this.injector.get(CacheInterceptor).configure({ update: forceUpdate });
+    return this.addInterceptor(cacheInterceptor);
+  }
 
-//   skipErrorHandler(): HttpClient {
-//     return this.removeInterceptor(ErrorHandlerInterceptor);
-//   }
+  skipErrorHandler(): HttpClient {
+    return this.removeInterceptor(ErrorHandlerInterceptor);
+  }
 
-//   disableApiPrefix(): HttpClient {
-//     return this.removeInterceptor(ApiPrefixInterceptor);
-//   }
+  disableApiPrefix(): HttpClient {
+    return this.removeInterceptor(ApiPrefixInterceptor);
+  }
 
   request(method?: any, url?: any, options?: any): any {
     const handler = this.interceptors.reduceRight(
