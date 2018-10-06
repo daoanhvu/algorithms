@@ -3,6 +3,7 @@ package com.bkda.dto;
 public class SigninDTO {
 	private String username;
 	private String password;
+	private String clientId;
 	private String grantType;
 	
 	public String getUsername() {
@@ -16,6 +17,13 @@ public class SigninDTO {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 	public String getGrantType() {
 		return grantType;

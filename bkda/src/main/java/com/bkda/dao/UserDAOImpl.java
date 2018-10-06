@@ -97,4 +97,14 @@ public class UserDAOImpl implements UserDAO {
 		updateQ.setParameter("phonenumber",user.getPhoneNumber());
 		return updateQ.executeUpdate()>0?true:false;
 	}
+
+	@Override
+	public User checkSignin(String username, String hashedPassword) {
+		String strQuery = "select u from User "
+				+ "where u.username = :name and u.password = :password";
+		Query query = this.entityManager.createQuery(strQuery);
+		query.setParameter("username", username);
+		query.setParameter("password", hashedPassword);
+		return (User) query.getSingleResult();
+	}
 }

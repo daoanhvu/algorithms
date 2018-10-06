@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8090
   context-path: /bkda
   
 
@@ -38,8 +38,7 @@ bkda:
        max-active: 5
        max-wait: 5000
        initialSize: 10
-       test-on-borrow: true
-        
+       test-on-borrow: true        
 amqp:
   port: 5672
   username: davu
@@ -48,6 +47,9 @@ amqp:
   host: localhost
 
 security:
+  jwt:
+    tokenSigninKey: 5776bf874388d3c2ab89810739275b649fe740ba12
+    Issuer: bkda.com
   basic:
     enabled: false
     

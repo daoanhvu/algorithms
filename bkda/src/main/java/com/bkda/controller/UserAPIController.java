@@ -23,9 +23,9 @@ import com.bkda.dto.UserDTO;
 import com.bkda.model.User;
 import com.bkda.service.UserService;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.ApiImplicitParam;
+//import io.swagger.annotations.ApiImplicitParams;
+//import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -36,13 +36,13 @@ public class UserAPIController {
  
     // -------------------Retrieve All Users---------------------------------------------
  
-    @ApiOperation("Search for users by their name, sex, email")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
-    			paramType = "header", value = "Authorization token", required = true),
-    	@ApiImplicitParam(name = "api-key", dataType = "string", 
-			paramType = "header", value = "api key", required = true)
-    })
+//    @ApiOperation("Search for users by their name, sex, email")
+//    @ApiImplicitParams({
+//    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
+//    			paramType = "header", value = "Authorization token", required = true),
+//    	@ApiImplicitParam(name = "api-key", dataType = "string", 
+//			paramType = "header", value = "api key", required = true)
+//    })
     @RequestMapping(value = "/search", method = RequestMethod.POST, 
     	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ContentResponse<Page<UserDTO>>> search(@RequestBody UserDTO criteria, Pageable paging) {
@@ -69,13 +69,13 @@ public class UserAPIController {
  
     // -------------------Create a User-------------------------------------------
  
-    @ApiOperation("Create a new user")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
-    			paramType = "header", value = "Authorization token", required = true),
-    	@ApiImplicitParam(name = "api-key", dataType = "string", 
-			paramType = "header", value = "api key", required = true)
-    })
+//    @ApiOperation("Create a new user")
+//    @ApiImplicitParams({
+//    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
+//    			paramType = "header", value = "Authorization token", required = true),
+//    	@ApiImplicitParam(name = "api-key", dataType = "string", 
+//			paramType = "header", value = "api key", required = true)
+//    })
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody User user) {
         User savedUser = userService.saveUser(user);

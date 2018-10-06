@@ -5,10 +5,10 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 
 import org.apache.tomcat.jdbc.pool.PoolProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

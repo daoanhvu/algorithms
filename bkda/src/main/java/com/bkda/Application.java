@@ -8,7 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author davu
  */
 
-@SpringBootApplication(scanBasePackages={"com.bkda", "com.bkda.config"})
+@SpringBootApplication(scanBasePackages={
+		"com.bkda", 
+		"com.bkda.service", 
+		"com.bkda.config",
+		"com.bkda.controller"
+		})
 public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
