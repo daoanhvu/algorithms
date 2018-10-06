@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bkda.dto.ContentResponse;
 import com.bkda.dto.CredentialsDTO;
 import com.bkda.dto.SigninDTO;
+import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
 import com.bkda.model.User;
 import com.bkda.service.UserService;
@@ -77,7 +78,7 @@ public class UserAPIController {
 //			paramType = "header", value = "api key", required = true)
 //    })
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody User user) {
+    public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody SignupDTO user) {
         User savedUser = userService.saveUser(user);
         UserDTO userDto = new UserDTO(savedUser);
         ContentResponse<UserDTO> response = new ContentResponse<>();
@@ -85,14 +86,14 @@ public class UserAPIController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
  
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, @RequestBody User user) {
-        User savedUser = userService.saveUser(user);
-        UserDTO userDto = new UserDTO(savedUser);
-        ContentResponse<UserDTO> response = new ContentResponse<>();
-        response.setContent(userDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+//    public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, @RequestBody User user) {
+//        User savedUser = userService.saveUser(user);
+//        UserDTO userDto = new UserDTO(savedUser);
+//        ContentResponse<UserDTO> response = new ContentResponse<>();
+//        response.setContent(userDto);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
  
     // ------------------- User Signin -----------------------------------------
  

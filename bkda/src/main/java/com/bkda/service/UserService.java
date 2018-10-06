@@ -7,11 +7,13 @@ import org.springframework.data.domain.Pageable;
 
 import com.bkda.dto.CredentialsDTO;
 import com.bkda.dto.SigninDTO;
+import com.bkda.dto.SignupDTO;
+import com.bkda.dto.UserDTO;
 import com.bkda.model.User;
 
 public interface UserService {
 	User findUserById(long id);
-	User saveUser(User user);
+	User saveUser(SignupDTO user);
 	CredentialsDTO signin(SigninDTO signinDTO);
 	List<User> getUsersByName(String name);
 	Page<User> search(String username, String firstname, String lastname, Character sex, Pageable paging);

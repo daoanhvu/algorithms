@@ -1,6 +1,9 @@
 package com.bkda.service;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +21,8 @@ import com.bkda.dao.UserDAO;
 import com.bkda.dto.CredentialsDTO;
 import com.bkda.dto.ErrorContent;
 import com.bkda.dto.SigninDTO;
+import com.bkda.dto.SignupDTO;
+import com.bkda.dto.UserDTO;
 import com.bkda.exception.BKDAServiceException;
 import com.bkda.exception.MultiErrorsException;
 import com.bkda.model.User;
@@ -73,7 +78,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User saveUser(User user) {
+	public User saveUser(SignupDTO signupDto) {
+		List<ErrorContent> errors = validateSignup(signupDto);
+		if( errors.size() > 0 ) {
+			throw new MultiErrorsException(errors, "Login fails");
+		}
+		User user = new User();
+		user.setUsername(signupDto.getUserName());
+		user.setFirstName(signupDto.getFirstName());
+		user.setLastName(signupDto.getLastName());
+		user.setSex(signupDto.getSex());
+		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
 		userDAO.saveUser(user);
 		return user;
 	}
@@ -106,6 +121,25 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return credentials;
+	}
+	
+	private List<ErrorContent> validateSignup(SignupDTO signinDTO) {
+		List<ErrorContent> errors = new ArrayList<>();
+		List<String> lstGrantTypes = Arrays.stream(grantTypes).collect(Collectors.toList());
+		
+		if( !lstGrantTypes.contains(signinDTO.getUserName()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_USERNAME_MISSING, "Username missing"));
+		}
+		
+		if( StringUtils.isEmpty(signinDTO.getPassword()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_PASSWORD_MISSING, "Password missing"));
+		}
+		
+		if( StringUtils.isEmpty(signinDTO.getFirstName()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_FIRSTNAME_MISSING, "First name missing"));
+		}
+			
+		return errors;
 	}
 	
 	private List<ErrorContent> validateLogin(SigninDTO signinDTO) {

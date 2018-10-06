@@ -16,5 +16,7 @@ public final class Constants {
     public static final int ERROR_USERNAME_MISSING = 1004;
     public static final int ERROR_PASSWORD_MISSING = 1005;
     public static final int ERROR_PASSWORD_STRENGTH = 1006;
+    public static final int ERROR_FIRSTNAME_MISSING = 1007;
+    public static final int ERROR_LASTNAME_MISSING = 1008;
 }
 
