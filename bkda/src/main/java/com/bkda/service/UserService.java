@@ -13,7 +13,7 @@ import com.bkda.model.User;
 
 public interface UserService {
 	User findUserById(long id);
-	User saveUser(SignupDTO user);
+	User updateUser(User user);
 	User signup(SignupDTO user);
 	CredentialsDTO signin(SigninDTO signinDTO);
 	List<User> getUsersByName(String name);

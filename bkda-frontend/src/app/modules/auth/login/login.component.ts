@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { AuthenticationService } from "@app/services/auth.service";
+import { AuthenticationService } from '@app/services/auth.service';
 import { HttpService } from '@app/core/http/http.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
      }
 
     ngOnInit() {
-        if( this.authenService.isAuthenticated() ) {
+        if ( this.authenService.isAuthenticated() ) {
             this.router.navigate(['/'], { replaceUrl: true });
         }
         this.onChanges();

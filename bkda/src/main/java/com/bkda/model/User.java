@@ -36,6 +36,9 @@ public class User extends GenericObject {
 	@Column(name="username")
 	private String username;
 	
+	@Column(name="password")
+	private String password;
+	
 	@Column(name="email")
 	private String email;
 	
@@ -58,17 +61,17 @@ public class User extends GenericObject {
 	
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "usernetworks",
+			name = "usergroups",
 			joinColumns = { @JoinColumn(name = "owner" ) },
-			inverseJoinColumns = { @JoinColumn(name = "member") }
+			inverseJoinColumns = { @JoinColumn(name = "group_id") }
 			)
-	private Set<User> members = new HashSet<>();
+	private Set<Group> groups = new HashSet<>();
 	
-	public Set<User> getMembers() {
-		return members;
+	public Set<Group> getGroups() {
+		return groups;
 	}
-	public void setMembers(Set<User> members) {
-		this.members = members;
+	public void setGroups(Set<Group> grps) {
+		this.groups = grps;
 	}
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -113,4 +116,23 @@ public class User extends GenericObject {
 	public void setUsername(String userName) {
 		this.username = userName;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Media getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(Media avatar) {
+		this.avatar = avatar;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
 }

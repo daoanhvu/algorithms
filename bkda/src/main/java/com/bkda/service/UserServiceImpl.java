@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User saveUser(SignupDTO signupDto) {
+	public User updateUser(User user) {
 		throw new NotImplementedException("");
 	}
 
@@ -92,6 +92,10 @@ public class UserServiceImpl implements UserService {
 		}
 		User user = new User();
 		user.setUsername(signupDto.getUsername());
+		String sha256hexPassword = Hashing.sha256()
+				  .hashString(signupDto.getPassword(), StandardCharsets.UTF_8)
+				  .toString();
+		user.setPassword(sha256hexPassword);
 		user.setFirstName(signupDto.getFirstName());
 		user.setLastName(signupDto.getLastName());
 		user.setSex(signupDto.getSex()==null?'F':signupDto.getSex());
@@ -149,6 +153,26 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		if( StringUtils.isEmpty(signupDTO.getFirstName()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_FIRSTNAME_MISSING, "First name missing"));
+		}
+			
+		return errors;
+	}
+	
+	private List<ErrorContent> validateUpdate(User user) {
+		List<ErrorContent> errors = new ArrayList<>();
+		
+		if( StringUtils.isBlank(user.getUsername()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_USERNAME_MISSING, "Username missing"));
+		} else if( !DataHelper.checkEmail(user.getUsername()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_USERNAME_MISSING, "Username is not a valid email"));
+		}
+		
+		if( StringUtils.isEmpty(user.getPassword()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_PASSWORD_MISSING, "Password missing"));
+		}
+		
+		if( StringUtils.isEmpty(user.getFirstName()) ) {
 			errors.add(new ErrorContent(Constants.ERROR_FIRSTNAME_MISSING, "First name missing"));
 		}
 			

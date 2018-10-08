@@ -50,12 +50,12 @@
         <security:custom-filter ref="jwtAuthenticationProcessingFilter"
                                 position="FORM_LOGIN_FILTER" />
 
-        <security:intercept-url pattern="/api/v1/loc"
+        <security:intercept-url pattern="/api/v1/users/*"
                                 access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"
-                                method="POST"/>
-        <security:intercept-url pattern="/api/v1/loc/byuser"
+                                method="PUT"/>
+        <security:intercept-url pattern="/api/v1/users/*"
                                 access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"
-                                method="POST"/>
+                                method="GET"/>
 
     </security:http>
 

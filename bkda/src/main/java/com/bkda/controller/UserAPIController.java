@@ -60,11 +60,10 @@ public class UserAPIController {
     // -------------------Retrieve Single User------------------------------------------
  
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ContentResponse<UserDTO>> getUser(@PathVariable("id") int id) {
+    public ResponseEntity<ContentResponse<User>> getUser(@PathVariable("id") int id) {
         User user = userService.findUserById(id);
-        UserDTO userDto = new UserDTO(user);
-        ContentResponse<UserDTO> response = new ContentResponse<>();
-        response.setContent(userDto);
+        ContentResponse<User> response = new ContentResponse<>();
+        response.setContent(user);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
  
@@ -79,7 +78,7 @@ public class UserAPIController {
 //    })
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody SignupDTO user) {
-        User savedUser = userService.saveUser(user);
+        User savedUser = userService.signup(user);
         UserDTO userDto = new UserDTO(savedUser);
         ContentResponse<UserDTO> response = new ContentResponse<>();
         response.setContent(userDto);
@@ -95,14 +94,15 @@ public class UserAPIController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
  
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, @RequestBody User user) {
-//        User savedUser = userService.saveUser(user);
-//        UserDTO userDto = new UserDTO(savedUser);
-//        ContentResponse<UserDTO> response = new ContentResponse<>();
-//        response.setContent(userDto);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, 
+    			@RequestBody User user) {
+        User savedUser = userService.updateUser(user);
+        UserDTO userDto = new UserDTO(savedUser);
+        ContentResponse<UserDTO> response = new ContentResponse<>();
+        response.setContent(userDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
  
     // ------------------- User Signin -----------------------------------------
  
