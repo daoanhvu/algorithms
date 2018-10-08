@@ -10,6 +10,13 @@ public class BaseResponse implements Serializable {
 	
 	private int internalCode;
 	private String message;
+	
+	public BaseResponse() { }
+	
+	public BaseResponse(int code, String message) {
+		this.internalCode = code;
+		this.message = message;
+	}
 
 	public String getMessage() {
 		return message;

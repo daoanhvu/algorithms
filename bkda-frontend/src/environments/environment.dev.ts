@@ -8,10 +8,10 @@
 
 export const environment = {
   production: false,
-  aljUrl: 'https://envconfig-dev.karrostech.io/dev',
+  apiUrl: 'http://127.0.0.1:8090/bkda',
   grantType: 'resource_owner',
-  clientId: '0844c776530ac4da07fdbbe3e588ee642a13657e',
-  scope: 'System Management',
+  clientId: '123456789',
+  scope: 'bkda-web',
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',

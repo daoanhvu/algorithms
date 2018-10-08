@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,7 @@ import com.bkda.dto.UserDTO;
 import com.bkda.exception.BKDAServiceException;
 import com.bkda.exception.MultiErrorsException;
 import com.bkda.model.User;
+import com.bkda.util.DataHelper;
 import com.google.common.hash.Hashing;
 
 @Service("userService")
@@ -76,20 +78,30 @@ public class UserServiceImpl implements UserService {
 	public boolean isUserExist(long id) {
 		return userDAO.isUserExist(id);
 	}
-
+	
 	@Override
 	public User saveUser(SignupDTO signupDto) {
+		throw new NotImplementedException("");
+	}
+
+	@Override
+	public User signup(SignupDTO signupDto) {
 		List<ErrorContent> errors = validateSignup(signupDto);
 		if( errors.size() > 0 ) {
 			throw new MultiErrorsException(errors, "Login fails");
 		}
 		User user = new User();
-		user.setUsername(signupDto.getUserName());
+		user.setUsername(signupDto.getUsername());
 		user.setFirstName(signupDto.getFirstName());
 		user.setLastName(signupDto.getLastName());
-		user.setSex(signupDto.getSex());
+		user.setSex(signupDto.getSex()==null?'F':signupDto.getSex());
 		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
 		userDAO.saveUser(user);
+		
+		// TODO: write user log
+		// This should be implemented with Aspect programming
+		
+		
 		return user;
 	}
 
@@ -123,19 +135,20 @@ public class UserServiceImpl implements UserService {
 		return credentials;
 	}
 	
-	private List<ErrorContent> validateSignup(SignupDTO signinDTO) {
+	private List<ErrorContent> validateSignup(SignupDTO signupDTO) {
 		List<ErrorContent> errors = new ArrayList<>();
-		List<String> lstGrantTypes = Arrays.stream(grantTypes).collect(Collectors.toList());
 		
-		if( !lstGrantTypes.contains(signinDTO.getUserName()) ) {
+		if( StringUtils.isBlank(signupDTO.getUsername()) ) {
 			errors.add(new ErrorContent(Constants.ERROR_USERNAME_MISSING, "Username missing"));
+		} else if( !DataHelper.checkEmail(signupDTO.getUsername()) ) {
+			errors.add(new ErrorContent(Constants.ERROR_USERNAME_MISSING, "Username is not a valid email"));
 		}
 		
-		if( StringUtils.isEmpty(signinDTO.getPassword()) ) {
+		if( StringUtils.isEmpty(signupDTO.getPassword()) ) {
 			errors.add(new ErrorContent(Constants.ERROR_PASSWORD_MISSING, "Password missing"));
 		}
 		
-		if( StringUtils.isEmpty(signinDTO.getFirstName()) ) {
+		if( StringUtils.isEmpty(signupDTO.getFirstName()) ) {
 			errors.add(new ErrorContent(Constants.ERROR_FIRSTNAME_MISSING, "First name missing"));
 		}
 			

@@ -85,6 +85,15 @@ public class UserAPIController {
         response.setContent(userDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    
+    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<ContentResponse<UserDTO>> signup(@RequestBody SignupDTO user) {
+        User savedUser = userService.signup(user);
+        UserDTO userDto = new UserDTO(savedUser);
+        ContentResponse<UserDTO> response = new ContentResponse<>();
+        response.setContent(userDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
  
 //    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 //    public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, @RequestBody User user) {

@@ -7,7 +7,7 @@ export const environment = {
   clientId: '123456789',
   scope: 'bkda-web',
   grantType: 'resource_owner',
-  apiUrl: 'http://localhost:8090'
+  apiUrl: 'http://localhost:8090/bkda'
 };
 
 /*

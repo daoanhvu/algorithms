@@ -46,12 +46,16 @@ amqp:
   vhost: /
   host: localhost
 
-security:
-  jwt:
-    tokenSigninKey: 5776bf874388d3c2ab89810739275b649fe740ba12
-    Issuer: bkda.com
-  basic:
-    enabled: false
+# Spring Security configurations
+security.jwt:
+  tokenExpirationTime: 120 # Number of minutes
+  refreshTokenExpTime: 60 # Minutes
+  tokenIssuer: http://myplace.com
+  # base 64 encoded signing key
+  tokenSigningKey: 5776bf874388d3c2ab89810739275b649fe740ba12
+  securedAuthenticationEntryUrl: /api/**
+  Issuer: bkda.com
+  unsecuredPaths: [/api-docs/**, /configuration/ui, /swagger-resources, /configuration/security, /swagger-ui.html, /swagger-ui.html/**, /webjars/**, /swagger-resources/configuration/ui,/swagger-resources/configuration/security, /manage/**,/hystrix.stream]
     
 logging:
   level:

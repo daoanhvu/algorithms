@@ -22,7 +22,7 @@ export class AuthenticationService {
 
     };
 
-    return this.http.post('api/v1/users/signin', params).pipe(
+    return this.http.post('/api/v1/users/signin', params).pipe(
       map( (res: any) => {
         if (res && res.body) {
           const accessToken: string = res.body.accessToken;

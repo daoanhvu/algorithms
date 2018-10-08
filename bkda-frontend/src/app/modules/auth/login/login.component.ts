@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        if( this.formGroup.invalid ) {
+        if ( this.formGroup.invalid ) {
             return;
         }
 
@@ -56,8 +56,8 @@ export class LoginComponent implements OnInit {
                 this.isLoading = false;
             }))
             .subscribe( response => {
-                var statusCode = response['statusCode'];
-                if( statusCode === 200 ) {
+                const statusCode = response['statusCode'];
+                if ( statusCode === 200 ) {
                     this.router.navigate(['/'], { replaceUrl: true });
                 } else {
                     this.onLoginFailed('signinFailed');

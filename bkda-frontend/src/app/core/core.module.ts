@@ -7,22 +7,22 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MaterialModule } from '@app/material.module';
 import { RouteReusableStrategy } from './route-reusable-strategy';
-import { CanActivateGuard } from './can-activate.guard';
 // import { I18nService } from './i18n.service';
+import { AuthenticationGuard } from './authentication/authentication.guard';
 import { HttpService, HttpCacheService, ApiPrefixInterceptor,
     ErrorHandlerInterceptor, CacheInterceptor } from './http';
-import { AuthenticationService, JwtService, TenantService,
-    EnvConfigService, QueryDslService, PermissionService} from './services';
+import { AuthenticationService } from '@app/services/auth.service';
+import { JwtService } from '@app/services/jwt.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, TranslateModule, FlexLayoutModule, MaterialModule, RouterModule],
   declarations: [],
   providers: [
-    CanActivateGuard,
     // I18nService,
     HttpCacheService,
     ApiPrefixInterceptor,
     ErrorHandlerInterceptor,
+    AuthenticationGuard,
     CacheInterceptor,
     HttpService,
     {
@@ -30,11 +30,7 @@ import { AuthenticationService, JwtService, TenantService,
       useClass: RouteReusableStrategy
     },
     JwtService,
-    AuthenticationService,
-    TenantService,
-    EnvConfigService,
-    QueryDslService,
-    PermissionService
+    AuthenticationService
   ]
 })
 export class CoreModule {

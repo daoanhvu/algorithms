@@ -14,6 +14,7 @@ import com.bkda.model.User;
 public interface UserService {
 	User findUserById(long id);
 	User saveUser(SignupDTO user);
+	User signup(SignupDTO user);
 	CredentialsDTO signin(SigninDTO signinDTO);
 	List<User> getUsersByName(String name);
 	Page<User> search(String username, String firstname, String lastname, Character sex, Pageable paging);

@@ -13,7 +13,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const fullURL = request.url.startsWith('http')
       ? request.url
-      : localStorage.getItem('serverUrl') + '/api' + request.url;
+      : environment.apiUrl + request.url;
     request = request.clone({ url: fullURL });
     return next.handle(request);
   }
