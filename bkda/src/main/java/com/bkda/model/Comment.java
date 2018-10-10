@@ -11,13 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="comments")
-public class Comment {
-	//yhyhyhy
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="commentid")
-	private long id;
+public class Comment extends GenericObject {
 	
 	@ManyToOne
 	@JoinColumn(name="userid")
@@ -29,14 +23,6 @@ public class Comment {
 	
 	@Column(name="content")
 	private String content;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public User getUser() {
 		return user;

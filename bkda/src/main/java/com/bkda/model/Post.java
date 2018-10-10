@@ -13,12 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="posts")
-public class Post {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="postid")
-	private long id;
+public class Post extends GenericObject {
 	
 	@ManyToOne
 	@JoinColumn(name="userid")
@@ -30,14 +25,6 @@ public class Post {
 		
 	@Column(name="content")
 	private String content;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public User getUser() {
 		return user;

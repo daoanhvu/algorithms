@@ -11,11 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="medias")
-public class Media {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="mediaid")
-	private long id;
+public class Media extends GenericObject {
 	
 	@ManyToOne
 	@JoinColumn(name="userid")
@@ -32,14 +28,6 @@ public class Media {
 	
 	@Column(name="path")
 	private String path;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public User getUser() {
 		return user;

@@ -62,7 +62,7 @@ public class User extends GenericObject {
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "usergroups",
-			joinColumns = { @JoinColumn(name = "owner" ) },
+			joinColumns = { @JoinColumn(name = "member" ) },
 			inverseJoinColumns = { @JoinColumn(name = "group_id") }
 			)
 	private Set<Group> groups = new HashSet<>();

@@ -81,6 +81,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User updateUser(User user) {
+		List<ErrorContent> errors = validateUpdate(user);
+		if(errors.size() > 0) {
+			throw new MultiErrorsException(errors, "Update fails");
+		}
 		throw new NotImplementedException("");
 	}
 

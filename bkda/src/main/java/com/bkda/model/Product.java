@@ -11,12 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="products")
-public class Product {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="prodid")
-	private int id;
+public class Product extends GenericObject {
 	
 	@Column(name="description")
 	private String description;
@@ -35,12 +30,6 @@ public class Product {
 	@Column(name="instock")
 	private int numberOfInstock;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getDescription() {
 		return description;
 	}
