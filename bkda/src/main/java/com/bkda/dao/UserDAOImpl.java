@@ -7,9 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bkda.entity.User;
+import com.bkda.model.User;
+
 @Repository(value="userDAO")
 public class UserDAOImpl implements UserDAO {
 	
@@ -17,16 +22,14 @@ public class UserDAOImpl implements UserDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public User findUserById(int id) {
+	public User findUserById(long id) {
 		User user = entityManager.find(User.class, id);
 		return user;
 	}
 
+	@Transactional
 	@Override
-	public int addNewUser(User user) {
-//		if(user.getId() <= 0)
-//			user.setStartDate(new Date());
-		
+	public long saveUser(User user) {		
 		this.entityManager.persist(user);
 		return user.getId();
 	}
@@ -45,18 +48,36 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> allUsers() {
-		List<User> result;
-		String strQuery = "FROM User";
-		Query query = this.entityManager.createQuery(strQuery);
+	public Page<User> search(String username, String firstname, 
+							String lastname, Character sex, Pageable paging) {
+		
+		List<User> result =  null;
+		String whereClause = "where ( ( :username = null ) or ( u.username like :username ) ) "
+				+ "and ( ( :firstname = null ) or (u.firstName like :firstname) ) "
+				+ "and ( ( :lastname = null ) or (u.lastName like :lastname) ) ";
+		String strQuery = "select u from User ";
+		String countQueryStr = "select count(*) from User ";
+		
+		Query countQuery = this.entityManager.createQuery(countQueryStr + whereClause);
+		countQuery.setParameter("username", username);
+		countQuery.setParameter("firstName", firstname);
+		countQuery.setParameter("lastName", lastname);
+		long total = (Long)countQuery.getSingleResult();
+		
+		Query query = this.entityManager.createQuery(strQuery + whereClause);
+		query.setParameter("username", username);
+		query.setParameter("firstName", firstname);
+		query.setParameter("lastName", lastname);
+		query.setFirstResult((int)paging.getOffset());
+		query.setMaxResults(paging.getPageSize());
 		result = (List<User>)query.getResultList();
-		return result;
+		Page<User> page = new PageImpl<>(result, paging, total);
+		return page;
 	}
 
 	@Override
-	public boolean isUserExist(int id) {
+	public boolean isUserExist(long id) {
 //		System.out.println("isUserExist: " + id);
 		User u = entityManager.find(User.class, id);
 		return (u != null);
@@ -65,7 +86,8 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean updateUser(User user) {
-		String sql = "UPDATE users set firstname=:firstname, lastname=:lastname, email=:email, phonenumber=:phonenumber where id=:userid";
+		String sql = "UPDATE users set firstname=:firstname, "
+				+ "lastname=:lastname, email=:email, phonenumber=:phonenumber where id=:userid";
 		Query updateQ = entityManager.createNativeQuery(sql);
 		updateQ.setParameter("userid",user.getId());
 		updateQ.setParameter("firstname",user.getFirstName());
@@ -75,4 +97,13 @@ public class UserDAOImpl implements UserDAO {
 		return updateQ.executeUpdate()>0?true:false;
 	}
 
+	@Override
+	public User checkSignin(String username, String hashedPassword) {
+		String strQuery = "from User "
+				+ "where username = :username and password = :password";
+		Query query = this.entityManager.createQuery(strQuery);
+		query.setParameter("username", username);
+		query.setParameter("password", hashedPassword);
+		return (User) query.getSingleResult();
+	}
 }

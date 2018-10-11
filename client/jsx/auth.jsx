@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Link, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Link, Route, Redirect } from 'react-router-dom';
 import LoginPane from './login.jsx';
 import ManagedUserForm from './manageuser.jsx';
 
@@ -19,17 +19,19 @@ class AuthExaminer extends React.Component {
         var self = this;
         return (
                 <BrowserRouter>
-                    <div>
+                    <React.Fragment>
                         <ul>
                             <li><Link to='/bkda/public' >Go to public page</Link></li>
                             <li><Link to='/bkda/protected' >Go to protected page</Link></li>
                         </ul>
-                        <Route path='/bkda/public' component={Public} />
-                        <Route path='/bkda/login' component={LoginPane} />
-                        <PrivateRoute authed={false} path='/bkda/protected' component={ManagedUserForm} />
-                    </div>
+                        <Switch>
+                            <Route path='/bkda/public' component={Public} />
+                            <Route path='/bkda/login' component={LoginPane} />
+                            <PrivateRoute authed={false} path='/bkda/protected' component={ManagedUserForm} />
+                        </Switch>
+                    </React.Fragment>
                 </BrowserRouter>
-                );
+            );
     }
 };
 

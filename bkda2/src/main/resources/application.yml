@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  context-path: /bkda2
+  
+spring:
+  profiles: local
+  
+datasource:
+  hsql: 
+    url: jdbc:hsqldb:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.hsqldb.jdbcDriver
+    defaultSchema: 
+    hibernate:
+      hbm2ddl.method: create-drop
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.HSQLDialect
+      
+  mysql:
+    url: jdbc:mysql://localhost:3306/bkda
+    username: myuser
+    password: mypassword
+    driverClassName: com.mysql.jdbc.Driver
+    defaultSchema:
+    maxPoolSize: 20
+    hibernate:
+      hbm2ddl.method: update
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQLDialect
+      
+logging:
+  level:
+    org.springframework.web: debug
+    org.hibernate: error
+  file: /Volumes/Data/projects/bkda/log/log2.txt
+    

@@ -2,13 +2,17 @@ package com.bkda.dao;
 
 import java.util.List;
 
-import com.bkda.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.bkda.model.User;
 
 public interface UserDAO {
 	boolean updateUser(User user);
-	User findUserById(int id);
-	int addNewUser(User user);
+	User findUserById(long id);
+	User checkSignin(String username, String hashedPassword);
+	long saveUser(User user);
 	List<User> getUsersByName(String name);
-	List<User> allUsers();
-	boolean isUserExist(int id);
+	Page<User> search(String username, String lastname, String firstname, Character sex, Pageable paging);
+	boolean isUserExist(long id);
 }

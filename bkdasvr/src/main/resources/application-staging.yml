@@ -1,0 +1,44 @@
+server:
+  port: 9077
+  context-path: /bkda
+  
+
+#eureka:
+#   client:
+#      serviceUrl:
+#         defaultZone: http://127.0.0.1:7821/eureka
+#ribbon:
+#   eureka:
+#      enabled: true
+
+#Configure Spring JPA
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.spatial.dialect.h2geodb.GeoDBDialect
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.spatial.dialect.h2geodb.GeoDBDialect
+      ddl-auto: create-drop
+      default_schema: bkda
+      
+bkda:
+  datasource:
+    type: H2
+    url: jdbc:h2:file:/home/vdao/data/myplaces
+    username: sa
+    password: 
+    driverClassName: org.h2.Driver
+#    defaultSchema: authbkda
+    maxPoolSize: 10
+    tomcat:
+       max-active: 5
+       max-wait: 5000
+       initialSize: 10
+       test-on-borrow: true
+        
+security:
+  basic:
+    enabled: false

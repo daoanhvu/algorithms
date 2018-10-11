@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:debug />
+
+    <bean name="jwtSettings" class="com.bkda.security.JWTSettings">
+    </bean>
+
+    <bean name="jwtAuthenticationFailureHandler"
+          class="com.bkda.security.JWTAuthenticationFailureHandler">
+    </bean>
+
+    <bean name="jwtAuthenticationProvider"
+          class="com.bkda.security.JWTAuthenticationProvider">
+    </bean>
+
+    <!--<bean name="jWTHeaderExtractor"-->
+          <!--class="com.bkda.security.JwtHeaderExtractor">-->
+    <!--</bean>-->
+
+    <!-- Authentication manager config -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="jwtAuthenticationProvider" />
+    </security:authentication-manager>
+    <!-- This is where we configure Spring-Security -->
+    <security:global-method-security
+            authentication-manager-ref="authenticationManager"
+            pre-post-annotations="enabled" />
+
+    <bean name="jwtAuthenticationProcessingFilter" class="com.bkda.security.JWTAuthenticationProcessingFilter">
+        <property name="failureHandler" ref="jwtAuthenticationFailureHandler" />
+        <property name="jwtSettings" ref="jwtSettings" />
+        <property name="tokenExtractor" ref="jwtHeaderExtractor" />
+        <property name="authenticationManager" ref="authenticationManager" />
+    </bean>
+    
+    <bean id="bkdaCorsConfigSource" class="org.springframework.web.cors.UrlBasedCorsConfigurationSource">
+        <property name="corsConfigurations">
+            <map>
+                <entry key="/**" value-ref="bkdaCosrConfig"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="bkdaCosrConfig" class="org.springframework.web.cors.CorsConfiguration">
+        <property name="allowedOrigins" value="*"/>
+        <property name="allowedHeaders" value="*"/>
+        <property name="allowedMethods" value="*"/>
+        <property name="allowCredentials" value="true"/>
+        <property name="exposedHeaders">
+            <list>
+                <value>X-Total-Count</value>
+                <value>Content-Disposition</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- This is where we configure Spring-Security -->
+    <security:http pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint"
+                   use-expressions="true" create-session="stateless"
+                   authentication-manager-ref="authenticationManager">
+        <security:csrf disabled="true" />
+        <security:cors configuration-source-ref="bkdaCorsConfigSource" />
+        <!-- Allow Swagger endpoints to be allowed and Actuator endpoints -->
+        <security:custom-filter ref="jwtAuthenticationProcessingFilter"
+                                position="FORM_LOGIN_FILTER" />
+        
+        <!-- Allow none secured endpoint such as signup asignin to bypass -->
+        <security:intercept-url pattern="/api/v1/users/signup" access="permitAll" method="POST" />
+        <security:intercept-url pattern="/api/v1/users/signin" access="permitAll" method="POST" />
+
+        <security:intercept-url pattern="/api/v1/users/*"
+                                access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"
+                                method="PUT"/>
+        <security:intercept-url pattern="/api/v1/users/*"
+                                access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"
+                                method="GET"/>
+
+    </security:http>
+
+
+</beans>

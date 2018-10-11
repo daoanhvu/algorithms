@@ -1,113 +1,116 @@
 package com.bkda.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bkda.entity.CustomErrorType;
-import com.bkda.entity.User;
+import com.bkda.dto.ContentResponse;
+import com.bkda.dto.CredentialsDTO;
+import com.bkda.dto.SigninDTO;
+import com.bkda.dto.SignupDTO;
+import com.bkda.dto.UserDTO;
+import com.bkda.model.User;
 import com.bkda.service.UserService;
 
+//import io.swagger.annotations.ApiImplicitParam;
+//import io.swagger.annotations.ApiImplicitParams;
+//import io.swagger.annotations.ApiOperation;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/users")
 public class UserAPIController {
-	public static final Logger logger = LoggerFactory.getLogger(UserAPIController.class);
-	 
+ 
     @Autowired
     UserService userService; //Service which will do all data retrieval/manipulation work
  
     // -------------------Retrieve All Users---------------------------------------------
  
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() {
-        List<User> users = userService.allUsers();
-        if (users.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-        }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+//    @ApiOperation("Search for users by their name, sex, email")
+//    @ApiImplicitParams({
+//    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
+//    			paramType = "header", value = "Authorization token", required = true),
+//    	@ApiImplicitParam(name = "api-key", dataType = "string", 
+//			paramType = "header", value = "api key", required = true)
+//    })
+    @RequestMapping(value = "/search", method = RequestMethod.POST, 
+    	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ContentResponse<Page<UserDTO>>> search(@RequestBody UserDTO criteria, Pageable paging) {
+        Page<User> page = userService.search(criteria.getEmail(), 
+        		criteria.getFirstName(), criteria.getLastName(), criteria.getSex(), paging);
+        List<UserDTO> userDtos = page.getContent().stream().map(UserDTO::new).collect(Collectors.toList());
+        Page<UserDTO> p = new PageImpl<>(userDtos, paging, page.getTotalElements());
+        ContentResponse<Page<UserDTO>> result = new ContentResponse<>();
+        result.setContent(p);
+        
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
  
     // -------------------Retrieve Single User------------------------------------------
  
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable("id") int id) {
-        logger.info("Fetching User with id {}", id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ContentResponse<User>> getUser(@PathVariable("id") int id) {
         User user = userService.findUserById(id);
-        if (user == null) {
-            logger.error("User with id {} not found.", id);
-            return new ResponseEntity(new CustomErrorType("User with id " + id 
-                    + " not found"), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        ContentResponse<User> response = new ContentResponse<>();
+        response.setContent(user);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
  
     // -------------------Create a User-------------------------------------------
  
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-        logger.info("Creating User : {}" + user);
- 
-        if (userService.isUserExist(user.getId())) {
-            logger.error("Unable to create. A User with name {} already exist", user.getLastName());
-            return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to create. A User with name " + 
-            user.getLastName() + " already exist."), HttpStatus.CONFLICT);
-        }
-        userService.saveUser(user);
- 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
-        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+//    @ApiOperation("Create a new user")
+//    @ApiImplicitParams({
+//    	@ApiImplicitParam(name = "Authorization", dataType = "string", 
+//    			paramType = "header", value = "Authorization token", required = true),
+//    	@ApiImplicitParam(name = "api-key", dataType = "string", 
+//			paramType = "header", value = "api key", required = true)
+//    })
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<ContentResponse<UserDTO>> createUser(@RequestBody SignupDTO user) {
+        User savedUser = userService.signup(user);
+        UserDTO userDto = new UserDTO(savedUser);
+        ContentResponse<UserDTO> response = new ContentResponse<>();
+        response.setContent(userDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    
+    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<ContentResponse<UserDTO>> signup(@RequestBody SignupDTO user) {
+        User savedUser = userService.signup(user);
+        UserDTO userDto = new UserDTO(savedUser);
+        ContentResponse<UserDTO> response = new ContentResponse<>();
+        response.setContent(userDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
  
-    // ------------------- Update a User ------------------------------------------------
- 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody User user) {
-        logger.info("Updating User with id {}", id);
- 
-        User currentUser = userService.findUserById(id);
- 
-        if (currentUser == null) {
-            logger.error("Unable to update. User with id {} not found.", id);
-            return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
- 
-        currentUser.setFirstName(user.getFirstName());
-//        currentUser.setAge(user.getAge());
-//        currentUser.setSalary(user.getSalary());
- 
-        userService.saveUser(currentUser);
-        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<ContentResponse<UserDTO>> updateUser(@PathVariable("id") int id, 
+    			@RequestBody User user) {
+        User savedUser = userService.updateUser(user);
+        UserDTO userDto = new UserDTO(savedUser);
+        ContentResponse<UserDTO> response = new ContentResponse<>();
+        response.setContent(userDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
  
-    // ------------------- Delete a User-----------------------------------------
+    // ------------------- User Signin -----------------------------------------
  
-//    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-//    public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
-//        logger.info("Fetching & Deleting User with id {}", id);
-// 
-//        User user = userService.findById(id);
-//        if (user == null) {
-//            logger.error("Unable to delete. User with id {} not found.", id);
-//            return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
-//                    HttpStatus.NOT_FOUND);
-//        }
-//        userService.deleteUserById(id);
-//        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//    }
+    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    public ResponseEntity<CredentialsDTO> signin(@RequestBody SigninDTO signinDTO) {
+        CredentialsDTO result = userService.signin(signinDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
  
     // ------------------- Delete All Users-----------------------------
  

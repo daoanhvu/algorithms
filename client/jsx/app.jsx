@@ -18,7 +18,7 @@ class App extends React.Component {
                 <h1>THIS IS FROM REACT!!!</h1>
                 <AuthExaminer />
            </div>
-                );
+        );
     }
 };
 
