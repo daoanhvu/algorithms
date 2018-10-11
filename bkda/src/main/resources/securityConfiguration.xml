@@ -40,15 +40,41 @@
         <property name="tokenExtractor" ref="jwtHeaderExtractor" />
         <property name="authenticationManager" ref="authenticationManager" />
     </bean>
+    
+    <bean id="bkdaCorsConfigSource" class="org.springframework.web.cors.UrlBasedCorsConfigurationSource">
+        <property name="corsConfigurations">
+            <map>
+                <entry key="/**" value-ref="bkdaCosrConfig"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="bkdaCosrConfig" class="org.springframework.web.cors.CorsConfiguration">
+        <property name="allowedOrigins" value="*"/>
+        <property name="allowedHeaders" value="*"/>
+        <property name="allowedMethods" value="*"/>
+        <property name="allowCredentials" value="true"/>
+        <property name="exposedHeaders">
+            <list>
+                <value>X-Total-Count</value>
+                <value>Content-Disposition</value>
+            </list>
+        </property>
+    </bean>
 
     <!-- This is where we configure Spring-Security -->
     <security:http pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint"
                    use-expressions="true" create-session="stateless"
                    authentication-manager-ref="authenticationManager">
         <security:csrf disabled="true" />
+        <security:cors configuration-source-ref="bkdaCorsConfigSource" />
         <!-- Allow Swagger endpoints to be allowed and Actuator endpoints -->
         <security:custom-filter ref="jwtAuthenticationProcessingFilter"
                                 position="FORM_LOGIN_FILTER" />
+        
+        <!-- Allow none secured endpoint such as signup asignin to bypass -->
+        <security:intercept-url pattern="/api/v1/users/signup" access="permitAll" method="POST" />
+        <security:intercept-url pattern="/api/v1/users/signin" access="permitAll" method="POST" />
 
         <security:intercept-url pattern="/api/v1/users/*"
                                 access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"

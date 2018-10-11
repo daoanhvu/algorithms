@@ -1,4 +1,7 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
+import { ProductListComponent } from '@app/modules/products/productlist/productlist.component';
 
-@NgModule({})
+@NgModule({
+    declarations: [ ProductListComponent ]
+})
 export class ProductModule { }

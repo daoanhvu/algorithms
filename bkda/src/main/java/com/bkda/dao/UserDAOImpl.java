@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bkda.model.User;
 
@@ -26,11 +27,9 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	@Transactional
 	@Override
-	public long saveUser(User user) {
-//		if(user.getId() <= 0)
-//			user.setStartDate(new Date());
-		
+	public long saveUser(User user) {		
 		this.entityManager.persist(user);
 		return user.getId();
 	}
@@ -100,8 +99,8 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User checkSignin(String username, String hashedPassword) {
-		String strQuery = "select u from User "
-				+ "where u.username = :name and u.password = :password";
+		String strQuery = "from User "
+				+ "where username = :username and password = :password";
 		Query query = this.entityManager.createQuery(strQuery);
 		query.setParameter("username", username);
 		query.setParameter("password", hashedPassword);

@@ -19,7 +19,9 @@ export class AuthenticationService {
   login(loginObj: LoginInfo): Observable<any> {
     // TODO: implement here
     const params = {
-
+      'username': loginObj.username,
+      'password': loginObj.password,
+      'grantType': 'password'
     };
 
     return this.http.post('/api/v1/users/signin', params).pipe(

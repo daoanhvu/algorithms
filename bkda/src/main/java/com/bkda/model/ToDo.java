@@ -2,9 +2,17 @@ package com.bkda.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="todos")
+@Inheritance( strategy = InheritanceType.JOINED )
 public class ToDo extends GenericObject {
 	public enum ActionType {
 		INVITATION_TO_GROUP,
@@ -18,16 +26,22 @@ public class ToDo extends GenericObject {
 		APPROVED
 	}
 	
-	private User source;
-	private User destination;
-	private ActionType actionType;
-	private Date createTime;
+	@Column(name = "source_userid")
+	private long sourceUserId;
 	
-	public User getSource() {
-		return source;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User destination;
+	
+	private ActionType actionType;
+	
+	private Date createTime;
+	private Date lastUpdatedTime;
+	
+	public long getSourceUserId() {
+		return sourceUserId;
 	}
-	public void setSource(User source) {
-		this.source = source;
+	public void setSourceUserId(long source) {
+		this.sourceUserId = source;
 	}
 	public User getDestination() {
 		return destination;
@@ -46,6 +60,12 @@ public class ToDo extends GenericObject {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public Date getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+	public void setLastUpdatedTime(Date lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
 	}
 	
 }

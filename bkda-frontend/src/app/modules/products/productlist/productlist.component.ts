@@ -6,11 +6,10 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './productlist.component.html'
 })
 export class ProductListComponent implements OnInit {
-    
-    constructor(private http: ) {
+    constructor() {
 
     }
-    
+
     ngOnInit() {
     }
 }

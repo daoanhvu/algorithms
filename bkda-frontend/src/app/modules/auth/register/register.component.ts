@@ -53,6 +53,7 @@ export class RegisterComponent implements OnInit {
         this.authenService.register(params)
         .subscribe( (res: any) => {
             console.log(res);
+            this.router.navigate(['/login'], { replaceUrl: true  });
         });
     }
 }

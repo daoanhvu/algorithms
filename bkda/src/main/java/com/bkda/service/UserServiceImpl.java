@@ -134,6 +134,10 @@ public class UserServiceImpl implements UserService {
 			
 			credentials = authenticationService.createCredentials(loggingUser.getUsername(), 
 					signinDTO.getGrantType(), "BKDA:*:*");
+			credentials.setGrantType(signinDTO.getGrantType());
+			credentials.setTokenType("Bearer");
+			// this token will be expired in 60 minutes
+			credentials.setExpiresIn(3600000L);
 			
 		} else if( GRANT_TYPE_CLIENT_CREDENTIALS.equals(signinDTO.getGrantType()) ) {
 			// TODO: To be implemented

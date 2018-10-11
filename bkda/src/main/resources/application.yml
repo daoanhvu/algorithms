@@ -55,7 +55,7 @@ security.jwt:
   tokenSigningKey: 5776bf874388d3c2ab89810739275b649fe740ba12
   securedAuthenticationEntryUrl: /api/**
   Issuer: bkda.com
-  unsecuredPaths: [/api-docs/**, /configuration/ui, /swagger-resources, /configuration/security, /swagger-ui.html, /swagger-ui.html/**, /webjars/**, /swagger-resources/configuration/ui,/swagger-resources/configuration/security, /manage/**,/hystrix.stream]
+  unsecuredPaths: [/api-docs/**, /api/v1/users/signup, /api/v1/users/signin, /configuration/ui, /swagger-resources, /configuration/security, /swagger-ui.html, /swagger-ui.html/**, /webjars/**, /swagger-resources/configuration/ui,/swagger-resources/configuration/security, /manage/**,/hystrix.stream]
     
 logging:
   level:

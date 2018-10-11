@@ -10,5 +10,5 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableConfigurationProperties
 @ImportResource("classpath:securityConfiguration.xml")
 public class BKDWebSecurityConfig {
-
+	
 }
