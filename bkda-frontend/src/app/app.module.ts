@@ -20,6 +20,7 @@ import { AuthenticationModule } from '@app/modules/auth/auth.module';
 import { AuthenticationService } from '@app/services/auth.service';
 import { CoreModule } from '@app/core/core.module';
 import { HomeModule } from '@app/modules/home/home.module';
+import { ProductModule } from '@app/modules/products/product.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { HomeModule } from '@app/modules/home/home.module';
     ShellModule,
     ErrorHandlingModule,
     HomeModule,
+    ProductModule,
     AppRoutingModule
   ],
   providers: [

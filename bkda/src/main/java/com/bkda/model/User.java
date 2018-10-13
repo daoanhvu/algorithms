@@ -8,14 +8,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -66,6 +64,9 @@ public class User extends GenericObject {
 			inverseJoinColumns = { @JoinColumn(name = "group_id") }
 			)
 	private Set<Group> groups = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<Scope> scopes = new HashSet<>();
 	
 	public Set<Group> getGroups() {
 		return groups;
