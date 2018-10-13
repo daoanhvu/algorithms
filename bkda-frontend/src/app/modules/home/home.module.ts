@@ -8,6 +8,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from '@app/core/core.module';
 import { SharedModule } from '@app/modules/shared';
 import { MaterialModule } from '@app/material.module';
+import { ProductModule } from '@app/modules/products/product.module';
+import { ProductListComponent } from '@app/modules/products/productlist/productlist.component';
 
 @NgModule({
     imports: [
@@ -19,11 +21,13 @@ import { MaterialModule } from '@app/material.module';
         FlexLayoutModule,
         MaterialModule,
         HomeRoutingModule,
-        FormsModule
+        FormsModule,
+        ProductModule
     ],
     entryComponents: [ HomeComponent ],
     declarations: [
-        HomeComponent
+        HomeComponent,
+        ProductListComponent
     ]
 })
 export class HomeModule { }
