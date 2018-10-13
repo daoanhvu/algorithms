@@ -5,11 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bkda.model.Product;
+import com.bkda.model.Media;
 
 @Repository
-public interface ProductDAO extends CrudRepository<Product, Long>, JpaSpecificationExecutor<Product> {
-	
-	@Query("from Product where id = ?1")
-	Product findOne(long id);
+public interface MediaDAO extends CrudRepository<Media, Long>, JpaSpecificationExecutor<Media> {
+	@Query("from Media where id = ?1")
+	Media findOne(long id);
 }

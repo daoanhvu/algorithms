@@ -28,6 +28,9 @@ public class Media extends GenericObject {
 	
 	@Column(name="path")
 	private String path;
+	
+	@Column(name="size")
+	private long size;
 
 	public User getUser() {
 		return user;
@@ -67,6 +70,14 @@ public class Media extends GenericObject {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
 	}
 	
 }
