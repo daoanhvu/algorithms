@@ -8,7 +8,8 @@ const routes: Routes = [
     BKDARoute.withShell([
         {
             path: '',
-            component: HomeComponent
+            redirectTo: '/home',
+            pathMatch: 'full'
         },
         {
             path: 'home',

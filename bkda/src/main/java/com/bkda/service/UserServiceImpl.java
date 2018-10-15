@@ -105,14 +105,13 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(signupDto.getLastName());
 		user.setSex(signupDto.getSex()==null?'F':signupDto.getSex());
 		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
-		Scope userScope = new Scope(user, "All", "User", "User");
+//		user = userDAO.saveUser(user);
+		Scope userScope = new Scope("All", "User", "user");
 		user.getScopes().add(userScope);
-		userDAO.saveUser(user);
-		
+//		userDAO.saveScope(userScope);
+		user = userDAO.saveUser(user);
 		// TODO: write user log
 		// This should be implemented with Aspect programming
-		
-		
 		return user;
 	}
 

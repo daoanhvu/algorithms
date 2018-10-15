@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bkda.model.Scope;
 import com.bkda.model.User;
 
 @Repository(value="userDAO")
@@ -30,9 +31,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Transactional
 	@Override
-	public long saveUser(User user) {		
+	public User saveUser(User user) {		
 		this.entityManager.persist(user);
-		return user.getId();
+		return user;
 	}
 	
 	@Override
@@ -110,5 +111,12 @@ public class UserDAOImpl implements UserDAO {
 		} catch(NoResultException ex) {
 			return null;
 		}
+	}
+
+	@Transactional
+	@Override
+	public Scope saveScope(Scope scope) {
+		this.entityManager.persist(scope);
+		return scope;
 	}
 }

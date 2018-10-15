@@ -65,7 +65,7 @@ public class User extends GenericObject {
 			)
 	private Set<Group> groups = new HashSet<>();
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	private Set<Scope> scopes = new HashSet<>();
 	
 	public Set<Group> getGroups() {

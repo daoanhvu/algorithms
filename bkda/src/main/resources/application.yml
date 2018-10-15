@@ -50,7 +50,7 @@ amqp:
 security.jwt:
   tokenExpirationTime: 120 # Number of minutes
   refreshTokenExpTime: 60 # Minutes
-  tokenIssuer: http://myplace.com
+  tokenIssuer: http://bkda.com
   # base 64 encoded signing key
   tokenSigningKey: 5776bf874388d3c2ab89810739275b649fe740ba12
   securedAuthenticationEntryUrl: /api/**
@@ -61,5 +61,5 @@ logging:
   level:
     org.springframework.web: debug
     org.hibernate: error
-  file: /home/vdao/data/bkda/bkda_log2.txt
+  file: /opt/bkda/logs/bkda_log2.txt
     

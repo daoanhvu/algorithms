@@ -25,11 +25,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class AuthenticationService {
 	
-//	@Value("${jwt.tokenSigninKey}")
-	private String tokenSigninKey = "sdfasdf";
+	@Value("${security.jwt.tokenSigningKey}")
+	private String tokenSigningKey;
 	
-//	@Value("${jwt.Issuer}")
-	private String tokenIssuer = "bkda.com";
+	@Value("${security.jwt.Issuer}")
+	private String tokenIssuer;
 
 	public CredentialsDTO createCredentials(@NotNull User user, 
 			@NotNull String grantType) throws BKDAServiceException {
@@ -39,11 +39,12 @@ public class AuthenticationService {
 		Date now = Date.from(Instant.now(Clock.systemUTC()));
         //TODO: set duration of the token to 1 hour
         Date dueDate = DateUtils.addHours(now, 1);
-        byte[] keyBytes = DatatypeConverter.parseBase64Binary(tokenSigninKey);
+        byte[] keyBytes = DatatypeConverter.parseBase64Binary(tokenSigningKey);
         Key signKey = new SecretKeySpec(keyBytes, algorithm.getJcaName());
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("iss", tokenIssuer);
         claims.put("iat", now);
+        claims.put("sub", user.getId());
         claims.put("username", user.getUsername());
         claims.put("grantType", grantType);
         claims.put("scope", user.getScopes());
