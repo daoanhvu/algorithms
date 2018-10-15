@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.applyFilter(this.productFilter);
+        console.log('app-home loaded!');
     }
 
     processPageChanged(event: PageEvent) {
@@ -33,8 +34,10 @@ export class HomeComponent implements OnInit {
         }
         this.productService.loadProductList().subscribe(
             (res: any) => {
-                if (res.statusCode === 200) {
-                    this.productData = res.body.content;
+                console.log('subscribe called' + res);
+                if (res.internalCode === 0) {
+                    this.productData = res.content;
+                    console.log('products loaded!');
                 }
             }
         );

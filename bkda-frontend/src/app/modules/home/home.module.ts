@@ -20,8 +20,8 @@ import { ProductService } from '@app/services/product.service';
         SharedModule,
         FlexLayoutModule,
         MaterialModule,
+        FormsModule,
         HomeRoutingModule,
-        FormsModule
         // ProductModule
     ],
     entryComponents: [ HomeComponent ],

@@ -1,4 +1,6 @@
-<h2>Home page</h2>
-<div>
-    <product-list> </product-list>
+<div flexFill fxLayoutAlign="top center" flexLayout="column">
+    <h2>Home page</h2>
+    <div flexLayout="row" width="100%">
+        <product-list [dataSource]="productData"> </product-list>
+    </div>
 </div>
