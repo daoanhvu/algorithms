@@ -16,14 +16,14 @@ export class ProductService {
             page: 1,
             pageSize: 25
         };
-        return this.http.post('api/v1/products/search', params)
+        return this.http.post('/api/v1/products/search', params)
             .pipe( map( (res: any) => {
                 return res;
             } ) );
     }
 
     getProductById(productid: string): Observable<any> {
-        return this.http.get('api/v1/products/' + productid)
+        return this.http.get('/api/v1/products/' + productid)
             .pipe( map( (res: any) => {
                 return res;
             } ) );

@@ -11,6 +11,7 @@ import { ProductListComponent } from '@app/modules/products/productlist/productl
         MaterialModule,
         MatGridListModule
     ],
-    declarations: [ ProductListComponent ]
+    declarations: [  ],
+    entryComponents: [ ProductListComponent ]
 })
 export class ProductModule { }

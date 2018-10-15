@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Product } from '@app/models/product.model';
-import { ProductService } from '@app/services/product.service';
 
 @Component({
     selector: 'product-list',
@@ -9,19 +8,12 @@ import { ProductService } from '@app/services/product.service';
     templateUrl: './productlist.component.html'
 })
 export class ProductListComponent implements OnInit {
-    tiles: Product[] = [];
+    @Input()
+    dataSource: Product[] = [];
 
-    constructor(private productService: ProductService) {
-
+    constructor() {
     }
 
     ngOnInit() {
-        this.productService.loadProductList().subscribe(
-            (res: any) => {
-                if (res.statusCode === 200) {
-                    this.tiles = res.body.content;
-                }
-            }
-        );
     }
 }

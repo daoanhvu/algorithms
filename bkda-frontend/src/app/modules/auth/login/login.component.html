@@ -2,7 +2,7 @@
     <div class="login-container" fxLayout="row" fxLayoutAlign="center">
       <mat-card fxFlex.xs="90%" fxFlex="420px" class="login-box">
         <form (ngSubmit)="login()" [formGroup]="formGroup" novalidate>
-          <div class="login-error" [hidden]="!error || isLoading">
+          <div class="login-error">
             <span *ngIf="error === 'signinFailed'" >Signin failed, please try again or contact support for assistance.</span>
             <span *ngIf="error === 'noPermission'" >You dont currently have permission to access this page.</span>
           </div>
@@ -32,7 +32,9 @@
               <a href="/forgot-password" class="btn-forgot" >Forgot password</a>
             </div>
             <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
-              <!-- <app-loader class="inline-loader" [isLoading]="isLoading"></app-loader> -->
+              <div [hidden]="!isLoading">
+                <mat-progress-spinner mode="indeterminate" [strokeWidth]="1" [diameter]="18"></mat-progress-spinner>
+              </div>
               <span >Login</span>
             </button>
           </div>

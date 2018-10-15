@@ -1,45 +1,47 @@
 import { Inject, Injectable, InjectionToken, Injector, Optional } from '@angular/core';
-import { HttpClient, HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import {
+  HttpClient, HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,
+  HTTP_INTERCEPTORS
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { extend } from 'lodash';
 
 import { environment } from '@env/environment';
-import { ErrorHandlerInterceptor } from './error-handler.interceptor';
 import { CacheInterceptor } from './cache.interceptor';
-import { ApiPrefixInterceptor } from './api-prefix.interceptor';
+import { RequestInterceptor } from './request.interceptor';
 
 const credentialsKey = 'credentials';
 
 // HttpClient is declared in a re-exported module, so we have to extend the original module to make it work properly
 // (see https://github.com/Microsoft/TypeScript/issues/13897)
-declare module '@angular/common/http/src/client' {
-
-  // Augment HttpClient with the added configuration methods from HttpService, to allow in-place replacement of
-  // HttpClient with HttpService using dependency injection
-  export interface HttpClient {
-
-    /**
-     * Enables caching for this request.
-     * @param forceUpdate Forces request to be made and updates cache entry.
-     * @return The new instance.
-     */
-    cache(forceUpdate?: boolean): HttpClient;
-
-    /**
-     * Skips default error handler for this request.
-     * @return The new instance.
-     */
-    skipErrorHandler(): HttpClient;
-
-    /**
-     * Do not use API prefix for this request.
-     * @return The new instance.
-     */
-    disableApiPrefix(): HttpClient;
-
-  }
-
-}
+// declare module '@angular/common/http/src/client' {
+//
+//   // Augment HttpClient with the added configuration methods from HttpService, to allow in-place replacement of
+//   // HttpClient with HttpService using dependency injection
+//   export interface HttpClient {
+//
+//     /**
+//      * Enables caching for this request.
+//      * @param {boolean} forceUpdate Forces request to be made and updates cache entry.
+//      * @return {HttpClient} The new instance.
+//      */
+//     cache(forceUpdate?: boolean): HttpClient;
+//
+//     /**
+//      * Skips default error handler for this request.
+//      * @return {HttpClient} The new instance.
+//      */
+//     skipErrorHandler(): HttpClient;
+//
+//     /**
+//      * Do not use API prefix for this request.
+//      * @return {HttpClient} The new instance.
+//      */
+//     disableApiPrefix(): HttpClient;
+//
+//   }
+//
+// }
 
 // From @angular/common/http/src/interceptor: allows to chain interceptors
 class HttpInterceptorHandler implements HttpHandler {
@@ -82,16 +84,17 @@ export class HttpService extends HttpClient {
 
   constructor(private httpHandler: HttpHandler,
               private injector: Injector,
-              @Optional() @Inject(HTTP_DYNAMIC_INTERCEPTORS) private interceptors: HttpInterceptor[] = []) {
+              @Optional() @Inject(HTTP_INTERCEPTORS) private interceptors: HttpInterceptor[] = []) {
     super(httpHandler);
 
-    if (!this.interceptors) {
-      // Configure default interceptors that can be disabled here
-      this.interceptors = [
-        this.injector.get(ApiPrefixInterceptor),
-        this.injector.get(ErrorHandlerInterceptor)
-      ];
-    }
+    // if (!this.interceptors) {
+    //   // Configure default interceptors that can be disabled here
+    //   this.interceptors = [
+    //     this.injector.get(ApiPrefixInterceptor),
+    //     this.injector.get(ErrorHandlerInterceptor),
+    //     this.injector.get(RequestInterceptor)
+    //   ];
+    // }
   }
 
   cache(forceUpdate?: boolean): HttpClient {
@@ -99,13 +102,13 @@ export class HttpService extends HttpClient {
     return this.addInterceptor(cacheInterceptor);
   }
 
-  skipErrorHandler(): HttpClient {
-    return this.removeInterceptor(ErrorHandlerInterceptor);
-  }
-
-  disableApiPrefix(): HttpClient {
-    return this.removeInterceptor(ApiPrefixInterceptor);
-  }
+  // skipErrorHandler(): HttpClient {
+  //   return this.removeInterceptor(ErrorHandlerInterceptor);
+  // }
+  //
+  // disableApiPrefix(): HttpClient {
+  //   return this.removeInterceptor(ApiPrefixInterceptor);
+  // }
 
   request(method?: any, url?: any, options?: any): any {
     const handler = this.interceptors.reduceRight(

@@ -65,7 +65,7 @@ public class User extends GenericObject {
 			)
 	private Set<Group> groups = new HashSet<>();
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<Scope> scopes = new HashSet<>();
 	
 	public Set<Group> getGroups() {
@@ -134,6 +134,12 @@ public class User extends GenericObject {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public Set<Scope> getScopes() {
+		return scopes;
+	}
+	public void setScopes(Set<Scope> scopes) {
+		this.scopes = scopes;
 	}
 	
 }

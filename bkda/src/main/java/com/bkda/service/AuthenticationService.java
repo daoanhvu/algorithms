@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.bkda.dto.CredentialsDTO;
 import com.bkda.exception.BKDAServiceException;
+import com.bkda.model.User;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -30,9 +31,8 @@ public class AuthenticationService {
 //	@Value("${jwt.Issuer}")
 	private String tokenIssuer = "bkda.com";
 
-	public CredentialsDTO createCredentials(@NotNull String username, 
-			@NotNull String grantType,
-			String scopeStrings) throws BKDAServiceException {
+	public CredentialsDTO createCredentials(@NotNull User user, 
+			@NotNull String grantType) throws BKDAServiceException {
 		
 		SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;
 		CredentialsDTO credentials = new CredentialsDTO();
@@ -42,12 +42,12 @@ public class AuthenticationService {
         byte[] keyBytes = DatatypeConverter.parseBase64Binary(tokenSigninKey);
         Key signKey = new SecretKeySpec(keyBytes, algorithm.getJcaName());
         HashMap<String, Object> claims = new HashMap<>();
-        claims.put("issuer", tokenIssuer);
-        claims.put("issuedAt", now);
-        claims.put("username", username);
+        claims.put("iss", tokenIssuer);
+        claims.put("iat", now);
+        claims.put("username", user.getUsername());
         claims.put("grantType", grantType);
-        claims.put("scope", scopeStrings);
-        claims.put("expiration", dueDate);
+        claims.put("scope", user.getScopes());
+        claims.put("exp", dueDate);
         JwtBuilder jwtBuilder = Jwts.builder()
                 .setClaims(claims)
                 .signWith(algorithm, signKey);

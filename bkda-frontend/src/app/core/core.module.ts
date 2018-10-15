@@ -2,26 +2,27 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+// import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MaterialModule } from '@app/material.module';
 import { RouteReusableStrategy } from './route-reusable-strategy';
 // import { I18nService } from './i18n.service';
 import { AuthenticationGuard } from './authentication/authentication.guard';
-import { HttpService, HttpCacheService, ApiPrefixInterceptor,
-    ErrorHandlerInterceptor, CacheInterceptor } from './http';
+import { HttpService, HttpCacheService, RequestInterceptor,
+    CacheInterceptor } from './http';
 import { AuthenticationService } from '@app/services/auth.service';
 import { JwtService } from '@app/services/jwt.service';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, TranslateModule, FlexLayoutModule, MaterialModule, RouterModule],
+  imports: [CommonModule, HttpClientModule,
+    // TranslateModule,
+    FlexLayoutModule, MaterialModule, RouterModule],
   declarations: [],
   providers: [
     // I18nService,
     HttpCacheService,
-    ApiPrefixInterceptor,
-    ErrorHandlerInterceptor,
+    RequestInterceptor,
     AuthenticationGuard,
     CacheInterceptor,
     HttpService,

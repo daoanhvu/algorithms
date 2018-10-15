@@ -3,7 +3,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AuthenticationService } from '@app/services/auth.service';
-import { HttpService } from '@app/core/http/http.service';
 
 @Component({
     selector: 'page-login',
@@ -21,8 +20,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private router: Router,
         private formBuilder: FormBuilder,
-        private authenService: AuthenticationService,
-        private http: HttpService,
+        private authenService: AuthenticationService
         ) {
         this.formGroup = this.formBuilder.group({
             username: ['', Validators.required],
@@ -55,10 +53,16 @@ export class LoginComponent implements OnInit {
                 this.formGroup.markAsPristine();
                 this.isLoading = false;
             }))
-            .subscribe( response => {
-                const statusCode = response['statusCode'];
-                if ( statusCode === 200 ) {
-                    this.router.navigate(['/'], { replaceUrl: true });
+            .subscribe( res => {
+                console.log(res);
+                if (res.internalCode === 0) {
+                    this.router.navigate(['/home'], { replaceUrl: true });
+                } else {
+                    this.onLoginFailed('noPermission');
+                }
+            }, error => {
+                if ( error === 400 ) {
+                    this.onLoginFailed('noPermission');
                 } else {
                     this.onLoginFailed('signinFailed');
                 }

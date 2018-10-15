@@ -26,6 +26,7 @@ import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
 import com.bkda.exception.BKDAServiceException;
 import com.bkda.exception.MultiErrorsException;
+import com.bkda.model.Scope;
 import com.bkda.model.User;
 import com.bkda.util.DataHelper;
 import com.google.common.hash.Hashing;
@@ -104,6 +105,8 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(signupDto.getLastName());
 		user.setSex(signupDto.getSex()==null?'F':signupDto.getSex());
 		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
+		Scope userScope = new Scope(user, "All", "User", "User");
+		user.getScopes().add(userScope);
 		userDAO.saveUser(user);
 		
 		// TODO: write user log
@@ -132,8 +135,8 @@ public class UserServiceImpl implements UserService {
 				throw new BKDAServiceException(Constants.ERROR_LOGIN_FAILED, "Username or password incorrected");
 			}
 			
-			credentials = authenticationService.createCredentials(loggingUser.getUsername(), 
-					signinDTO.getGrantType(), "BKDA:*:*");
+			credentials = authenticationService.createCredentials(loggingUser, 
+					signinDTO.getGrantType());
 			credentials.setGrantType(signinDTO.getGrantType());
 			credentials.setTokenType("Bearer");
 			// this token will be expired in 60 minutes

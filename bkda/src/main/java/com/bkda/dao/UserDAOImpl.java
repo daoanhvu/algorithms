@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -104,6 +105,10 @@ public class UserDAOImpl implements UserDAO {
 		Query query = this.entityManager.createQuery(strQuery);
 		query.setParameter("username", username);
 		query.setParameter("password", hashedPassword);
-		return (User) query.getSingleResult();
+		try {
+			return (User) query.getSingleResult();
+		} catch(NoResultException ex) {
+			return null;
+		}
 	}
 }

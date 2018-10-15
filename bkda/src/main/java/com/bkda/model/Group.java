@@ -8,29 +8,23 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="groups")
+@Inheritance( strategy = InheritanceType.JOINED )
 public class Group extends GenericObject {
-	
-	@Column(name = "name")
-	private String name;
 	
 	@Column(name = "created_time")
 	private Date createdTime;
 	
 	@ManyToMany(mappedBy = "groups", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	private Set<User> members = new HashSet<>();
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public Date getCreatedTime() {
 		return createdTime;

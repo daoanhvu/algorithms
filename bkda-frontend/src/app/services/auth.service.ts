@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { HttpService } from '@app/core/http/http.service';
+import { HttpService } from '@app/core/http';
 import { environment } from '@env/environment';
-import { Credential } from '@app/models';
+import { Credentials } from '@app/models';
 import { JwtService } from './jwt.service';
 import { LoginInfo, User } from '@app/models';
 
 @Injectable()
 export class AuthenticationService {
-  private _credentials: Credential | null;
+  private _credentials: Credentials | null;
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private jwtService: JwtService
   ) { }
 
   login(loginObj: LoginInfo): Observable<any> {
@@ -24,10 +25,10 @@ export class AuthenticationService {
       'grantType': 'password'
     };
 
-    return this.http.post('/api/v1/users/signin', params).pipe(
-      map( (res: any) => {
-        if (res && res.body) {
-          const accessToken: string = res.body.accessToken;
+    return this.http.post('/api/v1/users/signin', params)
+    .pipe( map( (res: any) => {
+        if (res && res.internalCode === 0) {
+          const accessToken: string = res.content.accessToken;
           const data = {
             username: loginObj.username.toLowerCase(),
             token: accessToken
@@ -35,7 +36,7 @@ export class AuthenticationService {
           this.setCredential(data, loginObj.remember);
           return res;
         }
-      } ) );
+      }));
   }
 
   register(newUser: any): Observable<any> {
@@ -49,20 +50,20 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.credential;
+    return this.jwtService.getCredentials() ? true : false;
   }
 
-  get credential(): Credential | null {
+  get credentials(): Credentials | null {
     return this._credentials;
   }
 
-  private setCredential(credential?: Credential, remember?: boolean) {
-    this._credentials = credential || null;
-    if (credential) {
+  private setCredential(credentials?: Credentials, remember?: boolean) {
+    this._credentials = credentials || null;
+    if (credentials) {
       const storage = remember ? localStorage : sessionStorage;
-      // this.jwtService.saveCredentials(credentials, storage);
+      this.jwtService.saveCredentials(credentials, storage);
     } else {
-      // this.jwtService.destroyCredentials();
+      this.jwtService.destroyCredentials();
     }
   }
 }

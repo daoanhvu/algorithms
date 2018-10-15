@@ -1,30 +1,44 @@
 package com.bkda.model;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Entity
 public class Scope {
 	
-	private String application;
-	private String group;
-	private String role;
+	@EmbeddedId
+	private ScopeKey id;
 	
-	public String getApplication() {
-		return application;
+	@MapsId("userid")
+	@ManyToOne
+	private User user;
+	
+	public Scope() {
 	}
-	public void setApplication(String application) {
-		this.application = application;
+	
+	public Scope(User user, String application, String group, String role) {
+		this.id = new ScopeKey();
+		this.setUser(user);
+		this.id.setApplication(application);
+		this.id.setGroup(group);
+		this.id.setRole(role);
 	}
-	public String getGroup() {
-		return group;
+
+	public ScopeKey getId() {
+		return id;
 	}
-	public void setGroup(String group) {
-		this.group = group;
+
+	public void setId(ScopeKey id) {
+		this.id = id;
 	}
-	public String getRole() {
-		return role;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setUser(User user) {
+		this.user = user;
 	}
+	
 }

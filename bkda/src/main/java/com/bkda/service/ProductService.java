@@ -9,12 +9,14 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.bkda.dao.MediaDAO;
 import com.bkda.dao.ProductDAO;
 import com.bkda.dto.ProductDTO;
 import com.bkda.exception.BKDAServiceException;
+import com.bkda.model.Company;
 import com.bkda.model.Media;
 import com.bkda.model.Product;
 import com.bkda.dto.ErrorContent;
@@ -63,4 +65,35 @@ public class ProductService {
 			fis.close();
 		}
 	}
+	
+	// TODO: To be implemented
+	public List<Product> search(String name) {
+		List<Product> fakeList = new ArrayList<>();
+		Company company = new Company();
+		company.setName("Cty TNHH ABC");
+		for(int i=0; i<16; i++) {
+			Product p = new Product();
+			p.setCompany(company);
+			p.setDescription("This is a example product " + i );
+			p.setName("Product " + i);
+			fakeList.add(p);
+		}
+		
+		return fakeList;
+	}
+
+//	public byte[] addProductImage(long imageId) throws IOException, FileNotFoundException {
+//		FileInputStream fis = null;
+//		Media media = mediaDAO.findOne(imageId);
+//		File file = new File(media.getFilename());
+//		int size = (int)file.length();
+//		byte[] content = new byte[size];
+//		fis = new FileInputStream(media.getFilename());
+//		try {
+//			fis.read(content, 0, size);
+//			return content;	
+//		} finally {
+//			fis.close();
+//		}
+//	}
 }
