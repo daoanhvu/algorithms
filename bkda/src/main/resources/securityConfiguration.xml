@@ -96,6 +96,10 @@
         <security:intercept-url pattern="/api/v1/products/search"
                                 access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="POST"/>
+                                
+        <security:intercept-url pattern="/api/v1/medias/upload"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
+                                method="POST"/>
         
         <!-- Endpoints for groups -->
     </security:http>

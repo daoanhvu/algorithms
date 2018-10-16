@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { HttpService } from '@app/core/http';
-import { environment } from '@env/environment';
 import { Credentials } from '@app/models';
 import { JwtService } from './jwt.service';
 import { LoginInfo, User } from '@app/models';

@@ -44,7 +44,10 @@ amqp:
   password: 123456
   vhost: /
   host: localhost
-    
+  
+storage:
+  mediaFolderPath: /home/vdao/data/bkda/media
+      
 logging:
   level:
     org.hibernate.SQL: DEBUG

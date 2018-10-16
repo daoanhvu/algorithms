@@ -44,6 +44,9 @@ amqp:
   password: 123456
   vhost: /
   host: localhost
-    
+  
+storage:
+  mediaFolderPath: /home/vdao/data/bkda/media
+      
 logging:
   file: /home/vdao/data/bkda/logs/bkda_log_staging.txt

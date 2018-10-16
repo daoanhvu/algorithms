@@ -8,19 +8,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ScopeKey implements Serializable {
 	
-//	@Column(name="user_objectid")
-//	private long userId;
+	@Column(name = "User_objectid")
+	private long userId;
+	
 	private String application;
 	@Column(name = "_group")
 	private String group;
 	private String role;
 	
-//	public long getUserId() {
-//		return userId;
-//	}
-//	public void setUserId(long userId) {
-//		this.userId = userId;
-//	}
 	public String getApplication() {
 		return application;
 	}
@@ -39,4 +34,11 @@ public class ScopeKey implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	
 }

@@ -107,6 +107,7 @@ public class UserServiceImpl implements UserService {
 		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
 //		user = userDAO.saveUser(user);
 		Scope userScope = new Scope("All", "User", "user");
+		userScope.setUser(user);
 		user.getScopes().add(userScope);
 //		userDAO.saveScope(userScope);
 		user = userDAO.saveUser(user);

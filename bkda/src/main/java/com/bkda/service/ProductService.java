@@ -1,37 +1,34 @@
 package com.bkda.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bkda.dao.MediaDAO;
 import com.bkda.dao.ProductDAO;
 import com.bkda.dto.ProductDTO;
 import com.bkda.exception.BKDAServiceException;
 import com.bkda.model.Company;
-import com.bkda.model.Media;
 import com.bkda.model.Product;
 import com.bkda.dto.ErrorContent;
 
 @Service
 public class ProductService {
 	
-	// 1M
-	private static final int READ_BUFF_SIZE = 1048576;
-	
-	@Autowired
-	private MediaDAO mediaDAO;
+	private Logger log = LoggerFactory.getLogger(ProductService.class);
 	
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Value("${storage.mediaFolderPath}")
+	private String mediaFolderPath;
 	
 	public Product addProduct(ProductDTO productDto) {
 		List<ErrorContent> errors = new ArrayList<>();
@@ -51,23 +48,8 @@ public class ProductService {
 		return product;
 	}
 	
-	public byte[] getProductImage(long imageId) throws IOException, FileNotFoundException {
-		FileInputStream fis = null;
-		Media media = mediaDAO.findOne(imageId);
-		File file = new File(media.getFilename());
-		int size = (int)file.length();
-		byte[] content = new byte[size];
-		fis = new FileInputStream(media.getFilename());
-		try {
-			fis.read(content, 0, size);
-			return content;	
-		} finally {
-			fis.close();
-		}
-	}
-	
 	// TODO: To be implemented
-	public List<Product> search(String name) {
+	public List<Product> fakeSearch(String name) {
 		List<Product> fakeList = new ArrayList<>();
 		Company company = new Company();
 		company.setName("Cty TNHH ABC");
@@ -81,19 +63,8 @@ public class ProductService {
 		
 		return fakeList;
 	}
-
-//	public byte[] addProductImage(long imageId) throws IOException, FileNotFoundException {
-//		FileInputStream fis = null;
-//		Media media = mediaDAO.findOne(imageId);
-//		File file = new File(media.getFilename());
-//		int size = (int)file.length();
-//		byte[] content = new byte[size];
-//		fis = new FileInputStream(media.getFilename());
-//		try {
-//			fis.read(content, 0, size);
-//			return content;	
-//		} finally {
-//			fis.close();
-//		}
-//	}
+	
+	public Page<Product> search(String name, String company, Long userId, Pageable pageable) {
+		return productDAO.search(name, company, userId, pageable);
+	}
 }

@@ -56,7 +56,10 @@ security.jwt:
   securedAuthenticationEntryUrl: /api/**
   Issuer: bkda.com
   unsecuredPaths: [/api-docs/**, /api/v1/users/signup, /api/v1/users/signin, /configuration/ui, /swagger-resources, /configuration/security, /swagger-ui.html, /swagger-ui.html/**, /webjars/**, /swagger-resources/configuration/ui,/swagger-resources/configuration/security, /manage/**,/hystrix.stream]
-    
+   
+storage:
+  mediaFolderPath: /opt/bkda/media
+     
 logging:
   level:
     org.springframework.web: debug

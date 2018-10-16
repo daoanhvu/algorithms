@@ -1,10 +1,9 @@
 package com.bkda.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,7 +17,7 @@ public class Media extends GenericObject {
 	private User user;
 	
 	@Column(name="type")
-	private int type;
+	private String type;
 	
 	@Column(name="extension")
 	private String extension;
@@ -31,6 +30,9 @@ public class Media extends GenericObject {
 	
 	@Column(name="size")
 	private long size;
+	
+	@Column(name="uploaded_time")
+	private Date uploadedTime;
 
 	public User getUser() {
 		return user;
@@ -40,11 +42,11 @@ public class Media extends GenericObject {
 		this.user = user;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -78,6 +80,14 @@ public class Media extends GenericObject {
 
 	public void setSize(long size) {
 		this.size = size;
+	}
+
+	public Date getUploadedTime() {
+		return uploadedTime;
+	}
+
+	public void setUploadedTime(Date uploadedTime) {
+		this.uploadedTime = uploadedTime;
 	}
 	
 }

@@ -39,7 +39,7 @@ public class ProductController {
             @RequestBody ProductDTO product,
             Pageable paging,
             @RequestHeader("Authorization") String authorization) {
-    	List<Product> result = productService.search("");
+    	List<Product> result = productService.fakeSearch("");
     	ContentResponse<List<Product>> response = new ContentResponse<>();
     	response.setContent(result);
         return new ResponseEntity<>(response, HttpStatus.OK);

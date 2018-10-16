@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -15,9 +16,10 @@ public class Scope {
 	@EmbeddedId
 	private ScopeKey id;
 	
-//	@MapsId("userid")
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	private User user;
+	@JsonBackReference
+	@MapsId("userId")
+	@ManyToOne(cascade = CascadeType.ALL)
+	private User user;
 	
 	public Scope() {
 	}
@@ -56,6 +58,14 @@ public class Scope {
 	}
 	public void setRole(String role) {
 		this.id.setRole(role);
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

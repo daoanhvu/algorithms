@@ -10,6 +10,7 @@ import { SharedModule } from '@app/modules/shared';
 import { MaterialModule } from '@app/material.module';
 import { ProductListComponent } from '@app/modules/products/productlist/productlist.component';
 import { ProductService } from '@app/services/product.service';
+import { ProductCardComponent } from '@app/modules/products/productcard/productcard.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,7 @@ import { ProductService } from '@app/services/product.service';
     ],
     entryComponents: [ HomeComponent ],
     declarations: [
-        HomeComponent, ProductListComponent
+        HomeComponent, ProductListComponent, ProductCardComponent
     ],
     providers: [
         ProductService
