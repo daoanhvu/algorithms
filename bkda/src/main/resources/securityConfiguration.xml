@@ -77,11 +77,11 @@
         <security:intercept-url pattern="/api/v1/users/signin" access="permitAll" method="POST" />
 
         <!-- Endpoints for users -->
-        <security:intercept-url pattern="/api/v1/users"
+        <security:intercept-url pattern="/api/v1/users/**"
                                 access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="PUT"/>
                                 
-        <security:intercept-url pattern="/api/v1/users"
+        <security:intercept-url pattern="/api/v1/users/**"
                                 access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="GET"/>
                                 
@@ -97,6 +97,10 @@
                                 access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="POST"/>
                                 
+        <security:intercept-url pattern="/api/v1/medias/**"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
+                                method="GET"/>
+                                                        
         <security:intercept-url pattern="/api/v1/medias/upload"
                                 access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="POST"/>

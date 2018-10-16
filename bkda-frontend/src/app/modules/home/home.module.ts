@@ -11,6 +11,7 @@ import { MaterialModule } from '@app/material.module';
 import { ProductListComponent } from '@app/modules/products/productlist/productlist.component';
 import { ProductService } from '@app/services/product.service';
 import { ProductCardComponent } from '@app/modules/products/productcard/productcard.component';
+import { GroupListComponent } from '@app/modules/group/grouplist.component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,7 @@ import { ProductCardComponent } from '@app/modules/products/productcard/productc
     ],
     entryComponents: [ HomeComponent ],
     declarations: [
-        HomeComponent, ProductListComponent, ProductCardComponent
+        HomeComponent, GroupListComponent, ProductListComponent, ProductCardComponent
     ],
     providers: [
         ProductService
