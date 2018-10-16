@@ -8,17 +8,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -66,6 +65,10 @@ public class User extends GenericObject {
 			inverseJoinColumns = { @JoinColumn(name = "group_id") }
 			)
 	private Set<Group> groups = new HashSet<>();
+	
+	@JsonManagedReference
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<Scope> scopes = new HashSet<>();
 	
 	public Set<Group> getGroups() {
 		return groups;
@@ -133,6 +136,12 @@ public class User extends GenericObject {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public Set<Scope> getScopes() {
+		return scopes;
+	}
+	public void setScopes(Set<Scope> scopes) {
+		this.scopes = scopes;
 	}
 	
 }

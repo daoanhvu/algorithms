@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { Product } from '@app/models/product.model';
 
 @Component({
     selector: 'product-list',
@@ -6,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './productlist.component.html'
 })
 export class ProductListComponent implements OnInit {
-    constructor() {
+    @Input()
+    dataSource: Product[] = [];
 
+    constructor() {
     }
 
     ngOnInit() {

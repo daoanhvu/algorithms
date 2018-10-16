@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+// import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '@app/material.module';
 import { ShellComponent } from './shell.component';
@@ -13,7 +13,7 @@ import { HeaderComponent } from '@app/modules/shell/header/header.component';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        TranslateModule,
+        // TranslateModule,
         SharedModule,
         FlexLayoutModule,
         MaterialModule,

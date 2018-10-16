@@ -76,14 +76,31 @@
         <security:intercept-url pattern="/api/v1/users/signup" access="permitAll" method="POST" />
         <security:intercept-url pattern="/api/v1/users/signin" access="permitAll" method="POST" />
 
-        <security:intercept-url pattern="/api/v1/users/*"
-                                access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"
+        <!-- Endpoints for users -->
+        <security:intercept-url pattern="/api/v1/users"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="PUT"/>
-        <security:intercept-url pattern="/api/v1/users/*"
-                                access="hasAnyAuthority('MyPlace:Admin:admin', 'MyPlace:User:user')"
+                                
+        <security:intercept-url pattern="/api/v1/users"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
                                 method="GET"/>
-
+                                
+        <security:intercept-url pattern="/api/v1/users"
+                                access="hasAnyAuthority('Admin:admin')"
+                                method="DELETE"/>
+                                
+        <security:intercept-url pattern="/api/v1/users/search"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
+                                method="GET"/>
+                                
+        <security:intercept-url pattern="/api/v1/products/search"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
+                                method="POST"/>
+                                
+        <security:intercept-url pattern="/api/v1/medias/upload"
+                                access="hasAnyAuthority('Admin:admin', 'User:user')"
+                                method="POST"/>
+        
+        <!-- Endpoints for groups -->
     </security:http>
-
-
 </beans>

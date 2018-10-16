@@ -35,7 +35,8 @@ import com.bkda.common.Constants;
 @EnableTransactionManagement
 @EnableJpaRepositories(
 		entityManagerFactoryRef="entityManagerFactory",
-		transactionManagerRef="transactionManagerFactory"
+		transactionManagerRef="transactionManagerFactory",
+		basePackages = "com.bkda.dao"
 		)
 public class DBConfiguration {
 	

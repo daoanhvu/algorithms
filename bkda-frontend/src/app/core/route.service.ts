@@ -1,6 +1,6 @@
-import { Routes, Route } from "@angular/router";
-import { ShellComponent } from "@app/modules/shell/shell.component";
-import { AuthenticationGuard } from "@app/core/authentication/authentication.guard";
+import { Routes, Route } from '@angular/router';
+import { ShellComponent } from '@app/modules/shell/shell.component';
+import { AuthenticationGuard } from '@app/core/authentication/authentication.guard';
 
 export class BKDARoute {
     static withShell(routes: Routes): Route {

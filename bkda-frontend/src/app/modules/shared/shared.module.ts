@@ -12,7 +12,7 @@ import { MaterialModule } from '@app/material.module';
 //   } from './components';
 
 @NgModule({
-    imports: [ 
+    imports: [
         FlexLayoutModule,
         CommonModule,
         MaterialModule

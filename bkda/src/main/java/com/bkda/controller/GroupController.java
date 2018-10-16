@@ -17,8 +17,13 @@ public class GroupController {
         modal.addAttribute("title","AngularJS CRUD Example");
         return new ResponseEntity<>("", HttpStatus.CREATED);
     }
+	
+	@RequestMapping(path = "/users/{userId}")
+    public ResponseEntity<?> getGroupByUserId(@PathVariable("userId") final long userId) {
+    	return new ResponseEntity<>("", HttpStatus.OK);
+    }
  
-    @RequestMapping(path = "/{groupId}")
+    @RequestMapping(path = "/{groupId}", method = RequestMethod.PUT)
     public ResponseEntity<?> update(@PathVariable("groupId") final String groupId) {
     	return new ResponseEntity<>("", HttpStatus.OK);
     }

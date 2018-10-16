@@ -18,5 +18,9 @@ public final class Constants {
     public static final int ERROR_PASSWORD_STRENGTH = 1006;
     public static final int ERROR_FIRSTNAME_MISSING = 1007;
     public static final int ERROR_LASTNAME_MISSING = 1008;
+    
+    public static final int ERROR_EXCEED_FILE_SIZE = 1030;
+    public static final int ERROR_STORE_FILE = 1031;
+    public static final int ERROR_EXCEED_MAXIMUM_NUMBER_OF_FILE_UPLOADED = 1032;
 }
 

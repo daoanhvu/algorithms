@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages={
 		"com.bkda", 
+		"com.bkda.dao",
 		"com.bkda.service",
 		"com.bkda.gateway",
 		"com.bkda.config",

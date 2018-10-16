@@ -50,16 +50,19 @@ amqp:
 security.jwt:
   tokenExpirationTime: 120 # Number of minutes
   refreshTokenExpTime: 60 # Minutes
-  tokenIssuer: http://myplace.com
+  tokenIssuer: http://bkda.com
   # base 64 encoded signing key
   tokenSigningKey: 5776bf874388d3c2ab89810739275b649fe740ba12
   securedAuthenticationEntryUrl: /api/**
   Issuer: bkda.com
   unsecuredPaths: [/api-docs/**, /api/v1/users/signup, /api/v1/users/signin, /configuration/ui, /swagger-resources, /configuration/security, /swagger-ui.html, /swagger-ui.html/**, /webjars/**, /swagger-resources/configuration/ui,/swagger-resources/configuration/security, /manage/**,/hystrix.stream]
-    
+   
+storage:
+  mediaFolderPath: /opt/bkda/media
+     
 logging:
   level:
     org.springframework.web: debug
     org.hibernate: error
-  file: /home/vdao/data/bkda/bkda_log2.txt
+  file: /opt/bkda/logs/bkda_log2.txt
     

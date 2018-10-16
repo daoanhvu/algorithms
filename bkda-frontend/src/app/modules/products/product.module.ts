@@ -1,7 +1,17 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatGridListModule } from '@angular/material';
+
+import { MaterialModule } from '@app/material.module';
 import { ProductListComponent } from '@app/modules/products/productlist/productlist.component';
 
 @NgModule({
-    declarations: [ ProductListComponent ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        MatGridListModule
+    ],
+    declarations: [  ],
+    entryComponents: [ ProductListComponent ]
 })
 export class ProductModule { }

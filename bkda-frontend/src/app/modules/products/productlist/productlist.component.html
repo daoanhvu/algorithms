@@ -1,0 +1,9 @@
+<mat-grid-list cols="4" width="100%" rowHeight="1:1">
+    <mat-grid-tile 
+        *ngFor="let tile of dataSource"
+        [colspan]="1"
+        [rowspan]="1"
+        >
+        {{tile.name}}
+    </mat-grid-tile>
+</mat-grid-list>

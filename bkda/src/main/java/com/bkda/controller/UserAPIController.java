@@ -107,9 +107,11 @@ public class UserAPIController {
     // ------------------- User Signin -----------------------------------------
  
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public ResponseEntity<CredentialsDTO> signin(@RequestBody SigninDTO signinDTO) {
+    public ResponseEntity<ContentResponse<CredentialsDTO>> signin(@RequestBody SigninDTO signinDTO) {
         CredentialsDTO result = userService.signin(signinDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        ContentResponse<CredentialsDTO> response = new ContentResponse<>();
+        response.setContent(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
  
     // ------------------- Delete All Users-----------------------------

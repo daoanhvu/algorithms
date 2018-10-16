@@ -56,6 +56,6 @@ public class AccountPermission {
 
     @Override
     public String toString() {
-        return application + ":" + group + ":" + role;
+        return group + ":" + role;
     }
 }

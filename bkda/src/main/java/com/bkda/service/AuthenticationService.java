@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.bkda.dto.CredentialsDTO;
 import com.bkda.exception.BKDAServiceException;
+import com.bkda.model.User;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -24,30 +25,30 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class AuthenticationService {
 	
-//	@Value("${jwt.tokenSigninKey}")
-	private String tokenSigninKey = "sdfasdf";
+	@Value("${security.jwt.tokenSigningKey}")
+	private String tokenSigningKey;
 	
-//	@Value("${jwt.Issuer}")
-	private String tokenIssuer = "bkda.com";
+	@Value("${security.jwt.Issuer}")
+	private String tokenIssuer;
 
-	public CredentialsDTO createCredentials(@NotNull String username, 
-			@NotNull String grantType,
-			String scopeStrings) throws BKDAServiceException {
+	public CredentialsDTO createCredentials(@NotNull User user, 
+			@NotNull String grantType) throws BKDAServiceException {
 		
 		SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;
 		CredentialsDTO credentials = new CredentialsDTO();
 		Date now = Date.from(Instant.now(Clock.systemUTC()));
         //TODO: set duration of the token to 1 hour
         Date dueDate = DateUtils.addHours(now, 1);
-        byte[] keyBytes = DatatypeConverter.parseBase64Binary(tokenSigninKey);
+        byte[] keyBytes = DatatypeConverter.parseBase64Binary(tokenSigningKey);
         Key signKey = new SecretKeySpec(keyBytes, algorithm.getJcaName());
         HashMap<String, Object> claims = new HashMap<>();
-        claims.put("issuer", tokenIssuer);
-        claims.put("issuedAt", now);
-        claims.put("username", username);
+        claims.put("iss", tokenIssuer);
+        claims.put("iat", now);
+        claims.put("sub", user.getId());
+        claims.put("username", user.getUsername());
         claims.put("grantType", grantType);
-        claims.put("scope", scopeStrings);
-        claims.put("expiration", dueDate);
+        claims.put("scope", user.getScopes());
+        claims.put("exp", dueDate);
         JwtBuilder jwtBuilder = Jwts.builder()
                 .setClaims(claims)
                 .signWith(algorithm, signKey);
