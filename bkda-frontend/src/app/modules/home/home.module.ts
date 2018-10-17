@@ -12,6 +12,7 @@ import { ProductListComponent } from '@app/modules/products/productlist/productl
 import { ProductService } from '@app/services/product.service';
 import { ProductCardComponent } from '@app/modules/products/productcard/productcard.component';
 import { GroupListComponent } from '@app/modules/group/grouplist.component';
+import { LoggedUserComponent } from '@app/modules/home/loggeduser/loggeduser.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,7 @@ import { GroupListComponent } from '@app/modules/group/grouplist.component';
     ],
     entryComponents: [ HomeComponent ],
     declarations: [
-        HomeComponent, GroupListComponent, ProductListComponent, ProductCardComponent
+        HomeComponent, LoggedUserComponent, GroupListComponent, ProductListComponent, ProductCardComponent
     ],
     providers: [
         ProductService

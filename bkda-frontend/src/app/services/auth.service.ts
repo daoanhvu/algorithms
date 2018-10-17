@@ -28,14 +28,24 @@ export class AuthenticationService {
     .pipe( map( (res: any) => {
         if (res && res.internalCode === 0) {
           const accessToken: string = res.content.accessToken;
-          const data = {
+          const data: Credentials = {
             username: loginObj.username.toLowerCase(),
             token: accessToken
           };
-          this.setCredential(data, loginObj.remember);
+          this.setCredentials(data, loginObj.remember);
           return res;
         }
       }));
+  }
+
+  /**
+   * Logs out the user and clear credentials.
+   * @return True if the user was logged out successfully.
+   */
+  logout(): Observable<boolean> {
+    // Customize credentials invalidation here
+    this.setCredentials();
+    return of(true);
   }
 
   register(newUser: any): Observable<any> {
@@ -56,7 +66,7 @@ export class AuthenticationService {
     return this._credentials;
   }
 
-  private setCredential(credentials?: Credentials, remember?: boolean) {
+  private setCredentials(credentials?: Credentials, remember?: boolean) {
     this._credentials = credentials || null;
     if (credentials) {
       const storage = remember ? localStorage : sessionStorage;
