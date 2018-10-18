@@ -58,22 +58,17 @@ public class User extends GenericObject {
 	@Column(name="status")
 	private int status;
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "usergroups",
-			joinColumns = { @JoinColumn(name = "member" ) },
-			inverseJoinColumns = { @JoinColumn(name = "group_id") }
-			)
-	private Set<Group> groups = new HashSet<>();
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy="user")
+	private Set<UserGroup> groups = new HashSet<>();
 	
 	@JsonManagedReference
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<Scope> scopes = new HashSet<>();
 	
-	public Set<Group> getGroups() {
+	public Set<UserGroup> getGroups() {
 		return groups;
 	}
-	public void setGroups(Set<Group> grps) {
+	public void setGroups(Set<UserGroup> grps) {
 		this.groups = grps;
 	}
 	public String getPhoneNumber() {

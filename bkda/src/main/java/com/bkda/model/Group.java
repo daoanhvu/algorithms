@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,8 +24,8 @@ public class Group extends GenericObject {
 	@Column(name = "created_time")
 	private Date createdTime;
 	
-	@ManyToMany(mappedBy = "groups", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	private Set<User> members = new HashSet<>();
+	@OneToMany(mappedBy = "group", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	private Set<UserGroup> members = new HashSet<>();
 
 	public Date getCreatedTime() {
 		return createdTime;
@@ -34,11 +35,11 @@ public class Group extends GenericObject {
 		this.createdTime = createdTime;
 	}
 
-	public Set<User> getMembers() {
+	public Set<UserGroup> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Set<User> members) {
+	public void setMembers(Set<UserGroup> members) {
 		this.members = members;
 	}
 }

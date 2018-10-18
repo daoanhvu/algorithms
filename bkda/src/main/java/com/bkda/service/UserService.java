@@ -9,6 +9,7 @@ import com.bkda.dto.CredentialsDTO;
 import com.bkda.dto.SigninDTO;
 import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
+import com.bkda.model.Group;
 import com.bkda.model.User;
 
 public interface UserService {

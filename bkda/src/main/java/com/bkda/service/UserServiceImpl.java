@@ -26,6 +26,7 @@ import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
 import com.bkda.exception.BKDAServiceException;
 import com.bkda.exception.MultiErrorsException;
+import com.bkda.model.Group;
 import com.bkda.model.Scope;
 import com.bkda.model.User;
 import com.bkda.util.DataHelper;
@@ -208,5 +209,4 @@ public class UserServiceImpl implements UserService {
 			
 		return errors;
 	}
-
 }
