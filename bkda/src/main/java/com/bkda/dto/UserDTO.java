@@ -12,6 +12,7 @@ public class UserDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -19701603628023107L;
 	
+	private long userId;
 	private String firstName;
 	private String lastName;
 	private String userName;
@@ -20,11 +21,10 @@ public class UserDTO implements Serializable {
 	private String phoneNumber;
 	private Character sex;
 	
-	public UserDTO() {
-		
-	}
+	public UserDTO() {	}
 	
 	public UserDTO( User user ) {
+		this.userId = user.getId();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.userName = user.getUsername();
@@ -34,6 +34,14 @@ public class UserDTO implements Serializable {
 		this.sex = user.getSex();
 	}
 	
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

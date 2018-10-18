@@ -16,7 +16,8 @@ import javax.persistence.Table;
 public class UserGroup {
 	public enum UserGroupRole {
 		MEMBER,
-		ADMIN
+		ADMIN,
+		OWNER
 	}
 	
 	@EmbeddedId
@@ -35,4 +36,44 @@ public class UserGroup {
 	private UserGroupRole role; 
 	
 	private Date joinTime;
+
+	public UserGroupKey getId() {
+		return id;
+	}
+
+	public void setId(UserGroupKey id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+	public UserGroupRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserGroupRole role) {
+		this.role = role;
+	}
+
+	public Date getJoinTime() {
+		return joinTime;
+	}
+
+	public void setJoinTime(Date joinTime) {
+		this.joinTime = joinTime;
+	}
 }

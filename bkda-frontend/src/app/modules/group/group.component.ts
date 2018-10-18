@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '@app/models';
+import { UserService } from '@app/services/user.service';
+import { JwtService } from '@app/services/jwt.service';
 
 @Component({
     selector: 'app-group',
@@ -11,11 +13,16 @@ export class GroupComponent implements OnInit {
     allMembers: User[] = [];
     filteredUsers: User[] = [];
 
-    constructor() {
+    constructor(
+        private jwtService: JwtService,
+        private userService: UserService) {
 
     }
 
     ngOnInit() {
+        this.userService.loadMemberList(this.jwtService.getCredentials().userid).subscribe(
+            (res: any) => {
 
+        });
     }
 }

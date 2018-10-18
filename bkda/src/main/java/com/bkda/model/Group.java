@@ -10,10 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,11 +19,25 @@ import javax.persistence.Table;
 @Inheritance( strategy = InheritanceType.JOINED )
 public class Group extends GenericObject {
 	
+	private String description;
+	
 	@Column(name = "created_time")
 	private Date createdTime;
 	
+	@OneToOne(targetEntity = User.class)
+	private User owner;
+	
 	@OneToMany(mappedBy = "group", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	private Set<UserGroup> members = new HashSet<>();
+
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public Date getCreatedTime() {
 		return createdTime;
@@ -41,5 +53,18 @@ public class Group extends GenericObject {
 
 	public void setMembers(Set<UserGroup> members) {
 		this.members = members;
+	}
+	
+	public void addMember(UserGroup userGroup) {
+		this.members.add(userGroup);
+		userGroup.setGroup(this);
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 }

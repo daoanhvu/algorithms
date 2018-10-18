@@ -16,6 +16,7 @@ import { LoggedUserComponent } from '@app/modules/home/loggeduser/loggeduser.com
 import { GroupComponent } from '@app/modules/group/group.component';
 import { UserDetailComponent } from '@app/modules/user/user.details/userdetail.component';
 import { UserService } from '@app/services/user.service';
+import { MemberListComponent } from '@app/modules/group/memberlist/memberlist.component';
 
 @NgModule({
     imports: [
@@ -32,9 +33,14 @@ import { UserService } from '@app/services/user.service';
     ],
     entryComponents: [ HomeComponent ],
     declarations: [
-        HomeComponent, LoggedUserComponent, GroupComponent,
-        GroupListComponent, ProductListComponent, ProductCardComponent,
-        UserDetailComponent
+        HomeComponent,
+        LoggedUserComponent,
+        GroupComponent,
+        GroupListComponent,
+        ProductListComponent,
+        ProductCardComponent,
+        UserDetailComponent,
+        MemberListComponent
     ],
     providers: [
         ProductService, UserService

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { User } from '@app/models';
+import { Group } from '@app/models';
 @Component({
     selector: 'app-group-list',
     styleUrls: ['./grouplist.component.scss'],
@@ -8,7 +8,7 @@ import { User } from '@app/models';
 })
 export class GroupListComponent implements OnInit {
     @Input()
-    members: User[] = [];
+    groups: Group[] = [];
     constructor() {
 
     }

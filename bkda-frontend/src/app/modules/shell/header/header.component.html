@@ -5,7 +5,7 @@
         </button>
         <span>Xin chao from Page Header</span>
     </mat-toolbar-row>
-    <mat-toolbar-row fxHide.lt-md class="container">
+    <mat-toolbar-row fxLayoutAlign="end center" fxHide.lt-md class="container">
         <button mat-icon-button [matMenuTriggerFor]="LoggedInUserMenu">
             <mat-icon>account_circle</mat-icon>
         </button>
@@ -15,7 +15,7 @@
                     <button mat-menu-item routerLink="/account_settings" routerLinkActive="active">{{username}}</button>
                 </mat-list-item>
                 <mat-list-item>
-                    <button mat-menu-item routerLink="/home/group" routerLinkActive="active">{{username}}</button>
+                    <button mat-menu-item routerLink="/home/group" routerLinkActive="active">Group</button>
                 </mat-list-item>
                 <mat-list-item>
                     <span mat-line></span>

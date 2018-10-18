@@ -1,9 +1,11 @@
 package com.bkda.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class UserGroupKey {
+public class UserGroupKey implements Serializable {
 	private long userId;
 	private long groupId;
 	public long getUserId() {

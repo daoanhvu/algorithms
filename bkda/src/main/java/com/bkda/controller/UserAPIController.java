@@ -125,11 +125,5 @@ public class UserAPIController {
 //    }
     
     /*=========== API for Group of user ======================================= */
-    @RequestMapping(value = "/{uid}", method = RequestMethod.GET)
-    public ResponseEntity<ContentResponse<Group>> getUserGroup(@PathVariable("uid") int uid) {
-        User user = userService.findUserById(uid);
-        ContentResponse<User> response = new ContentResponse<>();
-        response.setContent(user);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    
 }

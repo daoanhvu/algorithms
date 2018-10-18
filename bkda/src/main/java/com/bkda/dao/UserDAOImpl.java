@@ -1,6 +1,8 @@
 package com.bkda.dao;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,8 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bkda.dto.GroupDTO;
+import com.bkda.model.Group;
 import com.bkda.model.Scope;
 import com.bkda.model.User;
+import com.bkda.model.UserGroup;
 
 @Repository(value="userDAO")
 public class UserDAOImpl implements UserDAO {
@@ -118,5 +123,52 @@ public class UserDAOImpl implements UserDAO {
 	public Scope saveScope(Scope scope) {
 		this.entityManager.persist(scope);
 		return scope;
+	}
+
+	@Override
+	public Group getGroupByUserId(long uid) {
+		String sql1 = "from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup.UserGroupRole.OWNER";
+		Query query1 = this.entityManager.createQuery(sql1);
+		query1.setParameter("uid", uid);
+		try {
+			UserGroup userGroup = (UserGroup) query1.getSingleResult();
+			long groupId = userGroup.getId().getGroupId();
+			String strQuery = "from Group g fetch g.members "
+					+ "where g.id = :gid";
+			Query query = this.entityManager.createQuery(strQuery);
+			query.setParameter("gid", groupId);
+			return (Group) query.getSingleResult();
+		} catch(NoResultException ex) {
+			return null;
+		}
+	}
+
+	@Override
+	public Group createGroupByUser(GroupDTO groupdto) {
+		long uid = groupdto.getUserId();
+		String sql1 = "select count(g) > 0 from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup.UserGroupRole.OWNER";
+		Query query1 = this.entityManager.createQuery(sql1);
+		query1.setParameter("uid", uid);
+		Boolean isOwned = (Boolean) query1.getSingleResult();
+		
+		if(isOwned) {
+			return getGroupByUserId(uid);
+		}
+		
+		User u = entityManager.find(User.class, uid);
+		
+		UserGroup userGroup = new UserGroup();
+		userGroup.setRole(UserGroup.UserGroupRole.OWNER);
+		userGroup.setUser(u);
+		
+		Group newGroup = new Group();
+		newGroup.setCreatedTime(Date.from(Instant.now(Clock.systemUTC())));
+		newGroup.setDescription(groupdto.getDescription());
+		newGroup.addMember(userGroup);
+		newGroup.setOwner(u);
+		
+		this.entityManager.persist(newGroup);
+		
+		return newGroup;
 	}
 }
