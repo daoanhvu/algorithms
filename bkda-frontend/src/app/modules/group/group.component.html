@@ -1,6 +1,13 @@
-<div>
-    <app-group-list></app-group-list>
+<div fxLayout="row" fxLayoutAlign="start start">
     <div>
+        <app-group-list></app-group-list>
+    </div>
+    <div fxLayout="column">
+        <div>
+            <span>
+                
+            </span>
+        </div>
         <app-group-member-list [members]="filteredUsers" ></app-group-member-list>
     </div>
 </div>
