@@ -1,4 +1,4 @@
-package com.bkda.dto;
+package com.bkda.dto.response;
 
 import java.io.Serializable;
 

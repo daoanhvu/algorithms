@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '@app/models';
+import { User, Group } from '@app/models';
 import { UserService } from '@app/services/user.service';
 import { JwtService } from '@app/services/jwt.service';
+import { PageEvent } from '@angular/material';
 
 @Component({
     selector: 'app-group',
@@ -10,8 +11,11 @@ import { JwtService } from '@app/services/jwt.service';
     templateUrl: './group.component.html'
 })
 export class GroupComponent implements OnInit {
+    group: Group;
     allMembers: User[] = [];
     filteredUsers: User[] = [];
+
+    pageEvent: PageEvent;
 
     constructor(
         private jwtService: JwtService,
@@ -20,9 +24,11 @@ export class GroupComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.loadMemberList(this.jwtService.getCredentials().userid).subscribe(
-            (res: any) => {
+        this.pageEvent = new PageEvent();
+        this.userService.loadMemberList(this.jwtService.getCredentials().userid, 0, 25)
+            .subscribe(
+                (res: any) => {
 
-        });
+            });
     }
 }

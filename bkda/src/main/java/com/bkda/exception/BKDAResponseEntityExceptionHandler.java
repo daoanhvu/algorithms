@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.List;
 
-import com.bkda.dto.ContentResponse;
 import com.bkda.dto.ErrorContent;
+import com.bkda.dto.response.ContentResponse;
 
 @ControllerAdvice
 @RestController

@@ -17,7 +17,7 @@ public interface UserDAO {
 	User saveUser(User user);
 	Scope saveScope(Scope scope);
 	List<User> getUsersByName(String name);
-	Page<User> search(String username, String lastname, String firstname, Character sex, Pageable paging);
+	Page<User> search(String username, Long groupId, String lastname, String firstname, Character sex, Pageable paging);
 	boolean isUserExist(long id);
 	
 	/*=======================================*/

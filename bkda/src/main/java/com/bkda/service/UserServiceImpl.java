@@ -71,9 +71,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Page<User> search(String username, String firstname, String lastname, 
-			Character sex, Pageable paging) {
-		return userDAO.search(username, firstname, lastname, sex, paging);
+	public Page<User> search(UserDTO userDto, Pageable paging) {
+		return userDAO.search(userDto.getUserName(), userDto.getGroupId(), userDto.getFirstName(), 
+				userDto.getLastName(), userDto.getSex(), paging);
 	}
 
 	@Override
