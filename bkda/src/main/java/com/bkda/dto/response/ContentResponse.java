@@ -1,4 +1,4 @@
-package com.bkda.dto;
+package com.bkda.dto.response;
 
 public class ContentResponse<T> extends BaseResponse {
 

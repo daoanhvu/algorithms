@@ -1,6 +1,7 @@
 package com.bkda.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bkda.dao.UserDAO;
@@ -18,6 +19,10 @@ public class GroupService {
 	}
 	
 	public Group createGroup(GroupDTO groupdto) {
+		return userDAO.createGroupByUser(groupdto);
+	}
+	
+	public Group searchMembers(GroupDTO groupdto, Pageable pageable) {
 		return userDAO.createGroupByUser(groupdto);
 	}
 	

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 import { BKDARoute } from '@app/core/route.service';
+import { GroupComponent } from '@app/modules/group/group.component';
 
 const routes: Routes = [
     BKDARoute.withShell([
@@ -18,6 +19,11 @@ const routes: Routes = [
                     path: '',
                     component: HomeComponent,
                     data: {}
+                },
+                {
+                    path: 'group',
+                    component: GroupComponent,
+                    data: { }
                 }
             ]
         }

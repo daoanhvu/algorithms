@@ -11,8 +11,12 @@ export class UserService {
         private http: HttpService,
         private jwtService: JwtService) { }
 
-    loadMemberList(userId: number): Observable<any> {
-        return this.http.get('/api/v1/users/groups/' + userId)
+    loadMemberList(userId: number, page: number, size: number): Observable<any> {
+        const params = {
+            groupId: this.jwtService.getCredentials().groupid,
+            userId: userId
+        };
+        return this.http.post('/api/v1/groups/members?page=' + page + '&pageSize=' + size, params)
             .pipe( map( (res: any) => {
                 return res;
             } ) );

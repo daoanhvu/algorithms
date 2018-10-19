@@ -57,11 +57,12 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public Page<User> search(String username, String firstname, 
+	public Page<User> search(String username, Long groupId, String firstname, 
 							String lastname, Character sex, Pageable paging) {
 		
 		List<User> result =  null;
 		String whereClause = "where ( ( :username = null ) or ( u.username like :username ) ) "
+//				+ "and ((:groupId = null) or ()) "
 				+ "and ( ( :firstname = null ) or (u.firstName like :firstname) ) "
 				+ "and ( ( :lastname = null ) or (u.lastName like :lastname) ) ";
 		String strQuery = "select u from User ";
@@ -128,16 +129,10 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public Group getGroupByUserId(long uid) {
-		String sql1 = "from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup$UserGroupRole.OWNER";
-		Query query1 = this.entityManager.createQuery(sql1);
-		query1.setParameter("uid", uid);
 		try {
-			UserGroup userGroup = (UserGroup) query1.getSingleResult();
-			long groupId = userGroup.getId().getGroupId();
-			String strQuery = "from Group g fetch g.members "
-					+ "where g.id = :gid";
+			String strQuery = "from Group where owner.id = :uid";
 			Query query = this.entityManager.createQuery(strQuery);
-			query.setParameter("gid", groupId);
+			query.setParameter("uid", uid);
 			return (Group) query.getSingleResult();
 		} catch(NoResultException ex) {
 			return null;
@@ -148,13 +143,13 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public Group createGroupByUser(GroupDTO groupdto) {
 		long uid = groupdto.getUserId();
-		String sql1 = "select count(g) > 0 from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup$UserGroupRole.OWNER";
+		String sql1 = "from Group g where g.owner.id = :uid";
 		Query query1 = this.entityManager.createQuery(sql1);
 		query1.setParameter("uid", uid);
-		Boolean isOwned = (Boolean) query1.getSingleResult();
+		List<Group> groups = query1.getResultList();
 		
-		if(isOwned) {
-			return getGroupByUserId(uid);
+		if(groups.size() > 0) {
+			return groups.get(0);
 		}
 		
 		User u = entityManager.find(User.class, uid);
@@ -171,7 +166,6 @@ public class UserDAOImpl implements UserDAO {
 		u.addToGroup(userGroup);
 		
 		newGroup.addMember(userGroup);
-//		this.entityManager.persist(userGroup);
 		
 		this.entityManager.persist(newGroup);
 		

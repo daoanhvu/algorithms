@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '@app/models';
+import { User, Group } from '@app/models';
 import { UserService } from '@app/services/user.service';
 import { JwtService } from '@app/services/jwt.service';
 
@@ -10,6 +10,7 @@ import { JwtService } from '@app/services/jwt.service';
     templateUrl: './group.component.html'
 })
 export class GroupComponent implements OnInit {
+    group: Group;
     allMembers: User[] = [];
     filteredUsers: User[] = [];
 

@@ -1,9 +1,9 @@
 package com.bkda.controller;
 
-import com.bkda.dto.ContentResponse;
 import com.bkda.dto.MediaDTO;
 import com.bkda.dto.ProductDTO;
 import com.bkda.dto.UploadFileResult;
+import com.bkda.dto.response.ContentResponse;
 import com.bkda.model.Product;
 import com.bkda.service.MediaService;
 import com.bkda.service.ProductService;

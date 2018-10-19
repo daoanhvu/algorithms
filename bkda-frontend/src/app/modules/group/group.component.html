@@ -1,6 +1,11 @@
 <div>
     <app-group-list></app-group-list>
     <div>
+        <div>
+            <span>
+                {{group.description}}
+            </span>
+        </div>
         <app-group-member-list [members]="filteredUsers" ></app-group-member-list>
     </div>
 </div>

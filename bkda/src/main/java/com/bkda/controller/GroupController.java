@@ -1,6 +1,7 @@
 package com.bkda.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -10,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bkda.dto.ContentResponse;
 import com.bkda.dto.GroupDTO;
+import com.bkda.dto.UserDTO;
+import com.bkda.dto.response.ContentResponse;
 import com.bkda.model.Group;
 import com.bkda.model.User;
 import com.bkda.service.GroupService;
@@ -45,8 +47,8 @@ public class GroupController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(path = "/search")
-    public ResponseEntity<?> search(@PathVariable("groupId") final String groupId) {
+    @RequestMapping(path = "/members", method = RequestMethod.POST)
+    public ResponseEntity<?> search(@RequestBody UserDTO userDto, Pageable pageable) {
     	return new ResponseEntity<>("", HttpStatus.OK);
     }
 }
