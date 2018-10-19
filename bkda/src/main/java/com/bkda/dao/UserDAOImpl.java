@@ -1,8 +1,8 @@
 package com.bkda.dao;
 
-import java.sql.Date;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,6 +21,7 @@ import com.bkda.model.Group;
 import com.bkda.model.Scope;
 import com.bkda.model.User;
 import com.bkda.model.UserGroup;
+import com.bkda.model.UserGroupKey;
 
 @Repository(value="userDAO")
 public class UserDAOImpl implements UserDAO {
@@ -143,6 +144,7 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	@Transactional
 	@Override
 	public Group createGroupByUser(GroupDTO groupdto) {
 		long uid = groupdto.getUserId();
@@ -156,16 +158,20 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 		User u = entityManager.find(User.class, uid);
+		Date createdTime = Date.from(Instant.now(Clock.systemUTC()));
+		Group newGroup = new Group();
+		newGroup.setCreatedTime(createdTime);
+		newGroup.setDescription(groupdto.getDescription());
+		newGroup.setOwner(u);
 		
 		UserGroup userGroup = new UserGroup();
 		userGroup.setRole(UserGroup.UserGroupRole.OWNER);
 		userGroup.setUser(u);
+		userGroup.setJoinTime(createdTime);
+		u.addToGroup(userGroup);
 		
-		Group newGroup = new Group();
-		newGroup.setCreatedTime(Date.from(Instant.now(Clock.systemUTC())));
-		newGroup.setDescription(groupdto.getDescription());
 		newGroup.addMember(userGroup);
-		newGroup.setOwner(u);
+//		this.entityManager.persist(userGroup);
 		
 		this.entityManager.persist(newGroup);
 		

@@ -139,4 +139,7 @@ public class User extends GenericObject {
 		this.scopes = scopes;
 	}
 	
+	public void addToGroup(UserGroup userGroup) {
+		this.groups.add(userGroup);
+	}
 }

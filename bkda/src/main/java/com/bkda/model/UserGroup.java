@@ -2,14 +2,18 @@ package com.bkda.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "users_groups")
@@ -21,13 +25,17 @@ public class UserGroup {
 	}
 	
 	@EmbeddedId
-	private UserGroupKey id;
+	private UserGroupKey id = new UserGroupKey();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"properties", "email", "firstName", "lastName", "groups", "scopes", "avatar", "password", "startDate", "status"})
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "user_objectid")
 	@MapsId("userId")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"propeties", "owner", "members"})
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "group_objectid")
 	@MapsId("groupId")
 	private Group group;
 	
