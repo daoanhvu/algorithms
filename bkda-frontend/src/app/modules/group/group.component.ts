@@ -11,6 +11,7 @@ import { PageEvent } from '@angular/material';
     templateUrl: './group.component.html'
 })
 export class GroupComponent implements OnInit {
+    groups: Group[] = [];
     group: Group;
     allMembers: User[] = [];
     filteredUsers: User[] = [];
@@ -20,15 +21,30 @@ export class GroupComponent implements OnInit {
     constructor(
         private jwtService: JwtService,
         private userService: UserService) {
+        this.createFakeData();
+    }
 
+    private createFakeData() {
+        this.group = {
+            description: 'Chao mung cac ban den voi nhom cua chung toi',
+            name: 'Fake Group',
+            owner: {
+                userId: 2,
+                username: 'admin@bkda.com',
+                firstname: 'Admin',
+                lastname: 'System',
+                phone: '123456'
+            }
+        };
+        this.groups.push(this.group);
     }
 
     ngOnInit() {
-        this.pageEvent = new PageEvent();
-        this.userService.loadMemberList(this.jwtService.getCredentials().userid, 0, 25)
-            .subscribe(
-                (res: any) => {
+        // this.pageEvent = new PageEvent();
+        // this.userService.loadMemberList(this.jwtService.getCredentials().userid, 0, 25)
+        //     .subscribe(
+        //         (res: any) => {
 
-            });
+        //     });
     }
 }

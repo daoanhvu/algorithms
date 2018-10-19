@@ -7,6 +7,8 @@ import { Group } from '@app/models';
     templateUrl: './grouplist.component.html'
 })
 export class GroupListComponent implements OnInit {
+
+    displayedColumns: string[] = [ 'GroupName' ];
     @Input()
     groups: Group[] = [];
     constructor() {

@@ -16,7 +16,7 @@ public class UserDTO implements Serializable {
 	private Long groupId;
 	private String firstName;
 	private String lastName;
-	private String userName;
+	private String username;
 	private String email;
 	private Date startDate;
 	private String phoneNumber;
@@ -28,7 +28,7 @@ public class UserDTO implements Serializable {
 		this.userId = user.getId();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.userName = user.getUsername();
+		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.startDate = user.getStartDate();
 		this.phoneNumber = user.getPhoneNumber();
@@ -80,11 +80,11 @@ public class UserDTO implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 
 	public Long getGroupId() {

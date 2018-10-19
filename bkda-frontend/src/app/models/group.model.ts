@@ -5,5 +5,4 @@ export interface Group {
     name: string;
     description: string;
     members?: User[];
-    username: string;
 }

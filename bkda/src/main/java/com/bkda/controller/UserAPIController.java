@@ -21,7 +21,6 @@ import com.bkda.dto.SigninDTO;
 import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
 import com.bkda.dto.response.ContentResponse;
-import com.bkda.model.Group;
 import com.bkda.model.User;
 import com.bkda.service.UserService;
 
@@ -47,7 +46,8 @@ public class UserAPIController {
 //    })
     @RequestMapping(value = "/search", method = RequestMethod.POST, 
     	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ContentResponse<Page<UserDTO>>> search(@RequestBody UserDTO criteria, Pageable paging) {
+    public ResponseEntity<ContentResponse<Page<UserDTO>>> search(@RequestBody UserDTO criteria,
+    			Pageable paging) {
         Page<User> page = userService.search(criteria, paging);
         List<UserDTO> userDtos = page.getContent().stream().map(UserDTO::new).collect(Collectors.toList());
         Page<UserDTO> p = new PageImpl<>(userDtos, paging, page.getTotalElements());
@@ -123,6 +123,6 @@ public class UserAPIController {
 //        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 //    }
     
-    /*=========== API for Group of user ======================================= */
+    /*=========== APIs for Administrators ======================================= */
     
 }

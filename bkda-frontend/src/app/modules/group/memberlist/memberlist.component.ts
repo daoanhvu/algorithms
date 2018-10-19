@@ -7,6 +7,8 @@ import { User } from '@app/models';
     templateUrl: './memberlist.component.html'
 })
 export class MemberListComponent implements OnInit {
+
+    displayedColumns: string[] = [ 'FirstName', 'LastName', 'Username', 'Phone', 'Role' ];
     @Input()
     members: User[] = [];
     constructor() {

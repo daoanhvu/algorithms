@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -24,6 +25,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name="users")
 @Inheritance( strategy = InheritanceType.JOINED )
 public class User extends GenericObject {
+	
+	public enum UserStatus {
+		ACTIVE,
+		INACTIVE,
+		PANNED,
+		DELETED
+	}
 	
 	@Column(name="firstname")
 	private String firstName;
@@ -55,8 +63,9 @@ public class User extends GenericObject {
 	@JoinColumn(name="avatar", nullable = true)
 	private Media avatar;
 	
-	@Column(name="status")
-	private int status;
+	@Enumerated
+	@Column(name="status", columnDefinition = "smallint")
+	private UserStatus status;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy="user")
 	private Set<UserGroup> groups = new HashSet<>();
@@ -126,10 +135,10 @@ public class User extends GenericObject {
 	public void setAvatar(Media avatar) {
 		this.avatar = avatar;
 	}
-	public int getStatus() {
+	public UserStatus getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
 	public Set<Scope> getScopes() {

@@ -11,7 +11,7 @@ import com.bkda.model.Scope;
 import com.bkda.model.User;
 
 public interface UserDAO {
-	boolean updateUser(User user);
+	User updateUser(User user);
 	User findUserById(long id);
 	User checkSignin(String username, String hashedPassword);
 	User saveUser(User user);

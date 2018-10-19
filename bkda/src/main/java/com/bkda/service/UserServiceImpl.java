@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Page<User> search(UserDTO userDto, Pageable paging) {
-		return userDAO.search(userDto.getUserName(), userDto.getGroupId(), userDto.getFirstName(), 
+		return userDAO.search(userDto.getUsername(), userDto.getGroupId(), userDto.getFirstName(), 
 				userDto.getLastName(), userDto.getSex(), paging);
 	}
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 		if(errors.size() > 0) {
 			throw new MultiErrorsException(errors, "Update fails");
 		}
-		throw new NotImplementedException("");
+		return userDAO.updateUser(user);
 	}
 
 	@Override
@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(signupDto.getLastName());
 		user.setSex(signupDto.getSex()==null?'F':signupDto.getSex());
 		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
+		user.setStatus(User.UserStatus.INACTIVE);
 //		user = userDAO.saveUser(user);
 		Scope userScope = new Scope("All", "User", "user");
 		userScope.setUser(user);

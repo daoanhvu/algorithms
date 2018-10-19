@@ -56,28 +56,57 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-	@Override
+//	@Override
 	public Page<User> search(String username, Long groupId, String firstname, 
 							String lastname, Character sex, Pageable paging) {
 		
 		List<User> result =  null;
-		String whereClause = "where ( ( :username = null ) or ( u.username like :username ) ) "
-//				+ "and ((:groupId = null) or ()) "
-				+ "and ( ( :firstname = null ) or (u.firstName like :firstname) ) "
-				+ "and ( ( :lastname = null ) or (u.lastName like :lastname) ) ";
-		String strQuery = "select u from User ";
-		String countQueryStr = "select count(*) from User ";
+		String whereClause = "where ( ( :username IS NULL ) or ( u.username like :username ) ) ";
+		String strQuery = "select u from User u ";
+		String countQueryStr = "select count(u) from User u ";
 		
 		Query countQuery = this.entityManager.createQuery(countQueryStr + whereClause);
-		countQuery.setParameter("username", username);
-		countQuery.setParameter("firstName", firstname);
-		countQuery.setParameter("lastName", lastname);
+		countQuery.setParameter("username", "%" + username + "%");
+//		countQuery.setParameter("firstName", firstname);
+//		countQuery.setParameter("lastName", lastname);
 		long total = (Long)countQuery.getSingleResult();
 		
 		Query query = this.entityManager.createQuery(strQuery + whereClause);
-		query.setParameter("username", username);
-		query.setParameter("firstName", firstname);
-		query.setParameter("lastName", lastname);
+		query.setParameter("username", "%" + username + "%");
+//		query.setParameter("firstName", firstname);
+//		query.setParameter("lastName", lastname);
+		query.setFirstResult((int)paging.getOffset());
+		query.setMaxResults(paging.getPageSize());
+		result = (List<User>)query.getResultList();
+		Page<User> page = new PageImpl<>(result, paging, total);
+		return page;
+	}
+	
+//	@Override
+	public Page<User> search2(String username, Long groupId, String firstname, 
+			String lastname, Character sex, Pageable paging) {
+
+		List<User> result =  null;
+		String whereClause = "where ( ( :username IS NULL ) or ( u.username like :username ) ) "
+		+ "and ((:groupId = null) or (g.id = :groupId)) "
+		+ "and ( ( :firstname IS NULL ) or (u.firstName like :firstname) ) "
+		+ "and ( ( :lastname IS NULL ) or (u.lastName like :lastname) ) "
+		+ "and u.status != com.bkda.model.User$UserStatus.DELETED";
+		String strQuery = "select distinct u from User u join u.groups g ";
+		String countQueryStr = "select count(distinct u) from User u join u.groups g ";
+		
+		Query countQuery = this.entityManager.createQuery(countQueryStr + whereClause);
+		countQuery.setParameter("username", "%" + username + "%");
+		countQuery.setParameter("groupId", groupId);
+		countQuery.setParameter("firstname", "%" + firstname + "%");
+		countQuery.setParameter("lastname", "%" + lastname + "%");
+		long total = (Long)countQuery.getSingleResult();
+		
+		Query query = this.entityManager.createQuery(strQuery + whereClause);
+		query.setParameter("username", "%" + username + "%");
+		query.setParameter("groupId", groupId);
+		query.setParameter("firstname", "%" + firstname + "%");
+		query.setParameter("lastname", "%" + lastname + "%");
 		query.setFirstResult((int)paging.getOffset());
 		query.setMaxResults(paging.getPageSize());
 		result = (List<User>)query.getResultList();
@@ -94,22 +123,15 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean updateUser(User user) {
-		String sql = "UPDATE users set firstname=:firstname, "
-				+ "lastname=:lastname, email=:email, phonenumber=:phonenumber where id=:userid";
-		Query updateQ = entityManager.createNativeQuery(sql);
-		updateQ.setParameter("userid",user.getId());
-		updateQ.setParameter("firstname",user.getFirstName());
-		updateQ.setParameter("lastname",user.getLastName());
-		updateQ.setParameter("email",user.getEmail());
-		updateQ.setParameter("phonenumber",user.getPhoneNumber());
-		return updateQ.executeUpdate()>0?true:false;
+	public User updateUser(User user) {
+		return entityManager.merge(user);
 	}
 
 	@Override
 	public User checkSignin(String username, String hashedPassword) {
 		String strQuery = "from User "
-				+ "where username = :username and password = :password";
+				+ "where username = :username and password = :password "
+				+ "and status != com.bkda.model.User$UserStatus.DELETED";
 		Query query = this.entityManager.createQuery(strQuery);
 		query.setParameter("username", username);
 		query.setParameter("password", hashedPassword);
