@@ -127,7 +127,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public Group getGroupByUserId(long uid) {
-		String sql1 = "from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup.UserGroupRole.OWNER";
+		String sql1 = "from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup$UserGroupRole.OWNER";
 		Query query1 = this.entityManager.createQuery(sql1);
 		query1.setParameter("uid", uid);
 		try {
@@ -146,7 +146,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public Group createGroupByUser(GroupDTO groupdto) {
 		long uid = groupdto.getUserId();
-		String sql1 = "select count(g) > 0 from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup.UserGroupRole.OWNER";
+		String sql1 = "select count(g) > 0 from UserGroup g where g.user.id = :uid and g.role = com.bkda.model.UserGroup$UserGroupRole.OWNER";
 		Query query1 = this.entityManager.createQuery(sql1);
 		query1.setParameter("uid", uid);
 		Boolean isOwned = (Boolean) query1.getSingleResult();
