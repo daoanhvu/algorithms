@@ -21,7 +21,17 @@ public class UserGroup {
 	public enum UserGroupRole {
 		MEMBER,
 		ADMIN,
-		OWNER
+		OWNER;
+		
+		public static String nameOf(UserGroupRole role) {
+			switch(role) {
+				case MEMBER: return "Member";
+				case ADMIN: return "Admin";
+				case OWNER: return "Owner";
+				default:
+					return "UNDEFINED";
+			}
+		}
 	}
 	
 	@EmbeddedId

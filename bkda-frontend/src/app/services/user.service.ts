@@ -5,18 +5,24 @@ import { map } from 'rxjs/operators';
 import { HttpService } from '@app/core/http';
 import { JwtService } from '@app/services/jwt.service';
 
+import { Group } from '@app/models';
+
 @Injectable()
 export class UserService {
     constructor(
         private http: HttpService,
         private jwtService: JwtService) { }
 
-    loadMemberList(userId: number, page: number, size: number): Observable<any> {
-        const params = {
-            groupId: this.jwtService.getCredentials().groupid,
-            userId: userId
-        };
-        return this.http.post('/api/v1/groups/members?page=' + page + '&pageSize=' + size, params)
+    getOwnGroup(): Observable<Group> {
+        const userId = this.jwtService.getCredentials().userId;
+        return this.http.get('/api/v1/groups/user/' + userId)
+            .pipe( map( (res: any) => {
+                return res.content;
+            } ) );
+    }
+
+    loadMemberList(groupId: number, page: number, size: number): Observable<any> {
+        return this.http.get('/api/v1/groups/members/' + groupId + '?page=' + page + '&size=' + size)
             .pipe( map( (res: any) => {
                 return res;
             } ) );

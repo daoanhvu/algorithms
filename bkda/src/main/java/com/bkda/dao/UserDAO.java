@@ -7,8 +7,11 @@ import org.springframework.data.domain.Pageable;
 
 import com.bkda.dto.GroupDTO;
 import com.bkda.model.Group;
+import com.bkda.model.GroupMember;
 import com.bkda.model.Scope;
+import com.bkda.model.ToDo;
 import com.bkda.model.User;
+import com.bkda.model.UserGroup;
 
 public interface UserDAO {
 	User updateUser(User user);
@@ -21,6 +24,15 @@ public interface UserDAO {
 	boolean isUserExist(long id);
 	
 	/*=======================================*/
+	Group findGroupById(long id);
 	Group getGroupByUserId(long uid);
 	Group createGroupByUser(GroupDTO groupdto);
+	UserGroup addUserToGroup(long userId, long groupId, UserGroup.UserGroupRole role);
+	// TODO: Check if this method is redundant then remove it
+	Page<User> getGroupUsers(long groupId, Pageable paging);
+	Page<GroupMember> getGroupMembers(long groupId, Pageable paging);
+	
+	/*====== TO DO ==========*/
+	ToDo saveToDo(ToDo todo);
+	List<ToDo> getToDoListOf(long userId);
 }

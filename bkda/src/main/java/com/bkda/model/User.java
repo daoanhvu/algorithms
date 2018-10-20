@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -43,6 +44,7 @@ public class User extends GenericObject {
 	@Column(name="username")
 	private String username;
 	
+	@JsonIgnore
 	@Column(name="password")
 	private String password;
 	
@@ -67,11 +69,12 @@ public class User extends GenericObject {
 	@Column(name="status", columnDefinition = "smallint")
 	private UserStatus status;
 	
+	@JsonIgnore
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy="user")
 	private Set<UserGroup> groups = new HashSet<>();
 	
-	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "user")
+	@JsonIgnore
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Scope> scopes = new HashSet<>();
 	
 	public Set<UserGroup> getGroups() {

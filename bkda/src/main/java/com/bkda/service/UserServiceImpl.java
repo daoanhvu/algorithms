@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +25,6 @@ import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
 import com.bkda.exception.BKDAServiceException;
 import com.bkda.exception.MultiErrorsException;
-import com.bkda.model.Group;
 import com.bkda.model.Scope;
 import com.bkda.model.User;
 import com.bkda.util.DataHelper;
@@ -139,6 +137,7 @@ public class UserServiceImpl implements UserService {
 			
 			credentials = authenticationService.createCredentials(loggingUser, 
 					signinDTO.getGrantType());
+			credentials.setUserId(loggingUser.getId());
 			credentials.setGrantType(signinDTO.getGrantType());
 			credentials.setTokenType("Bearer");
 			// this token will be expired in 60 minutes
