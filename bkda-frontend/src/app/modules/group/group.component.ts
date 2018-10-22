@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User, Group } from '@app/models';
+import { User, Group, GroupMember } from '@app/models';
 import { UserService } from '@app/services/user.service';
 import { JwtService } from '@app/services/jwt.service';
 import { PageEvent } from '@angular/material';
@@ -13,8 +13,8 @@ import { PageEvent } from '@angular/material';
 export class GroupComponent implements OnInit {
     groups: Group[] = [];
     group: Group;
-    allMembers: User[] = [];
-    filteredUsers: User[] = [];
+    allMembers: GroupMember[] = [];
+    filteredUsers: GroupMember[] = [];
 
     memberListPage = 0;
     memberListPageSize = 25;
@@ -23,6 +23,10 @@ export class GroupComponent implements OnInit {
         private jwtService: JwtService,
         private userService: UserService) {
         // this.createFakeData();
+        this.userService.getOwnGroup().subscribe((res: Group) => {
+            this.group = res;
+            this.doFilter();
+        });
     }
 
     private createFakeData() {
@@ -42,10 +46,7 @@ export class GroupComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.getOwnGroup().subscribe((res: Group) => {
-            this.group = res;
-            this.doFilter();
-        });
+        
     }
 
     onMemberListPageChange(event: PageEvent) {

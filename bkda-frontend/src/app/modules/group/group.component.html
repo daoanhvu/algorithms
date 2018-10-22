@@ -1,10 +1,10 @@
-<div fxLayout="row" fxLayoutAlign="start start">
+<div fxLayout="row" fxLayoutAlign="start center" class="container">
     <div>
         <app-group-list [groups]="groups"></app-group-list>
     </div>
     <div fxLayout="column">
             <span>
-                {{group.description}}
+                {{group?.description || ''}}
             </span>
         <app-group-member-list [members]="filteredUsers" ></app-group-member-list>
     </div>
