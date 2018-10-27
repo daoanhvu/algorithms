@@ -13,6 +13,13 @@ export class UserService {
         private http: HttpService,
         private jwtService: JwtService) { }
 
+    getUserGroups(): Observable<any> {
+        const userId = this.jwtService.getCredentials().userId;
+        return this.http.get('/api/v1/groups/list/user/' + userId)
+            .pipe( map( (res: any) => {
+                return res;
+            } ) );
+    }
     getOwnGroup(): Observable<Group> {
         const userId = this.jwtService.getCredentials().userId;
         return this.http.get('/api/v1/groups/user/' + userId)

@@ -144,6 +144,7 @@ public class UserDAOImpl implements UserDAO {
 		Date createdTime = Date.from(Instant.now(Clock.systemUTC()));
 		Group newGroup = new Group();
 		newGroup.setCreatedTime(createdTime);
+		newGroup.setName(groupdto.getName());
 		newGroup.setDescription(groupdto.getDescription());
 		newGroup.setOwner(u);
 		
@@ -223,6 +224,16 @@ public class UserDAOImpl implements UserDAO {
 		group.addMember(userGroup);
 		this.entityManager.persist(userGroup);
 		return userGroup;
+	}
+	
+	@Override
+	public List<Group> getUserGroups(long uid) {
+		String strQuery = "select distinct g.group from UserGroup g where "
+				+ "g.user.id = :uid";
+		TypedQuery<Group> query = this.entityManager
+				.createQuery(strQuery, Group.class);
+		query.setParameter("uid", uid);
+		return query.getResultList();
 	}
 	
 	/*======================================================================*/

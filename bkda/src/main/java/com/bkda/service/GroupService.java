@@ -3,6 +3,7 @@ package com.bkda.service;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,15 @@ public class GroupService {
 	
 	public Group createGroup(GroupDTO groupdto) {
 		return userDAO.createGroupByUser(groupdto);
+	}
+	
+	/**
+	 * Get a list of all group that user uid is a member of
+	 * @param uid user id of the given user
+	 * @return List of group
+	 */
+	public List<Group> getUserGroups(long uid) {
+		return userDAO.getUserGroups(uid);
 	}
 	
 	public Page<GroupMember> getMembers(long groupId, Pageable paging) {

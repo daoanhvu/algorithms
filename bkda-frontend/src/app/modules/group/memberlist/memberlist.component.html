@@ -1,5 +1,5 @@
-<div fxFlex >
-    <table mat-table [dataSource]="members" >
+<div fxFlex class="members-list-container">
+    <table mat-table width="100%" [dataSource]="members" >
         <ng-container matColumnDef="FirstName">
             <th mat-header-cell *matHeaderCellDef > Firstname</th>
             <td mat-cell *matCellDef="let member"> {{member.firstName || ''}}</td>

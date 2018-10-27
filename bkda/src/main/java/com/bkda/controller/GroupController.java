@@ -1,5 +1,7 @@
 package com.bkda.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,14 @@ public class GroupController {
         ContentResponse<Group> response = new ContentResponse<>();
         response.setContent(group);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+	
+	@RequestMapping(path = "/list/user/{uid}",
+			method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ContentResponse<List<Group>>> getUserGroups(@PathVariable("uid") final long uid) {
+		List<Group> groups = groupService.getUserGroups(uid);
+		ContentResponse<List<Group>> response = new ContentResponse<>(groups);
+    	return new ResponseEntity<>(response, HttpStatus.OK);
     }
 	
 	@RequestMapping(path = "/request", method = RequestMethod.POST)

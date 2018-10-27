@@ -51,6 +51,7 @@ public class SampleDataInitializerForH2 {
 		GroupDTO groupDto = new GroupDTO();
 		groupDto.setDescription("Chao mung ban den voi nhom cua Vu");
 		groupDto.setUserId(vu.getId());
+		groupDto.setName("Phat trien ung dung Android");
 		Group vuGroup = groupService.createGroup(groupDto);
 		
 		signup.setFirstName("Huong");
@@ -66,6 +67,7 @@ public class SampleDataInitializerForH2 {
 		signup.setPassword("123456");
 		User tuanAnh = userService.signup(signup);
 		groupDto = new GroupDTO();
+		groupDto.setName("Nhom quan ly he thong");
 		groupDto.setDescription("Chao mung ban den voi nhom cua chung toi. Nhom nay chuyen trach cong viec phat trien phan mem va he thong thong tin.");
 		groupDto.setUserId(tuanAnh.getId());
 		Group tuanAnhGroup = groupService.createGroup(groupDto);

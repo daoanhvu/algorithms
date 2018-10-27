@@ -31,7 +31,7 @@ public interface UserDAO {
 	// TODO: Check if this method is redundant then remove it
 	Page<User> getGroupUsers(long groupId, Pageable paging);
 	Page<GroupMember> getGroupMembers(long groupId, Pageable paging);
-	
+	List<Group> getUserGroups(long uid);
 	/*====== TO DO ==========*/
 	ToDo saveToDo(ToDo todo);
 	List<ToDo> getToDoListOf(long userId);

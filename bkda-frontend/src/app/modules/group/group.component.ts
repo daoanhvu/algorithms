@@ -16,8 +16,9 @@ export class GroupComponent implements OnInit {
     allMembers: GroupMember[] = [];
     filteredUsers: GroupMember[] = [];
 
-    memberListPage = 0;
+    memberListPageIndex = 0;
     memberListPageSize = 25;
+    length: number;
 
     constructor(
         private jwtService: JwtService,
@@ -26,33 +27,30 @@ export class GroupComponent implements OnInit {
         this.userService.getOwnGroup().subscribe((res: Group) => {
             this.group = res;
             this.doFilter();
+            console.log(res);
         });
     }
 
-    private createFakeData() {
-        this.group = {
-            id: 1,
-            description: 'Chao mung cac ban den voi nhom cua chung toi',
-            name: 'Fake Group',
-            owner: {
-                userId: 2,
-                username: 'admin@bkda.com',
-                firstname: 'Admin',
-                lastname: 'System',
-                phone: '123456'
-            }
-        };
-        this.groups.push(this.group);
-    }
-
     ngOnInit() {
-        
+        this.userService.getUserGroups().subscribe(
+            (res: any) => {
+                if(res.internalCode === 0) {
+                    this.groups = res.content;
+                }
+            });
     }
 
     onMemberListPageChange(event: PageEvent) {
         this.userService.loadMemberList(this.group.id, event.pageIndex, event.pageSize).subscribe(
             (res: any) => {
-                this.allMembers = res;
+                if(res.internalCode === 0) {
+                    this.memberListPageIndex = res.content.pageIndex;
+                    this.memberListPageSize = event.pageSize;
+                    this.length = res.content.totalElements;
+
+                    this.allMembers = res.content.content;
+                    this.filteredUsers = res.content.content;
+                }
             });
     }
 
