@@ -1,6 +1,6 @@
 export interface Credentials {
     username: string;
-    userid?: number;
-    groupid?: number;
+    userId: number;
+    groupId?: number;
     token: string;
 }

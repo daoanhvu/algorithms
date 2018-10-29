@@ -16,7 +16,6 @@ public class Scope {
 	@EmbeddedId
 	private ScopeKey id;
 	
-	@JsonBackReference
 	@MapsId("userId")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;

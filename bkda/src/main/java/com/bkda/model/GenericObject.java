@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="genericobjects")
 @Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
@@ -26,6 +28,7 @@ public class GenericObject {
 	@Column(name="name")
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name = "objectid")
 	protected Set<Property> properties;

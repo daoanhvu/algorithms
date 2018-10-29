@@ -64,6 +64,11 @@ public class ProductService {
 		return fakeList;
 	}
 	
+	// TODO: To be implemented
+	public Page<Product> recommend(long userId, Pageable pageable) {
+		return productDAO.search(null, null, userId, pageable);
+	}
+	
 	public Page<Product> search(String name, String company, Long userId, Pageable pageable) {
 		return productDAO.search(name, company, userId, pageable);
 	}

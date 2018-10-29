@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -30,7 +31,8 @@ public class Group extends GenericObject {
 	@OneToOne(targetEntity = User.class)
 	private User owner;
 	
-	@JsonIgnoreProperties(value = {"id", "group"})
+//	@JsonIgnoreProperties(value = {"id", "group"})
+	@JsonIgnore
 	@OneToMany(mappedBy = "group", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	private Set<UserGroup> members = new HashSet<>();
 

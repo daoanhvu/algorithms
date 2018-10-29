@@ -29,6 +29,7 @@ export class AuthenticationService {
         if (res && res.internalCode === 0) {
           const accessToken: string = res.content.accessToken;
           const data: Credentials = {
+            userId: res.content.userId,
             username: loginObj.username.toLowerCase(),
             token: accessToken
           };
