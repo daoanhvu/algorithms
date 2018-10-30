@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,6 +26,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name="users")
 @Inheritance( strategy = InheritanceType.JOINED )
 public class User extends GenericObject {
+	
+	public enum UserStatus {
+		ACTIVE,
+		INACTIVE,
+		PANNED,
+		DELETED
+	}
 	
 	@Column(name="firstname")
 	private String firstName;
@@ -35,6 +44,7 @@ public class User extends GenericObject {
 	@Column(name="username")
 	private String username;
 	
+	@JsonIgnore
 	@Column(name="password")
 	private String password;
 	
@@ -55,25 +65,22 @@ public class User extends GenericObject {
 	@JoinColumn(name="avatar", nullable = true)
 	private Media avatar;
 	
-	@Column(name="status")
-	private int status;
+	@Enumerated
+	@Column(name="status", columnDefinition = "smallint")
+	private UserStatus status;
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "usergroups",
-			joinColumns = { @JoinColumn(name = "member" ) },
-			inverseJoinColumns = { @JoinColumn(name = "group_id") }
-			)
-	private Set<Group> groups = new HashSet<>();
+	@JsonIgnore
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy="user")
+	private Set<UserGroup> groups = new HashSet<>();
 	
-	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "user")
+	@JsonIgnore
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Scope> scopes = new HashSet<>();
 	
-	public Set<Group> getGroups() {
+	public Set<UserGroup> getGroups() {
 		return groups;
 	}
-	public void setGroups(Set<Group> grps) {
+	public void setGroups(Set<UserGroup> grps) {
 		this.groups = grps;
 	}
 	public String getPhoneNumber() {
@@ -131,10 +138,10 @@ public class User extends GenericObject {
 	public void setAvatar(Media avatar) {
 		this.avatar = avatar;
 	}
-	public int getStatus() {
+	public UserStatus getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
 	public Set<Scope> getScopes() {
@@ -144,4 +151,7 @@ public class User extends GenericObject {
 		this.scopes = scopes;
 	}
 	
+	public void addToGroup(UserGroup userGroup) {
+		this.groups.add(userGroup);
+	}
 }

@@ -1,12 +1,11 @@
 package com.bkda.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,6 +24,12 @@ public class Post extends GenericObject {
 		
 	@Column(name="content")
 	private String content;
+	
+	/**
+	 * This is a string that containts tags,
+	 * each tag separated by commas ,
+	 */
+	private String tags;
 
 	public User getUser() {
 		return user;
@@ -50,4 +55,12 @@ public class Post extends GenericObject {
 		this.content = content;
 	}
 
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+	
 }

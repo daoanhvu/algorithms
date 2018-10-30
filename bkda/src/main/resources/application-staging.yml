@@ -20,7 +20,7 @@ spring:
     database-platform: org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect
     hibernate:
       dialect: org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect
-      hbm2ddl: create-drop
+      hbm2ddl: validate
       show_sql: false
       format_sql: true
       default_schema: bkda         
@@ -28,8 +28,8 @@ bkda:
   datasource:
     type: MySQL
     url: jdbc:mysql://127.0.0.1:3306/bkda
-    username: sa
-    password: 
+    username: mpadmin
+    password: thisIsMy!password@123
     driverClassName: com.mysql.cj.jdbc.Driver
     maxPoolSize: 10
     tomcat:
@@ -49,4 +49,7 @@ storage:
   mediaFolderPath: /home/vdao/data/bkda/media
       
 logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
   file: /home/vdao/data/bkda/logs/bkda_log_staging.txt

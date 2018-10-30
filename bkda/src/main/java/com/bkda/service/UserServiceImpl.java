@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -70,9 +69,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Page<User> search(String username, String firstname, String lastname, 
-			Character sex, Pageable paging) {
-		return userDAO.search(username, firstname, lastname, sex, paging);
+	public Page<User> search(UserDTO userDto, Pageable paging) {
+		return userDAO.search(userDto.getUsername(), userDto.getGroupId(), userDto.getFirstName(), 
+				userDto.getLastName(), userDto.getSex(), paging);
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService {
 		if(errors.size() > 0) {
 			throw new MultiErrorsException(errors, "Update fails");
 		}
-		throw new NotImplementedException("");
+		return userDAO.updateUser(user);
 	}
 
 	@Override
@@ -105,6 +104,7 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(signupDto.getLastName());
 		user.setSex(signupDto.getSex()==null?'F':signupDto.getSex());
 		user.setStartDate( Date.from(Instant.now(Clock.systemUTC())) );
+		user.setStatus(User.UserStatus.INACTIVE);
 //		user = userDAO.saveUser(user);
 		Scope userScope = new Scope("All", "User", "user");
 		userScope.setUser(user);
@@ -137,6 +137,7 @@ public class UserServiceImpl implements UserService {
 			
 			credentials = authenticationService.createCredentials(loggingUser, 
 					signinDTO.getGrantType());
+			credentials.setUserId(loggingUser.getId());
 			credentials.setGrantType(signinDTO.getGrantType());
 			credentials.setTokenType("Bearer");
 			// this token will be expired in 60 minutes
@@ -208,5 +209,4 @@ public class UserServiceImpl implements UserService {
 			
 		return errors;
 	}
-
 }

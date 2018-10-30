@@ -1,0 +1,52 @@
+server:
+  port: 8090
+  context-path: /bkda
+  
+
+#eureka:
+#   client:
+#      serviceUrl:
+#         defaultZone: http://127.0.0.1:7821/eureka
+#ribbon:
+#   eureka:
+#      enabled: true
+
+#Configure Spring JPA
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect
+    hibernate:
+      dialect: org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect
+      hbm2ddl: validate
+      show_sql: false
+      format_sql: false
+      default_schema: bkda         
+bkda:
+  datasource:
+    type: MySQL
+    url: jdbc:mysql://127.0.0.1:3306/bkda
+    username: mpadmin
+    password: thisIsMy!password@123
+    driverClassName: com.mysql.cj.jdbc.Driver
+    maxPoolSize: 10
+    tomcat:
+      max-active: 5
+      max-wait: 5000
+      initialSize: 10
+      test-on-borrow: true
+        
+amqp:
+  port: 5672
+  username: davu
+  password: 123456
+  vhost: /
+  host: localhost
+  
+storage:
+  mediaFolderPath: /opt/bkda/bkda/data/media
+      
+logging:
+  file: /opt/bkda/logs/bkda_logs.txt

@@ -12,28 +12,37 @@ public class UserDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -19701603628023107L;
 	
+	private Long id;
+	private Long groupId;
 	private String firstName;
 	private String lastName;
-	private String userName;
+	private String username;
 	private String email;
 	private Date startDate;
 	private String phoneNumber;
 	private Character sex;
 	
-	public UserDTO() {
-		
-	}
+	public UserDTO() {	}
 	
 	public UserDTO( User user ) {
+		this.id = user.getId();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.userName = user.getUsername();
+		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.startDate = user.getStartDate();
 		this.phoneNumber = user.getPhoneNumber();
 		this.sex = user.getSex();
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long userId) {
+		this.id = userId;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -71,10 +80,19 @@ public class UserDTO implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
+
+	public Long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
+	}
+	
 }

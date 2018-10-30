@@ -10,21 +10,40 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="groups")
 @Inheritance( strategy = InheritanceType.JOINED )
 public class Group extends GenericObject {
 	
+	private String description;
+	
 	@Column(name = "created_time")
 	private Date createdTime;
 	
-	@ManyToMany(mappedBy = "groups", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	private Set<User> members = new HashSet<>();
+	@JsonIgnoreProperties(value = {"properties", "groups", "scopes", "avatar", "password", "startDate", "status"})
+	@OneToOne(targetEntity = User.class)
+	private User owner;
+	
+//	@JsonIgnoreProperties(value = {"id", "group"})
+	@JsonIgnore
+	@OneToMany(mappedBy = "group", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	private Set<UserGroup> members = new HashSet<>();
+
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public Date getCreatedTime() {
 		return createdTime;
@@ -34,11 +53,24 @@ public class Group extends GenericObject {
 		this.createdTime = createdTime;
 	}
 
-	public Set<User> getMembers() {
+	public Set<UserGroup> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Set<User> members) {
+	public void setMembers(Set<UserGroup> members) {
 		this.members = members;
+	}
+	
+	public void addMember(UserGroup userGroup) {
+		this.members.add(userGroup);
+		userGroup.setGroup(this);
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 }

@@ -11,6 +11,12 @@ import { MaterialModule } from '@app/material.module';
 import { ProductListComponent } from '@app/modules/products/productlist/productlist.component';
 import { ProductService } from '@app/services/product.service';
 import { ProductCardComponent } from '@app/modules/products/productcard/productcard.component';
+import { GroupListComponent } from '@app/modules/group/grouplist/grouplist.component';
+import { LoggedUserComponent } from '@app/modules/home/loggeduser/loggeduser.component';
+import { GroupComponent } from '@app/modules/group/group.component';
+import { UserDetailComponent } from '@app/modules/user/user.details/userdetail.component';
+import { UserService } from '@app/services/user.service';
+import { MemberListComponent } from '@app/modules/group/memberlist/memberlist.component';
 
 @NgModule({
     imports: [
@@ -27,10 +33,17 @@ import { ProductCardComponent } from '@app/modules/products/productcard/productc
     ],
     entryComponents: [ HomeComponent ],
     declarations: [
-        HomeComponent, ProductListComponent, ProductCardComponent
+        HomeComponent,
+        LoggedUserComponent,
+        GroupComponent,
+        GroupListComponent,
+        ProductListComponent,
+        ProductCardComponent,
+        UserDetailComponent,
+        MemberListComponent
     ],
     providers: [
-        ProductService
+        ProductService, UserService
     ]
 })
 export class HomeModule { }

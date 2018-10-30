@@ -1,7 +1,7 @@
 package com.bkda.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.bkda.dto.BaseResponse;
+import com.bkda.dto.response.BaseResponse;
 import com.bkda.security.exception.JWTExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="start start" class="container">
+    <app-group-list [groups]="groups"></app-group-list>
+    <div fxLayout="column" class="members-container">
+            <span>
+                {{group?.description || ''}}
+            </span>
+        <app-group-member-list [members]="filteredUsers" ></app-group-member-list>
+        <mat-paginator [pageSizeOptions]="[25, 50, 100]"
+                        [pageIndex]="pageIndex"
+                        [length]="length"
+                        [pageSize]="pageSize"
+                        (page)="onMemberListPageChange($event)" ></mat-paginator>
+    </div>
+</div>

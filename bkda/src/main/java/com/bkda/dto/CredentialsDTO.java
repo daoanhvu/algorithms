@@ -3,12 +3,23 @@ package com.bkda.dto;
 import java.io.Serializable;
 
 public class CredentialsDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6990407609738163969L;
+	private long userId;
 	private String accessToken;
 	private String grantType;
 	private long expiresIn;
 	private String tokenType;
 	private String refreshToken;
 	
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 	public String getAccessToken() {
 		return accessToken;
 	}

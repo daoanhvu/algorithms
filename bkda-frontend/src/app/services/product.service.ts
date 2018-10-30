@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '@app/core/http';
 import { JwtService } from '@app/services/jwt.service';
+import { ResponseContentType } from '@angular/http';
 
 @Injectable()
 export class ProductService {
@@ -27,5 +28,9 @@ export class ProductService {
             .pipe( map( (res: any) => {
                 return res;
             } ) );
+    }
+
+    getProductImage(mediaId: number): Observable<Blob> {
+        return this.http.get('/api/v1/medias/' + mediaId, { responseType: 'blob' });
     }
 }

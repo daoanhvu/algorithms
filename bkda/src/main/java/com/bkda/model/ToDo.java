@@ -4,9 +4,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,7 +18,8 @@ import javax.persistence.Table;
 public class ToDo extends GenericObject {
 	public enum ActionType {
 		INVITATION_TO_GROUP,
-		REQUEST_JOIN_GROUP
+		REQUEST_JOIN_GROUP,
+		INVITATION_TO_EVENT
 	}
 	
 	public enum ToDoStatus {
@@ -26,22 +29,44 @@ public class ToDo extends GenericObject {
 		APPROVED
 	}
 	
-	@Column(name = "source_userid")
-	private long sourceUserId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "source_userid")
+	private User sourceUser;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "groupid")
+	private Group group;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "dest_userid")
 	private User destination;
 	
+	@Enumerated
+	@Column(name = "action_type", columnDefinition = "smallint")
 	private ActionType actionType;
 	
+	@Column(name = "created_time")
 	private Date createTime;
+	
+	@Column(name = "updated_time")
 	private Date lastUpdatedTime;
 	
-	public long getSourceUserId() {
-		return sourceUserId;
+	@Enumerated
+	@Column(columnDefinition = "smallint")
+	private ToDoStatus status;
+	
+	public User getSourceUser() {
+		return sourceUser;
 	}
-	public void setSourceUserId(long source) {
-		this.sourceUserId = source;
+	public void setSourceUser(User source) {
+		this.sourceUser = source;
+	}
+	
+	public Group getGroup() {
+		return group;
+	}
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 	public User getDestination() {
 		return destination;
@@ -66,6 +91,12 @@ public class ToDo extends GenericObject {
 	}
 	public void setLastUpdatedTime(Date lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
+	}
+	public ToDoStatus getStatus() {
+		return status;
+	}
+	public void setStatus(ToDoStatus status) {
+		this.status = status;
 	}
 	
 }

@@ -9,6 +9,7 @@ import com.bkda.dto.CredentialsDTO;
 import com.bkda.dto.SigninDTO;
 import com.bkda.dto.SignupDTO;
 import com.bkda.dto.UserDTO;
+import com.bkda.model.Group;
 import com.bkda.model.User;
 
 public interface UserService {
@@ -17,6 +18,6 @@ public interface UserService {
 	User signup(SignupDTO user);
 	CredentialsDTO signin(SigninDTO signinDTO);
 	List<User> getUsersByName(String name);
-	Page<User> search(String username, String firstname, String lastname, Character sex, Pageable paging);
+	Page<User> search(UserDTO userDto, Pageable paging);
 	boolean isUserExist(long id);
 }
