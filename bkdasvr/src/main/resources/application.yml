@@ -1,3 +1,0 @@
-server:
-  port: 9077
-  context-path: /bkda

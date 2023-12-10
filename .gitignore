@@ -1,7 +1,1 @@
-./bkda/target
-./bkda/.settings
-./bkda/.classpath
-./bkda2/.settings
-./bkda2/.classpath
-./client/node_modules
-./bkda-frontend/node_modules
+./bin/
