@@ -3,3 +3,4 @@ bin/
 /*.lib
 /*.pdb
 /*.obj
+test_sort
