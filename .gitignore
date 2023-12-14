@@ -4,3 +4,5 @@ bin/
 /*.pdb
 /*.obj
 test_sort
+test_sort.dSYM/Contents/Resources/Relocations/aarch64/test_sort.yml
+test_sort.dSYM/Contents/Info.plist
