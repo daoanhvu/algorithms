@@ -21,10 +21,7 @@ namespace algo {
         if(akey < t->key) {
             return addNode(t->left, akey);
         }
-
-        if(akey > t->key) {
-            return addNode(t->right, akey);
-        }
+        return addNode(t->right, akey);
     }
 
 }
