@@ -3,6 +3,8 @@
 
 #include <stack>
 
+#define MAX_THRESH 4
+
 namespace algo {
 
     struct LeftRightIndex {
@@ -44,6 +46,22 @@ namespace algo {
 
     template<typename T>
     void interativeQuickSort(T *arr, int left, int right) {
+
+        if(right - left < MAX_THRESH) {
+            int j;
+            T val;
+            for(int i=left; i<=right; i++) {
+                val = arr[i];
+                j = i - 1;
+                while(j>=left && arr[j] > val) {
+                    arr[j+1] = arr[j];
+                    j--;
+                }
+                arr[j+1] = val;
+            }
+            return;
+        }
+
         std::stack<LeftRightIndex> aStack;
         LeftRightIndex idx;
         LeftRightIndex lr1, lr2;
@@ -102,6 +120,22 @@ namespace algo {
 
     template<typename T>
     void quickSort(T *arr, int left, int right) {
+        
+
+        if(right - left < MAX_THRESH) {
+            int j;
+            T val;
+            for(int i=left; i<=right; i++) {
+                val = arr[i];
+                j = i - 1;
+                while(j>=left && arr[j] > val) {
+                    arr[j+1] = arr[j];
+                    j--;
+                }
+                arr[j+1] = val;
+            }
+            return;
+        }
         
         T tmp;
         T pivot = arr[right];
