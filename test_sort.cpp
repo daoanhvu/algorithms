@@ -86,3 +86,17 @@ int main(int argc, char** args) {
     delete[] arrCopy;
     return 0;
 }
+
+int main1( int argc, char** args) {
+
+    if(argc < 2) {
+        std::cout << "Argument file missing." << std::endl;
+        return -1;
+    }
+    int arr[] = {2, 3, 4, 2, 3};
+    int len = sizeof(arr) / sizeof(int);
+
+    algo::quickSort<int>(arr, 0, len - 1);
+    printArray(arr, len);
+    return 0;
+}

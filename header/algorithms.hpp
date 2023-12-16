@@ -12,17 +12,19 @@ namespace algo {
 
     template<typename T>
     T partition(T *arr, int left, int right) {
-        int pivot = arr[left];
+        T pivot = arr[left];
+        if(right - left > 1)
+            pivot = median(arr[left], arr[left+1], arr[left+2]);
         int l = left;
         int r = right;
         T tmp;
 
         while(l < r) {
-            while(arr[l] < pivot && (l <= right)) {
+            while(arr[l] < pivot) {
                 l++;
             }
 
-            while(arr[r] > pivot && (r >= left)) {
+            while(arr[r] > pivot) {
                 r--;
             }
 
@@ -32,7 +34,7 @@ namespace algo {
                     arr[r] = arr[l];
                     arr[l] = tmp;
                 } else {
-                    l++;
+                    r--;
                 }
             }
         }
@@ -40,45 +42,8 @@ namespace algo {
         return l;
     }
 
-    int partition1(int arr[], int start, int end) {
- 
-        int pivot = arr[start];
-        int count = 0;
-        for (int i = start + 1; i <= end; i++) {
-            if (arr[i] <= pivot)
-                count++;
-        }
-    
-        // Giving pivot element its correct position
-        int pivotIndex = start + count;
-        //swap(arr[pivotIndex], arr[start]);
-    
-        // Sorting left and right parts of the pivot element
-        int i = start, j = end;
-    
-        while (i < pivotIndex && j > pivotIndex) {
-    
-            while (arr[i] <= pivot) {
-                i++;
-            }
-    
-            while (arr[j] > pivot) {
-                j--;
-            }
-    
-            if (i < pivotIndex && j > pivotIndex) {
-                // swap(arr[i++], arr[j--]);
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-        }
-    
-        return pivotIndex;
-    }
-
     template<typename T>
-    void quickSort(T *arr, int left, int right) {
+    void interativeQuickSort(T *arr, int left, int right) {
         std::stack<LeftRightIndex> aStack;
         LeftRightIndex idx;
         LeftRightIndex lr1, lr2;
@@ -114,6 +79,49 @@ namespace algo {
                     aStack.push(lr2);
                 }
             }
+        }
+    }
+
+    template <typename T>
+    T median(T a, T b, T c) {
+        if(a < b) {
+            if (b < c)
+                return b;
+            if(a > c)
+                return a;
+            return c;
+        }
+
+        if(b > c) {
+            return b;
+        }
+        if(a > c)
+            return c;
+        return a;
+    }
+
+    template<typename T>
+    void quickSort(T *arr, int left, int right) {
+        
+        T tmp;
+        T pivot = arr[right];
+        int i = left - 1;
+        if(left < right) {
+            for(int j=left; j<=right-1; j++) {
+                if(arr[j] <= pivot) {
+                    i++;
+                    tmp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = tmp;
+                }
+            }
+            int pi = i + 1;
+            tmp = arr[pi];
+            arr[pi] = arr[right];
+            arr[right] = tmp;
+
+            quickSort(arr, left, pi-1);
+            quickSort(arr, pi+1, right);
         }
     }
 }
