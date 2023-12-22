@@ -58,8 +58,8 @@ long sortDurationBySTL(int *arr, int len) {
 long customSort(int *arr, int len) {
     auto beforeTime = std::chrono::system_clock::now().time_since_epoch();
     auto beforeNano = std::chrono::duration_cast<std::chrono::nanoseconds>(beforeTime);
-    algo::quickSort<int>(arr, 0, len - 1);
-    // algo::interativeQuickSort<>(arr, 0, len - 1);
+    // algo::quickSort<int>(arr, 0, len - 1);
+    algo::interativeQuickSort<>(arr, 0, len - 1);
     auto afterTime = std::chrono::system_clock::now().time_since_epoch();
     auto afterNano = std::chrono::duration_cast<std::chrono::nanoseconds>(afterTime);
     auto executionTime = afterNano - beforeNano;

@@ -5,7 +5,20 @@
 
 #define MAX_THRESH 4
 
+/**
+ * A simple stackk
+*/
+#define STACK_SIZE (8 * sizeof(size_t))
+#define PUSH(l,r) ((void) ((top->l = (l)), (top->r = (r)), ++top))
+#define POP(l,r) ((void) (--top, (l = top->l), (r = top->r)))
+#define STACK_NOT_EMPTY (stack < top)
+
 namespace algo {
+
+    struct StackNode {
+        char *l;
+        char *r;
+    };
 
     struct LeftRightIndex {
         int l;
@@ -137,26 +150,9 @@ namespace algo {
             return;
         }
         
-        T tmp;
-        T pivot = arr[right];
-        int i = left - 1;
-        if(left < right) {
-            for(int j=left; j<=right-1; j++) {
-                if(arr[j] <= pivot) {
-                    i++;
-                    tmp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = tmp;
-                }
-            }
-            int pi = i + 1;
-            tmp = arr[pi];
-            arr[pi] = arr[right];
-            arr[right] = tmp;
-
-            quickSort(arr, left, pi-1);
-            quickSort(arr, pi+1, right);
-        }
+        StackNode stack[STACK_SIZE];
+        StackNode *top = stack;
+        
     }
 }
 
