@@ -1,0 +1,6 @@
+
+namespace nserver {
+    class ConnectionHandler {
+
+    };
+}
