@@ -1,6 +1,7 @@
 #include <map>
 #include <iostream>
 
+using namespace std;
 
 template<typename K, typename V>
 class interval_map {
@@ -28,15 +29,16 @@ class interval_map {
 			if(m_map.empty()) {
 				if(val != m_valBegin) {
 					m_map[keyBegin] = val;
+					m_map[keyEnd] = m_valBegin;
 				}
 				return;
 			}
 
 
-			std::map<K,V>::iterator it = m_map.begin();
+			map<K,V>::iterator it = m_map.begin();
 			K firstKey = it->first;
 			if (keyBegin < firstKey) {
-				if(keyEnd < firstKey) {
+				if(keyEnd < firstKey || !( keyBegin < firstKey || firstKey < keyEnd )) {
 					//
 					if(val == m_valBegin) {
 						// Do nothing here
@@ -44,25 +46,22 @@ class interval_map {
 					}
 
 					m_map[firstKey] = val;
-					m_map[keyEnd] = m_valBegin;
-					
-				} else {
-					auto eIt = m_map.upper_bound(keyEnd);	
-					if( == firstKey) {
+					if(keyEnd < firstKey) {
+						m_map[keyEnd] = m_valBegin;
+					} else {
 						m_map.erase(it);
-						m_map[firstKey] = val;
-						return;
 					}
-
-
-					auto it = m_map.find(keyEnd);
-					if(it == m_map.end()) {
-						it = m_map.upper_bound(keyEnd);
-					}
+					return;
 				}
 			} else {
 				auto bIt = m_map.lower_bound(keyBegin);
 				auto eIt = m_map.upper_bound(keyEnd);
+
+				if(bIt != m_map.end()) {
+					m_map.erase(bIt, m_map.end());
+				}
+				m_map[keyBegin] = val;
+				m_map[keyEnd] = m_valBegin;
 			}
 		}
 
@@ -77,13 +76,13 @@ class interval_map {
 		}
 
 		void printMap() {
-			std::map<K,V>::iterator it = m_map.begin();
-			std::cout << std::endl;
+			map<K,V>::iterator it = m_map.begin();
+			cout << std::endl;
 			while(it != m_map.end() ) {
-				std::cout << "("<< it->first <<", "<< it->second <<"" <<") ";
+				cout << "("<< it->first <<", "<< it->second <<"" <<") ";
 				it++;
 			}
-			std::cout << std::endl;
+			cout << std::endl;
 		}
 };
 
@@ -99,8 +98,15 @@ void IntervalMapTest() {
 int main(int argc, char ** args) {
 	std::cout << "Hello" << std::endl;
 	interval_map<int, char> testMap('a');
+	// testMap.assign(0, 3, 'b');
+	// testMap.assign(-3, 0, 'b');
+
+	// testMap.assign(0, 3, 'b');
+	// testMap.assign(-3, 1, 'b');
+
 	testMap.assign(0, 3, 'b');
-	testMap.assign(-3, 0, 'c');
+	testMap.assign(1, 4, 'c');
+
 	testMap.printMap();
 	return 0;
 }
